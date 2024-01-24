@@ -1,0 +1,112 @@
+<div class="card">
+  <p-toolbar>
+    <div class="p-toolbar-group-start">
+      <button pButton icon="pi pi-plus" class="mr-2" (click)="add()"></button>
+    </div>
+    <div class="p-toolbar-group-center">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input pInputText placeholder="Buscar" />
+      </span>
+    </div>
+  </p-toolbar>
+</div>
+<div class="card">
+  <p-table
+    [value]="clients()"
+    responsiveLayout="stack"
+    [breakpoint]="'960px'"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Afiliado</th>
+        <th>Dni</th>
+        <th>Telefono</th>
+        <th>Acciones</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-client>
+      <tr>
+        <td>{{ client.fullname() }}</td>
+        <td>{{ client.dni }}</td>
+        <td>{{ client.phone }}</td>
+        <td>{{ client.actions.length }}</td>
+        <td>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="edit(client)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [visible]="visible()"
+  [style]="{ width: '400px' }"
+  [modal]="true"
+  [closable]="false"
+  header="Accion"
+  styleClass="p-fluid"
+>
+  <ng-template pTemplate="content">
+    <form [formGroup]="FormClient">
+      <div class="field">
+        <label for="name">Direccion</label>
+        <input
+          type="text"
+          pInputText
+          id="address"
+          formControlName="address"
+          required
+        />
+      </div>
+      <div class="field">
+        <label for="name">Codigo</label>
+        <input
+          type="text"
+          pInputText
+          id="address"
+          formControlName="code"
+          required
+        />
+      </div>
+      <div class="field">
+        <label for="name">Costo</label>
+        <p-inputNumber
+          inputId="currency-bol"
+          mode="currency"
+          currency="BOL"
+          locale="es-BO"
+          formControlName="cost"
+        >
+        </p-inputNumber>
+      </div>
+    </form>
+  </ng-template>
+
+  <ng-template pTemplate="footer">
+    <button
+      pButton
+      pRipple
+      label="sss"
+      icon="pi pi-times"
+      class="p-button-text"
+      (click)="closeDialog()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="ssss"
+      icon="pi pi-check"
+      class="p-button-text"
+      (click)="save()"
+    ></button>
+  </ng-template>
+</p-dialog>

@@ -1,0 +1,34 @@
+<div class="flex justify-content-end mt-1 mb-3">
+  <form [formGroup]="FormClient">
+    <div class="field">
+      <label for="firstname">Nombre</label>
+      <input
+        type="text"
+        pInputText
+        id="firstname"
+        formControlName="firstname"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="middlename">Paterno</label>
+      <input
+        type="text"
+        pInputText
+        id="middlename"
+        formControlName="middlename"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="lastname">Materno</label>
+      <input
+        type="text"
+        pInputText
+        id="lastname"
+        formControlName="lastname"
+        required
+      />
+    </div>
+  </form>
+</div>
