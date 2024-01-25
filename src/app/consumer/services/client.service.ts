@@ -13,6 +13,10 @@ export class ClientService {
   private readonly url = `${environment.base_url}`;
   constructor(private http: HttpClient) {}
 
+  searchAvilableActions(term: string) {
+    return this.http.get<action[]>(`${this.url}/actions/availables/${term}`);
+  }
+
   getActions() {
     return this.http.get<action[]>(`${this.url}/actions/`);
   }

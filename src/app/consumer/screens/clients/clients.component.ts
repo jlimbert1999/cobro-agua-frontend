@@ -6,16 +6,22 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+  FormsModule,
+} from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../primeng/primeng.module';
 import { Client } from '../../models';
 import { ClientService } from '../../services/client.service';
+import { action, client } from '../../interfaces';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, PrimengModule, ReactiveFormsModule],
+  imports: [CommonModule, PrimengModule, FormsModule, ReactiveFormsModule],
   templateUrl: `./clients.component.html`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService],
@@ -26,13 +32,18 @@ export class ClientsComponent implements OnInit {
   client = signal<Client | undefined>(undefined);
   clientService = inject(ClientService);
 
+  items: any[] | undefined;
+
+  selectedItem: any;
+
+  suggestions: any[] = [];
+
   FormClient = this.formBuilder.nonNullable.group({
     firstname: ['', [Validators.required]],
-    lastname: ['', [Validators.required]],
-    middlename: [''],
+    middlename: ['', [Validators.required]],
+    lastname: [''],
     dni: [0, [Validators.required]],
     phone: [0, [Validators.required]],
-    actions: [[], [Validators.required]],
   });
 
   constructor(
@@ -86,5 +97,11 @@ export class ClientsComponent implements OnInit {
     this.visible.set(false);
     this.FormClient.reset({});
     this.client.set(undefined);
+  }
+
+  searchAvailableActions(term: string) {
+    this.clientService.searchAvilableActions(term).subscribe((resp) => {
+      this.suggestions = resp;
+    });
   }
 }

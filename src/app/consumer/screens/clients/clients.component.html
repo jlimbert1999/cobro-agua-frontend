@@ -49,46 +49,65 @@
 
 <p-dialog
   [visible]="visible()"
-  [style]="{ width: '400px' }"
+  [style]="{ width: '800px' }"
   [modal]="true"
   [closable]="false"
-  header="Accion"
+  header="Afiliado"
   styleClass="p-fluid"
 >
   <ng-template pTemplate="content">
     <form [formGroup]="FormClient">
-      <div class="field">
-        <label for="name">Direccion</label>
-        <input
-          type="text"
-          pInputText
-          id="address"
-          formControlName="address"
-          required
-        />
-      </div>
-      <div class="field">
-        <label for="name">Codigo</label>
-        <input
-          type="text"
-          pInputText
-          id="address"
-          formControlName="code"
-          required
-        />
-      </div>
-      <div class="field">
-        <label for="name">Costo</label>
-        <p-inputNumber
-          inputId="currency-bol"
-          mode="currency"
-          currency="BOL"
-          locale="es-BO"
-          formControlName="cost"
-        >
-        </p-inputNumber>
+      <div class="formgrid grid">
+        <div class="field col-12 md:col-4">
+          <label for="name">Nombre</label>
+          <input
+            type="text"
+            pInputText
+            id="name"
+            formControlName="firstname"
+            required
+          />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="middlename">Paterno</label>
+          <input
+            type="text"
+            pInputText
+            id="middlename"
+            formControlName="middlename"
+            required
+          />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="lastname">Materno</label>
+          <input
+            type="text"
+            pInputText
+            id="lastname"
+            formControlName="lastname"
+          />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="dni"> Dni </label>
+          <input pInputText id="dni" pKeyFilter="int" formControlName="dni" />
+        </div>
+        <div class="field col-12 md:col-4">
+          <label for="phone"> Telefono </label>
+          <input
+            pInputText
+            id="phone"
+            pKeyFilter="int"
+            formControlName="phone"
+          />
+        </div>
+        <div class="card flex justify-content-center"></div>
       </div>
     </form>
+    <p-autoComplete
+      [(ngModel)]="selectedItem"
+      [suggestions]="suggestions"
+      (completeMethod)="searchAvailableActions($event.query)"
+    ></p-autoComplete>
   </ng-template>
 
   <ng-template pTemplate="footer">

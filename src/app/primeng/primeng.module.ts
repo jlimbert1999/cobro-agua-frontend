@@ -18,6 +18,8 @@ import { MessagesModule } from 'primeng/messages';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { ListboxModule } from 'primeng/listbox';
+import { KeyFilterModule } from 'primeng/keyfilter';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [],
@@ -41,6 +43,9 @@ import { ListboxModule } from 'primeng/listbox';
     DynamicDialogModule,
     DropdownModule,
     ListboxModule,
+    KeyFilterModule,
+    AutoCompleteModule
+    
   ],
 })
 export class PrimengModule {}
