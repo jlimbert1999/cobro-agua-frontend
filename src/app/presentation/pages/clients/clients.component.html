@@ -29,6 +29,7 @@
         <th>Dni</th>
         <th>Telefono</th>
         <th>Direccion</th>
+        <th>Estado</th>
         <th></th>
       </tr>
     </ng-template>
@@ -39,13 +40,30 @@
         <td>{{ client.phone }}</td>
         <td>{{ client.address }}</td>
         <td>
-          <button
-            pButton
-            pRipple
+          <p-tag
+            [severity]="client.statusLabel().severity"
+            [value]="client.statusLabel().text"
+          />
+        </td>
+        <td>
+          <p-button
             icon="pi pi-pencil"
-            class="p-button-rounded p-button-success mr-2"
-            (click)="update(client)"
-          ></button>
+            [rounded]="true"
+            [text]="true"
+            (onClick)="update(client)"
+          />
+          <p-button
+            icon="pi pi-align-left"
+            [rounded]="true"
+            [text]="true"
+            (onClick)="addReading(client)"
+          />
+          <p-button
+            icon="pi pi-money-bill"
+            [rounded]="true"
+            [text]="true"
+            (onClick)="payment(client)"
+          />
         </td>
       </tr>
     </ng-template>
@@ -55,15 +73,5 @@
       </tr>
     </ng-template>
   </p-table>
-  <div class="flex align-items-center justify-content-end">
-    <span class="mx-1 text-color">Items per page: </span>
-    <!-- <p-dropdown
-      [options]="[]"
-      optionLabel="label"
-      optionValue="value"
-      [(ngModel)]="rows2"
-      (ngModelChange)="first2 = 0"
-    /> -->
-  
-  </div>
+  <paginator [(limit)]="limit" [(index)]="index" [length]="length()" />
 </div>

@@ -13,11 +13,14 @@ import { PrimengModule } from '../../../primeng.module';
 import { ClientComponent } from './client/client.component';
 import { Client } from '../../../domain/models/client.model';
 import { ClientService } from '../../services';
+import { PaginatorComponent } from '../../components';
+import { ReadingComponent } from './reading/reading.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, PrimengModule],
+  imports: [CommonModule, PrimengModule, PaginatorComponent],
   templateUrl: `./clients.component.html`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService],
@@ -71,7 +74,21 @@ export class ClientsComponent implements OnInit {
       });
   }
 
-  changePage(){
-    
+  addReading(client: Client) {
+    this.dialogService.open(ReadingComponent, {
+      header: 'Registrar Lectura',
+      width: '40rem',
+      data: client,
+    });
   }
+
+  payment(client: Client) {
+    this.dialogService.open(PaymentsComponent, {
+      header: 'Registrar pago',
+      width: '60rem',
+      data: client,
+    });
+  }
+
+  changePage() {}
 }

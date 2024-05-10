@@ -1,3 +1,5 @@
+import { ClientStatus } from "../../domain/models/client.model";
+
 export interface clientResponse {
   _id: string;
   firstname: string;
@@ -6,4 +8,5 @@ export interface clientResponse {
   dni: string;
   phone: string;
   address: string;
+  status: ClientStatus;
 }

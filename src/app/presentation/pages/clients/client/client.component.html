@@ -1,56 +1,3 @@
-<!-- <div class="p-dialog-content">
-  <form [formGroup]="FormClient">
-    <div class="formgrid grid">
-      <div class="field col-12 md:col-4">
-        <label for="name">Nombre</label>
-        <input
-          id="name"
-          type="text"
-          pInputText
-          formControlName="firstname"
-          
-        />
-      </div>
-      <div class="field col-12 md:col-4">
-        <label for="middlename">Paterno</label>
-        <input
-          type="text"
-          pInputText
-          id="middlename"
-          formControlName="middlename"
-          
-        />
-      </div>
-      <div class="field col-12 md:col-4">
-        <label for="lastname">Paterno</label>
-        <input
-          type="text"
-          pInputText
-          id="lastname"
-          formControlName="lastname"
-          
-        />
-      </div>
-      <div class="field col-12 md:col-4">
-        <label for="dni">Numero de Carnet</label>
-        <input type="text" pInputText id="dni" formControlName="dni" />
-      </div>
-      <div class="field col-12 md:col-4">
-        <label for="phone">Telefono</label>
-        <input type="text" pInputText id="phone" formControlName="phone" />
-      </div>
-      <div class="field col-12 md:col-4">
-        <label for="address">Direccion</label>
-        <input type="text" pInputText id="address" formControlName="address" />
-      </div>
-    </div>
-  </form>
-</div> -->
-<!-- 
-<div class="footer">
-  <p-button label="Guardar" />
-</div> -->
-
 <div class="p-dialog-content">
   <form [formGroup]="FormClient">
     <div class="formgrid grid">
@@ -75,7 +22,7 @@
         />
       </div>
       <div class="field col-12 md:col-4">
-        <label for="lastname">Paterno</label>
+        <label for="lastname">Materno</label>
         <input
           type="text"
           pInputText
@@ -118,5 +65,9 @@
   </form>
 </div>
 <div class="p-dialog-footer">
-  <p-button label="Guardar" (onClick)="save()" />
+  <p-button
+    label="Guardar"
+    [disabled]="FormClient.invalid"
+    (onClick)="save()"
+  />
 </div>

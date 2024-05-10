@@ -13,28 +13,14 @@ import { PrimengModule } from '../../../primeng.module';
 export class HomeComponent {
   items: MenuItem[] = [
     {
-      label: 'Administracion',
-      icon: 'pi pi-fw pi-cog',
-      items: [
-        {
-          label: 'Afiliados',
-          icon: 'pi pi-fw pi-users',
-          routerLink: 'clients',
-        },
-        {
-          label: 'Acciones',
-          icon: 'pi pi-fw pi-users',
-          routerLink: 'actions',
-        },
-        {
-          label: 'Configuraciones',
-          icon: 'pi pi-fw pi-cog',
-        },
-      ],
+      label: 'Afiliados',
+      icon: 'pi pi-fw pi-user',
+      routerLink: 'clients',
     },
     {
-      label: 'Lecturas',
-      icon: 'pi pi-fw pi-bars',
+      label: 'Configuracion',
+      icon: 'pi pi-fw pi-cog',
+      routerLink: 'settings',
     },
   ];
 }

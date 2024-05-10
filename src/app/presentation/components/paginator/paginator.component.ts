@@ -1,33 +1,50 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { PaginatorModule } from 'primeng/paginator';
 
+interface PageEvent {
+  first?: number;
+  rows?: number;
+  page?: number;
+  pageCount?: number;
+}
+
 @Component({
-  selector: 'app-paginator',
+  selector: 'paginator',
   standalone: true,
   imports: [CommonModule, PaginatorModule],
   template: `
-   <!-- <p-paginator
-    [first]="offset()"
-    [rows]="limit()"
-    [totalRecords]="length()"
-    (onPageChange)="changePage($event)"
-    [showCurrentPageReport]="true"
-    currentPageReportTemplate="{first} - {last} of {totalRecords}"
-    [showPageLinks]="false"
-    [showFirstLastIcon]="false"
-  ></p-paginator> -->
+    <div class="flex align-items-center justify-content-end">
+      <span class="mx-1 text-color">Pagina: </span>
+      <p-paginator
+        [first]="index()"
+        [rows]="limit()"
+        [totalRecords]="length()"
+        (onPageChange)="changePage($event)"
+        [showCurrentPageReport]="true"
+        currentPageReportTemplate="{first} - {last} de {totalRecords}"
+        [showPageLinks]="false"
+        [showFirstLastIcon]="false"
+      ></p-paginator>
+    </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginatorComponent {
-  // limit = model.required<number>();
-  // offset = input.required<number>();
-  // length = input.required<number>();
-  // onPageChange=
-  
+  limit = model.required<number>();
+  index = model.required<number>();
+  length = input.required<number>();
+  onPageChange = output<void>();
 
-  changePage(){
-    
+  changePage({ page = 0, rows = 10 }: PageEvent) {
+    this.limit.set(rows);
+    this.index.set(page);
+    this.onPageChange.emit();
   }
 }

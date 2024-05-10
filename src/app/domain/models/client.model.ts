@@ -8,7 +8,14 @@ interface clientProps {
   dni: string;
   phone: string;
   address: string;
+  status: ClientStatus;
 }
+
+export enum ClientStatus {
+  ENABLED = 'enabled',
+  DISABLED = 'disabled',
+}
+
 export class Client {
   id: string;
   firstname: string;
@@ -17,6 +24,7 @@ export class Client {
   dni: string;
   phone: string;
   address: string;
+  status: ClientStatus;
 
   static fromResponse(form: clientResponse) {
     return new Client({
@@ -27,6 +35,7 @@ export class Client {
       dni: form['dni'],
       phone: form['phone'],
       address: form['address'],
+      status: form.status,
     });
   }
 
@@ -38,6 +47,7 @@ export class Client {
     dni,
     phone,
     address,
+    status,
   }: clientProps) {
     this.id = id;
     this.firstname = firstname;
@@ -46,9 +56,23 @@ export class Client {
     this.dni = dni;
     this.phone = phone;
     this.address = address;
+    this.status = status;
   }
 
   get fullname() {
     return `${this.firstname} ${this.middlename} ${this.lastname}`;
+  }
+
+  statusLabel() {
+    switch (this.status) {
+      case ClientStatus.DISABLED:
+        return { text: 'CORTE', severity: 'danger' };
+
+      case ClientStatus.ENABLED:
+        return { text: 'EN CURSO', severity: 'success' };
+
+      default:
+        return { text: 'DESCONOCIDO', severity: 'secondary' };
+    }
   }
 }
