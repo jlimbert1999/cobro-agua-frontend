@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PrimengModule } from '../../../primeng/primeng.module';
+import { PrimengModule } from '../../../primeng.module';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({

@@ -8,7 +8,7 @@ import {
 import { Action } from '../../models';
 import { ClientService } from '../../services/client.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PrimengModule } from '../../../primeng/primeng.module';
+import { PrimengModule } from '../../../primeng.module';
 
 @Component({
   selector: 'app-actions',

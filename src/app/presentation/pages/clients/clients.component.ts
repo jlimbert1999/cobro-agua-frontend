@@ -12,11 +12,12 @@ import {
   Validators,
   FormsModule,
 } from '@angular/forms';
-import { DialogService } from 'primeng/dynamicdialog';
-import { PrimengModule } from '../../../primeng/primeng.module';
-import { Client } from '../../models';
-import { ClientService } from '../../services/client.service';
-import { action, client } from '../../interfaces';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { PrimengModule } from '../../../primeng.module';
+import { Client } from '../../../consumer/models';
+import { ClientService } from '../../../consumer/services/client.service';
+import { action, client } from '../../../consumer/interfaces';
+import { ClientComponent } from './client/client.component';
 
 @Component({
   selector: 'app-clients',
@@ -27,6 +28,7 @@ import { action, client } from '../../interfaces';
   providers: [DialogService],
 })
 export class ClientsComponent implements OnInit {
+  private dialogService = inject(DialogService);
   visible = signal<boolean>(false);
   clients = signal<Client[]>([]);
   client = signal<Client | undefined>(undefined);
@@ -45,11 +47,9 @@ export class ClientsComponent implements OnInit {
     dni: [0, [Validators.required]],
     phone: [0, [Validators.required]],
   });
+  ref: DynamicDialogRef | undefined;
 
-  constructor(
-    public dialogService: DialogService,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.clientService.getClients().subscribe((resp) => {
@@ -57,7 +57,10 @@ export class ClientsComponent implements OnInit {
     });
   }
   add() {
-    this.visible.set(true);
+    this.ref = this.dialogService.open(ClientComponent, {
+      header: 'Registro Afiliado',
+      width: '55rem',
+    });
   }
 
   edit(client: Client) {

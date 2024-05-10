@@ -1,12 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { PrimengModule } from '../../../primeng/primeng.module';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { PrimengModule } from '../../../../primeng.module';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-client',
@@ -22,7 +18,7 @@ export class ClientComponent {
     middlename: [''],
     dni: ['', [Validators.required]],
     phone: ['', [Validators.required]],
-    actions: [],
+    address: ['', Validators.required],
   });
 
   constructor(
@@ -30,4 +26,8 @@ export class ClientComponent {
     public config: DynamicDialogConfig,
     private formBuilder: FormBuilder
   ) {}
+
+  save(){
+    
+  }
 }

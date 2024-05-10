@@ -4,7 +4,7 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { PrimengModule } from './primeng/primeng.module';
+import { PrimengModule } from './primeng.module';
 import { loggingInterceptor } from './interceptors/interceptor.service';
 
 export const appConfig: ApplicationConfig = {
