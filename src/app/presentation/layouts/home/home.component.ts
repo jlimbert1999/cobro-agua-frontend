@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
-import { PrimengModule } from '../../primeng.module';
+import { PrimengModule } from '../../../primeng.module';
 
 @Component({
   selector: 'app-home',

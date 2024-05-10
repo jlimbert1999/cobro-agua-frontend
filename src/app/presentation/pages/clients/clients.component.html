@@ -1,7 +1,12 @@
 <div class="card">
   <p-toolbar>
     <div class="p-toolbar-group-start">
-      <button pButton icon="pi pi-plus" class="mr-2" (click)="add()"></button>
+      <button
+        pButton
+        icon="pi pi-plus"
+        class="mr-2"
+        (click)="create()"
+      ></button>
     </div>
     <div class="p-toolbar-group-center">
       <span class="p-input-icon-left">
@@ -20,29 +25,45 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>Afiliado</th>
+        <th>Nombre completo</th>
         <th>Dni</th>
         <th>Telefono</th>
-        <th>Acciones</th>
+        <th>Direccion</th>
         <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-client>
       <tr>
-        <td>{{ client.fullname() }}</td>
+        <td>{{ client.fullname | titlecase }}</td>
         <td>{{ client.dni }}</td>
         <td>{{ client.phone }}</td>
-        <td>{{ client.actions.length }}</td>
+        <td>{{ client.address }}</td>
         <td>
           <button
             pButton
             pRipple
             icon="pi pi-pencil"
             class="p-button-rounded p-button-success mr-2"
-            (click)="edit(client)"
+            (click)="update(client)"
           ></button>
         </td>
       </tr>
     </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">Sin resultados</td>
+      </tr>
+    </ng-template>
   </p-table>
+  <div class="flex align-items-center justify-content-end">
+    <span class="mx-1 text-color">Items per page: </span>
+    <!-- <p-dropdown
+      [options]="[]"
+      optionLabel="label"
+      optionValue="value"
+      [(ngModel)]="rows2"
+      (ngModelChange)="first2 = 0"
+    /> -->
+  
+  </div>
 </div>

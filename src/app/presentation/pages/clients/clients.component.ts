@@ -3,108 +3,75 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  computed,
   inject,
   signal,
 } from '@angular/core';
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators,
-  FormsModule,
-} from '@angular/forms';
-import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { filter } from 'rxjs';
+import { DialogService } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../primeng.module';
-import { Client } from '../../../consumer/models';
-import { ClientService } from '../../../consumer/services/client.service';
-import { action, client } from '../../../consumer/interfaces';
 import { ClientComponent } from './client/client.component';
+import { Client } from '../../../domain/models/client.model';
+import { ClientService } from '../../services';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, PrimengModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, PrimengModule],
   templateUrl: `./clients.component.html`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService],
 })
 export class ClientsComponent implements OnInit {
   private dialogService = inject(DialogService);
-  visible = signal<boolean>(false);
+
   clients = signal<Client[]>([]);
-  client = signal<Client | undefined>(undefined);
   clientService = inject(ClientService);
 
-  items: any[] | undefined;
-
-  selectedItem: any;
-
-  suggestions: any[] = [];
-
-  FormClient = this.formBuilder.nonNullable.group({
-    firstname: ['', [Validators.required]],
-    middlename: ['', [Validators.required]],
-    lastname: [''],
-    dni: [0, [Validators.required]],
-    phone: [0, [Validators.required]],
-  });
-  ref: DynamicDialogRef | undefined;
-
-  constructor(private formBuilder: FormBuilder) {}
+  limit = signal(10);
+  index = signal(0);
+  offset = computed(() => this.limit() * this.index());
+  length = signal(0);
 
   ngOnInit(): void {
-    this.clientService.getClients().subscribe((resp) => {
-      this.clients.set(resp);
-    });
-  }
-  add() {
-    this.ref = this.dialogService.open(ClientComponent, {
-      header: 'Registro Afiliado',
-      width: '55rem',
-    });
+    this.clientService
+      .findAll(this.limit(), this.offset())
+      .subscribe(({ length, clients }) => {
+        this.clients.set(clients);
+        this.length.set(length);
+      });
   }
 
-  edit(client: Client) {
-    const { actions, ...props } = client;
-    this.FormClient.patchValue({
-      ...props,
+  create() {
+    const ref = this.dialogService.open(ClientComponent, {
+      header: 'Crear Afiliado',
+      width: '50rem',
     });
-    this.client.set(client);
-    this.visible.set(true);
+    ref.onClose
+      .pipe(filter((result?: Client) => !!result))
+      .subscribe((category) => {
+        this.clients.update((values) => [category!, ...values]);
+      });
   }
 
-  save() {
-    if (this.client()) {
-      this.clientService
-        .editClient(this.client()!._id, this.FormClient.value)
-        .subscribe((newAction) => {
-          this.clients.update((values) => {
-            const index = values.findIndex(
-              (el) => el._id === this.client()!._id
-            );
-            values[index] = newAction;
-            return values;
-          });
-          this.closeDialog();
+  update(desk: Client) {
+    const ref = this.dialogService.open(ClientComponent, {
+      header: 'Editar Afiliado',
+      width: '50rem',
+      data: desk,
+    });
+    ref.onClose
+      .pipe(filter((result?: Client) => !!result))
+      .subscribe((result) => {
+        this.clients.update((values) => {
+          const index = values.findIndex((el) => el.id === desk.id);
+          values[index] = result!;
+          return [...values];
         });
-    } else {
-      this.clientService
-        .addClient(this.FormClient.value)
-        .subscribe((newClient) => {
-          this.clients.update((values) => [newClient, ...values]);
-          this.closeDialog();
-        });
-    }
+      });
   }
 
-  closeDialog() {
-    this.visible.set(false);
-    this.FormClient.reset({});
-    this.client.set(undefined);
-  }
-
-  searchAvailableActions(term: string) {
-    this.clientService.searchAvilableActions(term).subscribe((resp) => {
-      this.suggestions = resp;
-    });
+  changePage(){
+    
   }
 }

@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../../primeng.module';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ClientService } from '../../../services';
+import { Client } from '../../../../domain/models/client.model';
 
 @Component({
   selector: 'app-client',
@@ -12,7 +14,13 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClientComponent {
-  FormClient = this.formBuilder.nonNullable.group({
+  private fb = inject(FormBuilder);
+  private ref = inject(DynamicDialogRef);
+  private clientService = inject(ClientService);
+
+  private client: Client | undefined = inject(DynamicDialogConfig).data;
+
+  FormClient = this.fb.nonNullable.group({
     firstname: ['', [Validators.required]],
     lastname: ['', [Validators.required]],
     middlename: [''],
@@ -21,13 +29,12 @@ export class ClientComponent {
     address: ['', Validators.required],
   });
 
-  constructor(
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
-    private formBuilder: FormBuilder
-  ) {}
+  constructor() {}
 
-  save(){
-    
+  save() {
+    const subscription = this.client
+      ? this.clientService.update(this.client.id, this.FormClient.value)
+      : this.clientService.create(this.FormClient.value);
+    subscription.subscribe((resp) => this.ref.close(resp));
   }
 }

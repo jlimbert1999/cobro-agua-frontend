@@ -1,4 +1,4 @@
-<div class="p-dialog-content">
+<!-- <div class="p-dialog-content">
   <form [formGroup]="FormClient">
     <div class="formgrid grid">
       <div class="field col-12 md:col-4">
@@ -8,7 +8,7 @@
           type="text"
           pInputText
           formControlName="firstname"
-          required
+          
         />
       </div>
       <div class="field col-12 md:col-4">
@@ -18,7 +18,7 @@
           pInputText
           id="middlename"
           formControlName="middlename"
-          required
+          
         />
       </div>
       <div class="field col-12 md:col-4">
@@ -28,7 +28,7 @@
           pInputText
           id="lastname"
           formControlName="lastname"
-          required
+          
         />
       </div>
       <div class="field col-12 md:col-4">
@@ -45,8 +45,78 @@
       </div>
     </div>
   </form>
-</div>
-
+</div> -->
+<!-- 
 <div class="footer">
   <p-button label="Guardar" />
+</div> -->
+
+<div class="p-dialog-content">
+  <form [formGroup]="FormClient">
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-4">
+        <label for="firstname">Nombre</label>
+        <input
+          id="firstname"
+          type="text"
+          class="w-full"
+          pInputText
+          formControlName="firstname"
+        />
+      </div>
+      <div class="field col-12 md:col-4">
+        <label for="middlename">Paterno</label>
+        <input
+          id="middlename"
+          type="text"
+          pInputText
+          class="w-full"
+          formControlName="middlename"
+        />
+      </div>
+      <div class="field col-12 md:col-4">
+        <label for="lastname">Paterno</label>
+        <input
+          type="text"
+          pInputText
+          id="lastname"
+          class="w-full"
+          formControlName="lastname"
+        />
+      </div>
+      <div class="field col-12 md:col-3">
+        <label for="dni">Nro. Carnet</label>
+        <input
+          type="text"
+          pInputText
+          class="w-full"
+          id="dni"
+          formControlName="dni"
+        />
+      </div>
+      <div class="field col-12 md:col-3">
+        <label for="phone">Telefono</label>
+        <input
+          type="text"
+          pInputText
+          class="w-full"
+          id="phone"
+          formControlName="phone"
+        />
+      </div>
+      <div class="field col-12 md:col-6">
+        <label for="address">Direccion</label>
+        <input
+          type="text"
+          pInputText
+          class="w-full"
+          id="address"
+          formControlName="address"
+        />
+      </div>
+    </div>
+  </form>
+</div>
+<div class="p-dialog-footer">
+  <p-button label="Guardar" (onClick)="save()" />
 </div>

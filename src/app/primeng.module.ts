@@ -20,6 +20,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ListboxModule } from 'primeng/listbox';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [],
@@ -44,7 +45,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     DropdownModule,
     ListboxModule,
     KeyFilterModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    PaginatorModule
     
   ],
 })
