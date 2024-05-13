@@ -5,17 +5,18 @@ import {
   OnInit,
   computed,
   inject,
+  model,
   signal,
 } from '@angular/core';
 import { filter } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../primeng.module';
 import { ClientComponent } from './client/client.component';
-import { Client } from '../../../domain/models/client.model';
-import { ClientService } from '../../services';
-import { PaginatorComponent } from '../../components';
 import { ReadingComponent } from './reading/reading.component';
 import { PaymentsComponent } from './payments/payments.component';
+import { PaginatorComponent } from '../../components';
+import { ClientService } from '../../services';
+import { Client } from '../../../domain/models';
 
 @Component({
   selector: 'app-clients',
@@ -27,22 +28,28 @@ import { PaymentsComponent } from './payments/payments.component';
 })
 export class ClientsComponent implements OnInit {
   private dialogService = inject(DialogService);
+  private clientService = inject(ClientService);
 
-  clients = signal<Client[]>([]);
-  clientService = inject(ClientService);
+  datasource = signal<Client[]>([]);
+  datasize = signal(0);
 
   limit = signal(10);
   index = signal(0);
   offset = computed(() => this.limit() * this.index());
-  length = signal(0);
+  term = signal<string>('');
 
   ngOnInit(): void {
-    this.clientService
-      .findAll(this.limit(), this.offset())
-      .subscribe(({ length, clients }) => {
-        this.clients.set(clients);
-        this.length.set(length);
-      });
+    this.getData();
+  }
+
+  getData() {
+    const subscription = this.term()
+      ? this.clientService.search(this.term(), this.limit(), this.offset())
+      : this.clientService.findAll(this.limit(), this.offset());
+    subscription.subscribe(({ clients, length }) => {
+      this.datasource.set(clients);
+      this.datasize.set(length);
+    });
   }
 
   create() {
@@ -53,7 +60,7 @@ export class ClientsComponent implements OnInit {
     ref.onClose
       .pipe(filter((result?: Client) => !!result))
       .subscribe((category) => {
-        this.clients.update((values) => [category!, ...values]);
+        this.datasource.update((values) => [category!, ...values]);
       });
   }
 
@@ -66,7 +73,7 @@ export class ClientsComponent implements OnInit {
     ref.onClose
       .pipe(filter((result?: Client) => !!result))
       .subscribe((result) => {
-        this.clients.update((values) => {
+        this.datasource.update((values) => {
           const index = values.findIndex((el) => el.id === desk.id);
           values[index] = result!;
           return [...values];
@@ -90,5 +97,8 @@ export class ClientsComponent implements OnInit {
     });
   }
 
-  changePage() {}
+  onSearch(value: string) {
+    this.term.set(value);
+    this.getData();
+  }
 }

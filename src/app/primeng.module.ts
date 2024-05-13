@@ -26,6 +26,8 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { PanelModule } from 'primeng/panel';
 import { CalendarModule } from 'primeng/calendar';
 import { PickListModule } from 'primeng/picklist';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 
 @NgModule({
   declarations: [],
@@ -57,6 +59,8 @@ import { PickListModule } from 'primeng/picklist';
     PanelModule,
     CalendarModule,
     PickListModule,
+    IconFieldModule,
+    InputIconModule,
   ],
 })
 export class PrimengModule {}

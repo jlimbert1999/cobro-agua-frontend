@@ -1,6 +1,10 @@
-<div class="card">
-  <p-toolbar>
-    <div class="p-toolbar-group-start">
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <span class="ml-3">AFILIADOS</span>
+  </div>
+
+  <div class="p-toolbar-group-end">
+    <div class="p-toolbar-group-center">
       <button
         pButton
         icon="pi pi-plus"
@@ -8,24 +12,34 @@
         (click)="create()"
       ></button>
     </div>
-    <div class="p-toolbar-group-center">
-      <span class="p-input-icon-left">
-        <i class="pi pi-search"></i>
-        <input pInputText placeholder="Buscar" />
-      </span>
-    </div>
-  </p-toolbar>
-</div>
+  </div>
+</p-toolbar>
 <div class="card">
   <p-table
-    [value]="clients()"
+    styleClass="p-datatable-sm "
+    [value]="datasource()"
     responsiveLayout="stack"
     [breakpoint]="'960px'"
-    [tableStyle]="{ 'min-width': '50rem' }"
   >
+    <ng-template pTemplate="caption">
+      <div class="flex justify-content-end flex-wrap">
+        <p-iconField iconPosition="left">
+          <p-inputIcon>
+            <i class="pi pi-search"></i>
+          </p-inputIcon>
+          <input
+            #txtSearch
+            pInputText
+            type="text"
+            placeholder="Nombre / CI"
+            (keydown.enter)="onSearch(txtSearch.value)"
+          />
+        </p-iconField>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>Nombre completo</th>
+        <th>Afiliado</th>
         <th>Dni</th>
         <th>Telefono</th>
         <th>Direccion</th>
@@ -35,7 +49,10 @@
     </ng-template>
     <ng-template pTemplate="body" let-client>
       <tr>
-        <td>{{ client.fullname | titlecase }}</td>
+        <td>
+          <span class="p-column-title">Afiliado:</span>
+          {{ client.fullname | titlecase }}
+        </td>
         <td>{{ client.dni }}</td>
         <td>{{ client.phone }}</td>
         <td>{{ client.address }}</td>
@@ -47,31 +64,30 @@
         </td>
         <td>
           <p-button
+            pRipple
             icon="pi pi-pencil"
+            class="mr-2"
             [rounded]="true"
-            [text]="true"
-            (onClick)="update(client)"
+            [outlined]="true"
+            severity="success"
+            (click)="update(client)"
           />
-          <p-button
-            icon="pi pi-align-left"
+          <!-- <p-button
+            pRipple
+            icon="pi pi-trash"
+            severity="danger"
             [rounded]="true"
-            [text]="true"
-            (onClick)="addReading(client)"
-          />
-          <p-button
-            icon="pi pi-money-bill"
-            [rounded]="true"
-            [text]="true"
-            (onClick)="payment(client)"
-          />
+            [outlined]="true"
+            (click)="deleteProduct(product)"
+          /> -->
         </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="4">Sin resultados</td>
+        <td colspan="5">Sin resultados</td>
       </tr>
     </ng-template>
   </p-table>
-  <paginator [(limit)]="limit" [(index)]="index" [length]="length()" />
+  <paginator [(limit)]="limit" [(index)]="index" [length]="datasize()" (onPageChange)="getData()" />
 </div>

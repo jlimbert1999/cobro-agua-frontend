@@ -23,14 +23,14 @@ interface PageEvent {
     <div class="flex align-items-center justify-content-end">
       <span class="mx-1 text-color">Pagina: </span>
       <p-paginator
-        [first]="index()"
-        [rows]="limit()"
+        [first]="10"
+        [rows]="1"
         [totalRecords]="length()"
         (onPageChange)="changePage($event)"
         [showCurrentPageReport]="true"
         currentPageReportTemplate="{first} - {last} de {totalRecords}"
         [showPageLinks]="false"
-        [showFirstLastIcon]="false"
+        [showFirstLastIcon]="true"
       ></p-paginator>
     </div>
   `,
