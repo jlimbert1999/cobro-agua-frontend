@@ -2,11 +2,12 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { PrimengModule } from '../../../primeng.module';
+import { ProfileComponent } from '../../components';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, PrimengModule],
+  imports: [CommonModule, PrimengModule, ProfileComponent],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

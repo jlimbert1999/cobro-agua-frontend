@@ -1,15 +1,15 @@
-<div class="card">
-  <p-menubar [model]="items">
-    <ng-template pTemplate="end">
-      <div class="flex align-items-center ">
-        <p-avatar
-          image="../../../../assets/images/user.png"
-          shape="circle"
-        />
-      </div>
-    </ng-template>
-  </p-menubar>
-</div>
+<p-menubar [model]="items">
+  <ng-template pTemplate="start"> </ng-template>
+  <ng-template pTemplate="item" let-item let-root="root">
+    <a pRipple class="flex align-items-center p-menuitem-link">
+      <span [class]="item.icon"></span>
+      <span class="ml-2">{{ item.label }}</span>
+    </a>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <profile />
+  </ng-template>
+</p-menubar>
 <div class="p-2">
   <router-outlet></router-outlet>
 </div>

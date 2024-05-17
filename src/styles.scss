@@ -1,6 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
 
+body {
+  margin: 0px;
+}
 .p-dialog-content {
   margin-bottom: 5px;
 }
@@ -14,5 +17,4 @@
 .p-toolbar {
   padding: 4px;
   margin-bottom: 6px;
-
 }
