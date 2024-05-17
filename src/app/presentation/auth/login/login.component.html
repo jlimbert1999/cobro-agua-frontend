@@ -5,7 +5,6 @@
     <div class="text-center mb-5">
       <div class="text-900 text-3xl font-medium mb-4">Cobros de Agua</div>
     </div>
-
     <div>
       <form
         [formGroup]="LoginForm"
@@ -33,10 +32,14 @@
           type="password"
           placeholder="Ingrese su contraseña"
           pInputText
-          class="w-full mb-6"
+          class="w-full mb-4"
           formControlName="password"
         />
       </form>
+
+      <div>
+        <p-messages />
+      </div>
 
       <button
         pButton

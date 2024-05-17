@@ -12,7 +12,7 @@ export class ReadingService {
   private readonly url = `${environment.base_url}/readings`;
   constructor() {}
 
-  getLastReading(id_client: string) {
+  getPreviusReading(id_client: string) {
     return this.http.get<readingResponse | null>(
       `${this.url}/last/${id_client}`
     );
@@ -22,11 +22,10 @@ export class ReadingService {
     return this.http.get<readingResponse[]>(`${this.url}/debts/${id_client}`);
   }
 
-  create(id_client: string, form: Object) {
-    const readingDto = CreateReadingDto.fromForm({
-      ...form,
+  create(id_client: string, reading: number) {
+    return this.http.post<readingResponse>(this.url, {
       client: id_client,
+      reading,
     });
-    return this.http.post<readingResponse>(this.url, readingDto);
   }
 }

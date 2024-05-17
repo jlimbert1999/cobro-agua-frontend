@@ -12,9 +12,9 @@ import { filter } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../primeng.module';
 import { ClientComponent } from './client/client.component';
-import { ReadingComponent } from './reading/reading.component';
+import { MeterReadingComponent } from './meter-reading/meter-reading.component';
 import { PaymentsComponent } from './payments/payments.component';
-import { PaginatorComponent } from '../../components';
+import { PageProps, PaginatorComponent } from '../../components';
 import { ClientService } from '../../services';
 import { Client } from '../../../domain/models';
 
@@ -58,9 +58,15 @@ export class ClientsComponent implements OnInit {
       width: '50rem',
     });
     ref.onClose
-      .pipe(filter((result?: Client) => !!result))
-      .subscribe((category) => {
-        this.datasource.update((values) => [category!, ...values]);
+      .pipe(filter((result: Client) => !!result))
+      .subscribe((customer) => {
+        this.datasource.update((values) => {
+          this.datasize.update((val) => (val += 1));
+          if (this.limit() === values.length) {
+            values.pop();
+          }
+          return [customer, ...values];
+        });
       });
   }
 
@@ -81,10 +87,10 @@ export class ClientsComponent implements OnInit {
       });
   }
 
-  addReading(client: Client) {
-    this.dialogService.open(ReadingComponent, {
+  addMeterReading(client: Client) {
+    this.dialogService.open(MeterReadingComponent, {
       header: 'Registrar Lectura',
-      width: '40rem',
+      width: '35rem',
       data: client,
     });
   }
@@ -99,6 +105,12 @@ export class ClientsComponent implements OnInit {
 
   onSearch(value: string) {
     this.term.set(value);
+    this.getData();
+  }
+
+  onPageChange(event: PageProps) {
+    this.limit.set(event.pageSize);
+    this.index.set(event.pageIndex);
     this.getData();
   }
 }

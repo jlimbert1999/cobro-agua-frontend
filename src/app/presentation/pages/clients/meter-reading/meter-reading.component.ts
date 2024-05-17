@@ -12,19 +12,20 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PrimengModule } from '../../../../primeng.module';
 import { ReadingService, ConfigService } from '../../../services';
 import { Client } from '../../../../domain/models';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 interface lastConsume {
   consume: number;
   date: string;
 }
 @Component({
-  selector: 'app-reading',
+  selector: 'app-meter-reading',
   standalone: true,
   imports: [CommonModule, PrimengModule, ReactiveFormsModule],
-  templateUrl: './reading.component.html',
+  templateUrl: './meter-reading.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReadingComponent implements OnInit {
+export class MeterReadingComponent implements OnInit {
   private ref = inject(DynamicDialogRef);
   private fb = inject(FormBuilder);
 
@@ -32,27 +33,19 @@ export class ReadingComponent implements OnInit {
   private configService = inject(ConfigService);
   private client: Client = inject(DynamicDialogConfig).data;
 
-  lastConsume = signal<lastConsume>({ consume: 0, date: '' });
+  priviusReading = toSignal(
+    this.readingService.getPreviusReading(this.client.id)
+  );
 
-  FormReading = this.fb.group({
-    consume: ['', Validators.required],
-    consumptionDate: [new Date(), Validators.required],
+  FormReading = this.fb.nonNullable.group({
+    reading: [0, [Validators.required, Validators.min(0)]],
   });
 
-  ngOnInit(): void {
-    this.readingService.getLastReading(this.client.id).subscribe((data) => {
-      if (data) {
-        this.lastConsume.set({
-          consume: data.consume,
-          date: data.consumptionDate,
-        });
-      }
-    });
-  }
+  ngOnInit(): void {}
 
   save() {
     this.readingService
-      .create(this.client.id, this.FormReading.value)
+      .create(this.client.id, this.FormReading.value.reading!)
       .subscribe((data) => {
         this.ref.close();
       });

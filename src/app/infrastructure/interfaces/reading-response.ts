@@ -1,7 +1,7 @@
 export interface readingResponse {
-  client: number;
-  consume: number;
-  consumptionDate: string;
-  amountToPay: number;
-  isPaid: boolean;
+  client: string;
+  reading_date: Date;
+  previous_reading: number;
+  current_reading: number;
+  consumption: number;
 }

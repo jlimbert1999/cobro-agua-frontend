@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   input,
-  model,
   output,
 } from '@angular/core';
 import { PaginatorModule } from 'primeng/paginator';
@@ -15,16 +14,22 @@ interface PageEvent {
   pageCount?: number;
 }
 
+export interface PageProps {
+  pageIndex: number;
+  pageSize: number;
+}
+
 @Component({
   selector: 'paginator',
   standalone: true,
   imports: [CommonModule, PaginatorModule],
   template: `
+    @if(length()>0){
     <div class="flex align-items-center justify-content-end">
       <span class="mx-1 text-color">Pagina: </span>
       <p-paginator
-        [first]="10"
-        [rows]="1"
+        [first]="first()"
+        [rows]="rows()"
         [totalRecords]="length()"
         (onPageChange)="changePage($event)"
         [showCurrentPageReport]="true"
@@ -33,18 +38,17 @@ interface PageEvent {
         [showFirstLastIcon]="true"
       ></p-paginator>
     </div>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginatorComponent {
-  limit = model.required<number>();
-  index = model.required<number>();
+  rows = input.required<number>();
+  first = input.required<number>();
   length = input.required<number>();
-  onPageChange = output<void>();
+  onPageChange = output<PageProps>();
 
   changePage({ page = 0, rows = 10 }: PageEvent) {
-    this.limit.set(rows);
-    this.index.set(page);
-    this.onPageChange.emit();
+    this.onPageChange.emit({ pageSize: rows, pageIndex: page });
   }
 }

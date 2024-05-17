@@ -1,6 +1,18 @@
 <p-toolbar>
   <div class="p-toolbar-group-start">
-    <span class="ml-3">AFILIADOS</span>
+    <span class="ml-3 font-bold">AFILIADOS</span>
+  </div>
+  <div class="p-toolbar-group-center">
+    <span class="p-input-icon-left">
+      <i class="pi pi-search"></i>
+      <input
+        #txtSearch
+        pInputText
+        type="text"
+        placeholder="Nombre / CI"
+        (keydown.enter)="onSearch(txtSearch.value)"
+      />
+    </span>
   </div>
 
   <div class="p-toolbar-group-end">
@@ -14,32 +26,18 @@
     </div>
   </div>
 </p-toolbar>
-<div class="card">
+
+<div class="mx-2">
   <p-table
     styleClass="p-datatable-sm "
-    [value]="datasource()"
     responsiveLayout="stack"
     [breakpoint]="'960px'"
+    scrollHeight="75vh"
+    [value]="datasource()"
   >
-    <ng-template pTemplate="caption">
-      <div class="flex justify-content-end flex-wrap">
-        <p-iconField iconPosition="left">
-          <p-inputIcon>
-            <i class="pi pi-search"></i>
-          </p-inputIcon>
-          <input
-            #txtSearch
-            pInputText
-            type="text"
-            placeholder="Nombre / CI"
-            (keydown.enter)="onSearch(txtSearch.value)"
-          />
-        </p-iconField>
-      </div>
-    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>Afiliado</th>
+        <th>Nombre</th>
         <th>Dni</th>
         <th>Telefono</th>
         <th>Direccion</th>
@@ -64,22 +62,17 @@
         </td>
         <td>
           <p-button
-            pRipple
             icon="pi pi-pencil"
-            class="mr-2"
             [rounded]="true"
-            [outlined]="true"
-            severity="success"
+            [text]="true"
             (click)="update(client)"
           />
-          <!-- <p-button
-            pRipple
-            icon="pi pi-trash"
-            severity="danger"
+          <p-button
+            icon="pi pi-book"
             [rounded]="true"
-            [outlined]="true"
-            (click)="deleteProduct(product)"
-          /> -->
+            [text]="true"
+            (click)="addMeterReading(client)"
+          />
         </td>
       </tr>
     </ng-template>
@@ -89,5 +82,10 @@
       </tr>
     </ng-template>
   </p-table>
-  <paginator [(limit)]="limit" [(index)]="index" [length]="datasize()" (onPageChange)="getData()" />
+  <paginator
+    [first]="offset()"
+    [rows]="limit()"
+    [length]="datasize()"
+    (onPageChange)="onPageChange($event)"
+  />
 </div>

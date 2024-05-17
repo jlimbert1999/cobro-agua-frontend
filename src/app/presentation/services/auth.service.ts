@@ -20,16 +20,11 @@ export class AuthService {
 
   login(login: string, password: string) {
     return this.http
-      .post<{ token: string; redirectTo: string }>(this.url, {
+      .post<{ token: string }>(this.url, {
         login,
         password,
       })
-      .pipe(
-        map(({ token, redirectTo }) => {
-          this._setAuthentication(token);
-          return redirectTo;
-        })
-      );
+      .pipe(map(({ token }) => this._setAuthentication(token)));
   }
 
   logout() {
