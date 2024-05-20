@@ -13,10 +13,12 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../primeng.module';
 import { ClientComponent } from './client/client.component';
 import { MeterReadingComponent } from './meter-reading/meter-reading.component';
-import { PaymentsComponent } from './payments/payments.component';
+import { PaymentComponent } from './payment/payment.component';
 import { PageProps, PaginatorComponent } from '../../components';
 import { ClientService } from '../../services';
 import { Client } from '../../../domain/models';
+import { MenuItem } from 'primeng/api';
+import { DetailReadingComponent } from './detail-reading/detail-reading.component';
 
 @Component({
   selector: 'app-clients',
@@ -96,9 +98,19 @@ export class ClientsComponent implements OnInit {
   }
 
   payment(client: Client) {
-    this.dialogService.open(PaymentsComponent, {
+    this.dialogService.open(PaymentComponent, {
       header: 'Registrar pago',
-      width: '60rem',
+      width: '80%',
+      maximizable: true,
+      data: client,
+    });
+  }
+
+  viewReadings(client: Client) {
+    this.dialogService.open(DetailReadingComponent, {
+      header: 'Lecturas',
+      width: '80%',
+      maximizable: true,
       data: client,
     });
   }
@@ -112,5 +124,30 @@ export class ClientsComponent implements OnInit {
     this.limit.set(event.pageSize);
     this.index.set(event.pageIndex);
     this.getData();
+  }
+
+  getMenuItems(customer: Client): MenuItem[] {
+    return [
+      {
+        label: 'Editar',
+        icon: 'pi pi-pencil',
+        command: () => this.update(customer),
+      },
+      {
+        label: 'Agregar lectura',
+        icon: 'pi pi-book',
+        command: () => this.addMeterReading(customer),
+      },
+      {
+        label: 'Agregar pago',
+        icon: 'pi pi-credit-card',
+        command: () => this.payment(customer),
+      },
+      {
+        label: 'Ver lecturas',
+        icon: 'pi pi-align-justify',
+        command: () => this.viewReadings(customer),
+      },
+    ];
   }
 }

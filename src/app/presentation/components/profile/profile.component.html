@@ -6,9 +6,7 @@
 <p-menu #menu [popup]="true" [model]="items" styleClass="w-full md:w-18rem">
   <ng-template pTemplate="start">
     <span class="inline-flex flex-column py-2 px-4">
-      <span class="font-bold">Jose Limber</span>
-
-      <span class="text-sm text-green-400">Conectado</span>
+      <span class="font-bold">{{ username | titlecase }}</span>
     </span>
   </ng-template>
   <ng-template pTemplate="item" let-item>

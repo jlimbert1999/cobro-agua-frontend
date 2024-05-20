@@ -28,9 +28,8 @@ export class LoginComponent {
   login() {
     const { login, password } = this.LoginForm.value;
     this.authService.login(login!, password!).subscribe(
-      () => {
-        console.log('loig');
-        this.router.navigate(['/home']);
+      (url) => {
+        this.router.navigate([url]);
       },
       (error) => {
         this.messageService.add({

@@ -47,6 +47,7 @@ export class MeterReadingComponent implements OnInit {
     this.readingService
       .create(this.client.id, this.FormReading.value.reading!)
       .subscribe((data) => {
+        console.log(data);
         this.ref.close();
       });
   }

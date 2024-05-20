@@ -28,8 +28,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { PickListModule } from 'primeng/picklist';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-
-
+import { DataViewModule } from 'primeng/dataview';
+import { StepperModule } from 'primeng/stepper';
 @NgModule({
   declarations: [],
   exports: [
@@ -62,6 +62,8 @@ import { InputIconModule } from 'primeng/inputicon';
     PickListModule,
     IconFieldModule,
     InputIconModule,
+    DataViewModule,
+    StepperModule
   ],
 })
 export class PrimengModule {}

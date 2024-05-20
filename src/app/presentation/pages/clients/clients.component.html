@@ -27,9 +27,9 @@
   </div>
 </p-toolbar>
 
-<div class="mx-2">
+<div class="fadein">
   <p-table
-    styleClass="p-datatable-sm "
+    styleClass="p-datatable-sm"
     responsiveLayout="stack"
     [breakpoint]="'960px'"
     scrollHeight="75vh"
@@ -61,18 +61,20 @@
           />
         </td>
         <td>
-          <p-button
-            icon="pi pi-pencil"
-            [rounded]="true"
-            [text]="true"
-            (click)="update(client)"
-          />
-          <p-button
-            icon="pi pi-book"
-            [rounded]="true"
-            [text]="true"
-            (click)="addMeterReading(client)"
-          />
+          <p-menu
+            styleClass="w-full md:w-15rem"
+            #menu
+            [popup]="true"
+            [model]="getMenuItems(client)"
+            [tabindex]="undefined"
+            appendTo="body"
+          ></p-menu>
+          <button
+            pButton
+            type="button"
+            icon="pi pi-ellipsis-v"
+            (click)="menu.toggle($event)"
+          ></button>
         </td>
       </tr>
     </ng-template>

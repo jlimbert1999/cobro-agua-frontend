@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { PrimengModule } from '../../../primeng.module';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
+import { PrimengModule } from '../../../primeng.module';
+import { AuthService } from '../../services';
 
 @Component({
   selector: 'profile',
@@ -11,16 +13,23 @@ import { MenuItem } from 'primeng/api';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  username = this.authService.user()?.fullname ?? 'Sin nombre';
   items: MenuItem[] = [
-    {
-      label: 'Configuraciones',
-      icon: 'pi pi-cog',
-      route: '/guides/csslayer',
-    },
     { separator: true },
     {
       label: 'Cerrar sesion',
       icon: 'pi pi-sign-out',
+      command: () => {
+        this.logout();
+      },
     },
   ];
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['login']);
+  }
 }
