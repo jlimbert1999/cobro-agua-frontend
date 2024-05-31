@@ -27,18 +27,8 @@ export class LoginComponent {
 
   login() {
     const { login, password } = this.LoginForm.value;
-    this.authService.login(login!, password!).subscribe(
-      (url) => {
-        this.router.navigate([url]);
-      },
-      (error) => {
-        this.messageService.add({
-          closable: false,
-          life: 3000,
-          severity: 'warn',
-          detail: error?.error['message'] ?? 'Desconocido',
-        });
-      }
-    );
+    this.authService.login(login!, password!).subscribe((url) => {
+      this.router.navigate([url]);
+    });
   }
 }

@@ -4,19 +4,23 @@
     @if(priviusReading()){
     <div class="formgrid grid">
       <div class="field col">
-        <label for="firstname2">Firstname</label>
+        <label for="date">Fecha</label>
         <input
-          id="firstname2"
+          id="date"
           type="text"
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          [readOnly]="true"
+          [value]="priviusReading()?.reading_date | date"
         />
       </div>
       <div class="field col">
-        <label for="lastname2">Lastname</label>
+        <label for="prev-reading">Valor medidor</label>
         <input
-          id="lastname2"
+          id="prev-reading"
           type="text"
           class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"
+          [readOnly]="true"
+          [value]="priviusReading()?.current_reading"
         />
       </div>
     </div>
@@ -32,39 +36,18 @@
           >Valor medidor:</label
         >
         <div class="col-12 md:col-8">
-          <p-inputNumber id="reading" class="w-full" styleClass="w-full" formControlName="reading" />
+          <p-inputNumber
+            id="reading"
+            class="w-full"
+            styleClass="w-full"
+            formControlName="reading"
+          />
         </div>
       </div>
     </form>
   </div>
 
-  <div class="surface-overlay border-round border-1 p-3 py-0">
-    <p>Resultados</p>
-    <div class="grid">
-      <div class="col-4">
-        <div class="font-bold">CONSUMO:</div>
-      </div>
-      <div class="col-8">
-        <div class="text-center">20</div>
-      </div>
-      <div class="col-4">
-        <div class="font-bold">CONSUMO:</div>
-      </div>
-      <div class="col-8">
-        <div class="text-center">20</div>
-      </div>
-      <div class="col-4">
-        <div class="font-bold">CONSUMO:</div>
-      </div>
-      <div class="col-8">
-        <div class="text-center">20</div>
-      </div>
-      <div class="col-12">
-        <div class="text-center p-3 font-bold">TOTAL PAGO: 300</div>
-      </div>
-    </div>
+  <div class="p-dialog-footer">
+    <p-button label="Guardar" (onClick)="save()" />
   </div>
-</div>
-<div class="p-dialog-footer">
-  <p-button label="Guardar" (onClick)="save()" />
 </div>

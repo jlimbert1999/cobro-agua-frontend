@@ -8,14 +8,16 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { PrimengModule } from './primeng.module';
 import { loggingInterceptor } from './core/interceptor';
+import { MessageService } from 'primeng/api';
 registerLocaleData(localeEs, 'es');
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(withInterceptors([loggingInterceptor])),
     provideRouter(routes),
+    provideHttpClient(withInterceptors([loggingInterceptor])),
     provideAnimations(),
     PrimengModule,
+    MessageService,
     { provide: LOCALE_ID, useValue: 'es' },
   ],
 };

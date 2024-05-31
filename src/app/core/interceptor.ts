@@ -8,12 +8,15 @@ import { Router } from '@angular/router';
 import { inject } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from '../presentation/services';
+import { handleHttpErrorMessage } from '../helpers';
+import { MessageService } from 'primeng/api';
 
 export function loggingInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> {
   const authService = inject(AuthService);
+  const messageService = inject(MessageService);
   const router = inject(Router);
 
   const reqWithHeader = req.clone({
@@ -26,10 +29,12 @@ export function loggingInterceptor(
     catchError((error) => {
       console.log(error);
       if (error instanceof HttpErrorResponse) {
-        if (error.status === 401) {
-          authService.logout();
-          router.navigate(['/login']);
-        }
+        handleHttpErrorMessage({
+          error,
+          router,
+          messageService,
+          authService,
+        });
       }
       return throwError(() => Error);
     })

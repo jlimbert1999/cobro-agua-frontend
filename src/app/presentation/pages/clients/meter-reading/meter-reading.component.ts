@@ -3,16 +3,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  computed,
   inject,
-  signal,
 } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PrimengModule } from '../../../../primeng.module';
-import { ReadingService, ConfigService } from '../../../services';
-import { Client } from '../../../../domain/models';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { PrimengModule } from '../../../../primeng.module';
+import { ReadingService } from '../../../services';
+import { Client } from '../../../../domain/models';
 
 interface lastConsume {
   consume: number;
@@ -30,7 +28,6 @@ export class MeterReadingComponent implements OnInit {
   private fb = inject(FormBuilder);
 
   private readingService = inject(ReadingService);
-  private configService = inject(ConfigService);
   private client: Client = inject(DynamicDialogConfig).data;
 
   priviusReading = toSignal(
@@ -47,7 +44,6 @@ export class MeterReadingComponent implements OnInit {
     this.readingService
       .create(this.client.id, this.FormReading.value.reading!)
       .subscribe((data) => {
-        console.log(data);
         this.ref.close();
       });
   }

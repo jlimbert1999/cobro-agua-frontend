@@ -12,17 +12,20 @@ export class ReadingService {
   private readonly url = `${environment.base_url}/readings`;
   constructor() {}
 
-  getPreviusReading(id_client: string) {
+  getPreviusReading(id_customer: string) {
     return this.http.get<readingResponse | null>(
-      `${this.url}/last/${id_client}`
+      `${this.url}/previus/${id_customer}`
     );
   }
 
   getReadingsByCustomer(id_customer: string, limit: number, offset: number) {
     const params = new HttpParams({ fromObject: { limit, offset } });
-    return this.http.get<readingResponse[]>(`${this.url}/${id_customer}`, {
-      params,
-    });
+    return this.http.get<{ readings: readingResponse[]; length: number }>(
+      `${this.url}/${id_customer}`,
+      {
+        params,
+      }
+    );
   }
 
   create(id_client: string, reading: number) {

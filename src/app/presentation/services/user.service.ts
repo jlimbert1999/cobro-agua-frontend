@@ -1,30 +1,38 @@
 import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { userResponse } from '../../infrastructure/interfaces';
 import { CreateUserDto } from '../../infrastructure/dtos';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private readonly url = `${environment}/users`;
+  private readonly url = `${environment.base_url}/users`;
   private http = inject(HttpClient);
   constructor() {}
 
-  create(form: Object, services: string[]) {
-    const readingDto = CreateUserDto.fromForm(form, services);
-    return this.http.post(this.url, readingDto);
+  create(form: Object) {
+    const user = CreateUserDto.fromForm(form);
+    return this.http.post(this.url, user);
   }
 
-  // indAll(limit: number, offset: number) {
-  //   const params = new HttpParams({ fromObject: { limit, offset } });
-  //   return this.http
-  //     .get<{ clients: clientResponse[]; length: number }>(this.url, { params })
-  //     .pipe(
-  //       map(({ length, clients }) => ({
-  //         clients: clients.map((el) => Client.fromResponse(el)),
-  //         length: length,
-  //       }))
-  //     );
-  // }
+  update(id: string, user: Partial<CreateUserDto>) {
+    return this.http.patch(`${this.url}/${id}`, user);
+  }
+
+  findAll(limit: number, offset: number) {
+    const params = new HttpParams({ fromObject: { limit, offset } });
+    return this.http.get<{ users: userResponse[]; length: number }>(this.url, {
+      params,
+    });
+  }
+  
+  search(term: string, limit: number, offset: number) {
+    const params = new HttpParams({ fromObject: { limit, offset } });
+    return this.http.get<{ users: userResponse[]; length: number }>(
+      `${this.url}/search/${term}`,
+      { params }
+    );
+  }
 }

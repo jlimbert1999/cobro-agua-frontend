@@ -1,0 +1,41 @@
+<p-toolbar>
+  <div class="p-toolbar-group-start">
+    <p-button icon="pi pi-plus" class="mr-2" (onClick)="create()" />
+  </div>
+
+  <div class="p-toolbar-group-end">
+    <input
+      #txtSearch
+      pInputText
+      type="text"
+      placeholder="Nombre"
+      (keydown.enter)="onSearch(txtSearch.value)"
+    />
+  </div>
+</p-toolbar>
+
+<p-table [value]="datasource()" [tableStyle]="{ 'min-width': '50rem' }">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Usuario</th>
+      <th>Nombre</th>
+      <th>Permisos</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{ user.login }}</td>
+      <td>{{ user.fullname }}</td>
+      <td>{{ user.roles.length }}</td>
+      <td>
+        <p-button
+          icon="pi pi-pencil"
+          [rounded]="true"
+          [text]="true"
+          (onClick)="update(user)"
+        />
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

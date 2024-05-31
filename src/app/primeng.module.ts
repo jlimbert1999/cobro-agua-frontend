@@ -30,6 +30,10 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { DataViewModule } from 'primeng/dataview';
 import { StepperModule } from 'primeng/stepper';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { PasswordModule } from 'primeng/password';
+import { CheckboxModule } from 'primeng/checkbox';
+import { AccordionModule } from 'primeng/accordion';
 @NgModule({
   declarations: [],
   exports: [
@@ -63,7 +67,11 @@ import { StepperModule } from 'primeng/stepper';
     IconFieldModule,
     InputIconModule,
     DataViewModule,
-    StepperModule
+    StepperModule,
+    MultiSelectModule,
+    PasswordModule,
+    CheckboxModule,
+    AccordionModule
   ],
 })
 export class PrimengModule {}

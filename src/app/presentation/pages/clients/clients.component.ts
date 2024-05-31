@@ -109,9 +109,12 @@ export class ClientsComponent implements OnInit {
   viewReadings(client: Client) {
     this.dialogService.open(DetailReadingComponent, {
       header: 'Lecturas',
-      width: '80%',
       maximizable: true,
       data: client,
+      breakpoints: {
+        '1600px': '50vw',
+        '960px': '100vw',
+      },
     });
   }
 

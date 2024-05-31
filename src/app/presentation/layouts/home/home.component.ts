@@ -28,10 +28,6 @@ export class HomeComponent implements OnInit {
   }
 
   builMenu() {
-    this.items = this.menu.map(({ label, icon, routerLink }) => ({
-      label,
-      icon,
-      routerLink,
-    }));
+    this.items = this.menu
   }
 }

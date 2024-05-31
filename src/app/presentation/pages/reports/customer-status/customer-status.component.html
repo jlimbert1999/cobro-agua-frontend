@@ -1,0 +1,41 @@
+<div class="flex justify-content-center flex-wrap row-gap-4 sm:px-6">
+  <p-dropdown
+    class="flex w-full"
+    styleClass="w-full"
+    [options]="customers()"
+    placeholder="Buscar afiliado"
+    optionLabel="fullname"
+    [filter]="true"
+    [showClear]="true"
+    emptyMessage="Sin resultados"
+    emptyFilterMessage="Sin resultados"
+    (onFilter)="searchCustomer($event.filter)"
+    (onChange)="selectCustomer($event.value)"
+  >
+  </p-dropdown>
+  @for (item of payments(); track $index) {
+  <p-panel [toggleable]="true" class="flex w-full" styleClass="w-full">
+    <ng-template pTemplate="header">
+      TOTAL PAGADO: {{ item.amount }}
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <div
+        class="flex flex-wrap align-items-center justify-content-between gap-3"
+      >
+        <div class="flex align-items-center gap-2">
+          <p-button icon="pi pi-print" rounded="true" text="true" (onClick)="generatePdf(item)" />
+         
+        </div>
+        <span class="p-text-secondary">
+          {{ item.payment_date | date }}
+        </span>
+      </div>
+    </ng-template>
+    <ul>
+      @for (el of item.invoices; track $index) {
+      <li>SERVICIO: Pago de agua, Monto: {{ el.amount }}</li>
+      }
+    </ul>
+  </p-panel>
+  }
+</div>
