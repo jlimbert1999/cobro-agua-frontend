@@ -1,8 +1,9 @@
 <p-toolbar>
   <div class="p-toolbar-group-start">
-    <span class="ml-3 font-bold">AFILIADOS</span>
+    <button pButton icon="pi pi-plus" class="mr-2" (click)="create()"></button>
+    <button pButton icon="pi pi-arrow-up" class="mr-2" (click)="loadExcelFile()"></button>
   </div>
-  <div class="p-toolbar-group-center">
+  <div class="p-toolbar-group-end">
     <span class="p-input-icon-left">
       <i class="pi pi-search"></i>
       <input
@@ -13,17 +14,6 @@
         (keydown.enter)="onSearch(txtSearch.value)"
       />
     </span>
-  </div>
-
-  <div class="p-toolbar-group-end">
-    <div class="p-toolbar-group-center">
-      <button
-        pButton
-        icon="pi pi-plus"
-        class="mr-2"
-        (click)="create()"
-      ></button>
-    </div>
   </div>
 </p-toolbar>
 

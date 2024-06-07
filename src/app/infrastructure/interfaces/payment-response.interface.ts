@@ -3,6 +3,7 @@ import { invoiceResponse } from './invoiceResponse';
 
 export interface paymentResponse {
   _id: string;
+  code: string;
   customer: clientResponse;
   invoices: invoiceResponse[];
   amount: number;

@@ -30,6 +30,11 @@ export class PdfService {
                 style: 'invoiceTitle',
               },
               {
+                text: `Numero: ${payment.code}`,
+                alignment: 'right',
+                style: 'invoiceTitle',
+              },
+              {
                 text: new Date().toLocaleString(),
                 alignment: 'right',
               },

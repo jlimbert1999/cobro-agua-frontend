@@ -4,4 +4,9 @@ export interface invoiceResponse {
   amount: number;
   status: string;
   issue_date: Date;
+  services: service;
+}
+
+interface service {
+  consumption: number;
 }

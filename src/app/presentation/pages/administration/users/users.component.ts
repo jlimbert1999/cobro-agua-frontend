@@ -79,7 +79,7 @@ export class UsersComponent implements OnInit {
 
   update(user: userResponse) {
     const ref = this.dialogService.open(UserComponent, {
-      header: 'Crear Usuario',
+      header: 'Editar Usuario',
       width: '30rem',
       data: user,
     });
