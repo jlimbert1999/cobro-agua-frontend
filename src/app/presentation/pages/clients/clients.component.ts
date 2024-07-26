@@ -22,12 +22,13 @@ import Swal from 'sweetalert2';
 import { read, utils } from 'xlsx';
 
 export interface uploadData {
-  NOMBRE: string;
+  NOMBRES: string;
   PATERNO: string;
   MATERNO: string;
-  CI: string;
-  TELEFONO: string;
-  DIRECCION: string;
+  'C.I.': string;
+  CELULAR: string;
+  'Nro. Medidor': string;
+  OTB: string;
 }
 
 @Component({
@@ -57,13 +58,12 @@ export class ClientsComponent implements OnInit {
   }
 
   getData() {
-    const subscription = this.term()
-      ? this.clientService.search(this.term(), this.limit(), this.offset())
-      : this.clientService.findAll(this.limit(), this.offset());
-    subscription.subscribe(({ clients, length }) => {
-      this.datasource.set(clients);
-      this.datasize.set(length);
-    });
+    this.clientService
+      .findAll(this.limit(), this.offset(), this.term())
+      .subscribe(({ clients, length }) => {
+        this.datasource.set(clients);
+        this.datasize.set(length);
+      });
   }
 
   create() {
@@ -132,6 +132,7 @@ export class ClientsComponent implements OnInit {
 
   onSearch(value: string) {
     this.term.set(value);
+    this.index.set(0);
     this.getData();
   }
 
@@ -191,24 +192,22 @@ export class ClientsComponent implements OnInit {
         const data: uploadData[] = utils.sheet_to_json<any>(
           wb.Sheets[wb.SheetNames[0]]
         );
-        this.readingService
-          .upload(
-            data.map((el) => ({
-              firstname: el.NOMBRE,
-              middlename: el.PATERNO,
-              lastname: el.MATERNO,
-              dni: el.CI,
-              phone: parseInt(el.TELEFONO),
-              address: el.DIRECCION,
-            }))
-          )
-          .subscribe(() => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Datos subidos correctamente',
-            });
-            this.getData();
+        const customers = data.map((el) => ({
+          firstname: el.NOMBRES,
+          middlename: el.PATERNO,
+          lastname: el.MATERNO,
+          dni: el['C.I.'],
+          phone: el.CELULAR,
+          meterNumber: el['Nro. Medidor'],
+          otb: el.OTB ? el.OTB.trim().toUpperCase() : null,
+        }));
+        this.clientService.upload(customers).subscribe(() => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Datos subidos correctamente',
           });
+          this.getData();
+        });
       };
     }
   }

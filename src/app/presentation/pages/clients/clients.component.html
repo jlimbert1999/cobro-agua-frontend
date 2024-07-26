@@ -1,7 +1,12 @@
 <p-toolbar>
   <div class="p-toolbar-group-start">
     <button pButton icon="pi pi-plus" class="mr-2" (click)="create()"></button>
-    <button pButton icon="pi pi-arrow-up" class="mr-2" (click)="loadExcelFile()"></button>
+    <button
+      pButton
+      icon="pi pi-arrow-up"
+      class="mr-2"
+      (click)="loadExcelFile()"
+    ></button>
   </div>
   <div class="p-toolbar-group-end">
     <span class="p-input-icon-left">
@@ -10,7 +15,7 @@
         #txtSearch
         pInputText
         type="text"
-        placeholder="Nombre / CI"
+        placeholder="Numero de medidor"
         (keydown.enter)="onSearch(txtSearch.value)"
       />
     </span>
@@ -28,9 +33,10 @@
     <ng-template pTemplate="header">
       <tr>
         <th>Nombre</th>
+        <th>Nro. Medidor</th>
         <th>Dni</th>
         <th>Telefono</th>
-        <th>Direccion</th>
+        <th>Tipo</th>
         <th>Estado</th>
         <th></th>
       </tr>
@@ -41,9 +47,10 @@
           <span class="p-column-title">Afiliado:</span>
           {{ client.fullname | titlecase }}
         </td>
+        <td>{{ client.meterNumber }}</td>
         <td>{{ client.dni }}</td>
         <td>{{ client.phone }}</td>
-        <td>{{ client.address }}</td>
+        <td>{{ client.type }}</td>
         <td>
           <p-tag
             [severity]="client.statusLabel().severity"

@@ -5,6 +5,7 @@ interface clientProps {
   dni: string;
   phone: string;
   address: string;
+  meterNumber: string;
 }
 export class CreateClientDto {
   firstname: string;
@@ -13,6 +14,7 @@ export class CreateClientDto {
   dni: string;
   phone: string;
   address: string;
+  meterNumber: string;
 
   static fromForm(form: any) {
     return new CreateClientDto({
@@ -22,6 +24,7 @@ export class CreateClientDto {
       dni: form['dni'],
       phone: form['phone'],
       address: form['address'],
+      meterNumber: form['meterNumber'],
     });
   }
 
@@ -32,6 +35,7 @@ export class CreateClientDto {
     dni,
     phone,
     address,
+    meterNumber,
   }: clientProps) {
     this.firstname = firstname;
     this.middlename = middlename;
@@ -39,5 +43,6 @@ export class CreateClientDto {
     this.dni = dni;
     this.phone = phone;
     this.address = address;
+    this.meterNumber = meterNumber;
   }
 }

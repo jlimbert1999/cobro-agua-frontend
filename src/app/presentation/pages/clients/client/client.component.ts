@@ -32,6 +32,7 @@ export class ClientComponent implements OnInit {
     dni: ['', [Validators.required]],
     phone: ['', [Validators.required]],
     address: ['', Validators.required],
+    meterNumber: ['', Validators.required],
   });
 
   constructor() {}
@@ -46,8 +47,8 @@ export class ClientComponent implements OnInit {
     const subscription = this.client
       ? this.clientService.update(this.client.id, this.FormClient.value)
       : this.clientService.create(this.FormClient.value);
-    subscription.subscribe((resp) =>{
-      this.ref.close(resp)
+    subscription.subscribe((resp) => {
+      this.ref.close(resp);
     });
   }
 }

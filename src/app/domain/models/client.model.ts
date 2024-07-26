@@ -9,6 +9,8 @@ interface clientProps {
   phone: string;
   address: string;
   status: ClientStatus;
+  type: string;
+  meterNumber: string;
 }
 
 export enum ClientStatus {
@@ -25,17 +27,21 @@ export class Client {
   phone: string;
   address: string;
   status: ClientStatus;
+  type: string;
+  meterNumber: string;
 
   static fromResponse(form: clientResponse) {
     return new Client({
       id: form._id,
-      firstname: form['firstname'],
-      middlename: form['middlename'],
-      lastname: form['lastname'],
+      firstname: form['firstname'] ?? '',
+      middlename: form['middlename'] ?? '',
+      lastname: form['lastname'] ?? '',
       dni: form['dni'],
       phone: form['phone'],
       address: form['address'],
       status: form.status,
+      type: form.type.name,
+      meterNumber: form.meterNumber,
     });
   }
 
@@ -48,6 +54,8 @@ export class Client {
     phone,
     address,
     status,
+    type,
+    meterNumber,
   }: clientProps) {
     this.id = id;
     this.firstname = firstname;
@@ -57,6 +65,8 @@ export class Client {
     this.phone = phone;
     this.address = address;
     this.status = status;
+    this.type = type;
+    this.meterNumber = meterNumber;
   }
 
   get fullname() {

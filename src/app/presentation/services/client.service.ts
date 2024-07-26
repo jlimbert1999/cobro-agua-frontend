@@ -15,8 +15,11 @@ export class ClientService {
 
   constructor() {}
 
-  findAll(limit: number, offset: number) {
-    const params = new HttpParams({ fromObject: { limit, offset } });
+  findAll(limit: number, offset: number, term?: string) {
+    const params = new HttpParams({
+      fromObject: { limit, offset, ...(term && { term }) },
+    });
+    console.log(params);
     return this.http
       .get<{ clients: clientResponse[]; length: number }>(this.url, { params })
       .pipe(
@@ -53,5 +56,9 @@ export class ClientService {
     return this.http
       .patch<clientResponse>(`${this.url}/${id}`, form)
       .pipe(map((resp) => Client.fromResponse(resp)));
+  }
+
+  upload(data: any[]) {
+    return this.http.post(`${this.url}/upload`, data);
   }
 }

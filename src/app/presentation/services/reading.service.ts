@@ -8,8 +8,8 @@ interface uploadData {
   middlename: string;
   lastname: string;
   dni: string;
-  phone: number;
-  address: string;
+  phone: string;
+  meterNumber: string;
 }
 
 @Injectable({
@@ -41,7 +41,4 @@ export class ReadingService {
     });
   }
 
-  upload(data: uploadData[]) {
-    return this.http.post(`${this.url}/upload`, data);
-  }
 }

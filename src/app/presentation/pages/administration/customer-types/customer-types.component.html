@@ -4,38 +4,41 @@
   </div>
 
   <div class="p-toolbar-group-end">
-    <input
-      #txtSearch
-      pInputText
-      type="text"
-      placeholder="Nombre"
-      (keydown.enter)="onSearch(txtSearch.value)"
-    />
+    <!-- <input
+        #txtSearch
+        pInputText
+        type="text"
+        placeholder="Nombre"
+        (keydown.enter)="onSearch(txtSearch.value)"
+      /> -->
   </div>
 </p-toolbar>
 
 <p-table [value]="datasource()" styleClass="p-datatable-sm text-sm">
   <ng-template pTemplate="header">
     <tr>
-      <th>Usuario</th>
       <th>Nombre</th>
-      <th>Permisos</th>
+      <th>Meses Deuda</th>
       <th></th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-user>
+  <ng-template pTemplate="body" let-config>
     <tr>
-      <td>{{ user.login }}</td>
-      <td>{{ user.fullname }}</td>
-      <td>{{ user.roles.length }}</td>
+      <td>{{ config.name }}</td>
+      <td>{{ config.maxDelayMonths }}</td>
       <td>
         <p-button
           icon="pi pi-pencil"
           [rounded]="true"
           [text]="true"
-          (onClick)="update(user)"
+          (onClick)="update(config)"
         />
       </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="3">Sin registros</td>
     </tr>
   </ng-template>
 </p-table>

@@ -1,0 +1,82 @@
+<div class="p-dialog-content">
+  <form [formGroup]="formCustomerType">
+    <div class="grid nested-grid">
+      <div class="col-12">
+        <div class="formgrid grid">
+          <div class="field col-12 sm:col-8">
+            <label for="name">Nombre</label>
+            <input
+              id="name"
+              type="text"
+              class="w-full"
+              pInputText
+              formControlName="name"
+            />
+          </div>
+          <div class="field col-12 sm:col-4">
+            <label for="maxDelayMonths">Nro. Meses corte</label>
+            <input
+              id="maxDelayMonths"
+              type="text"
+              class="w-full"
+              pInputText
+              formControlName="maxDelayMonths"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="col-12 flex justify-content-between align-items-center border-bottom-1">
+        <span>Rango de Precio</span>
+        <p-button
+          icon="pi pi-plus"
+          [rounded]="true"
+          [text]="true"
+          (onClick)="addRange()"
+        />
+      </div>
+      <div class="col-12 max-h-20rem overflow-y-auto">
+        <div formArrayName="preferences">
+          @for (alias of preferences.controls; track $index) {
+          <div class="grid" [formGroupName]="$index">
+            <div class="field col-4">
+              <label for="minUnits">Minimo</label>
+              <input
+                id="minUnits"
+                type="text"
+                class="w-full"
+                pInputText
+                formControlName="minUnits"
+              />
+            </div>
+            <div class="field col-4">
+              <label for="maxUnits">Maximo</label>
+              <input
+                id="maxUnits"
+                type="text"
+                class="w-full"
+                pInputText
+                formControlName="maxUnits"
+              />
+            </div>
+            <div class="field col-4">
+              <label for="price">Precio</label>
+              <input
+                id="price"
+                type="text"
+                class="w-full"
+                pInputText
+                formControlName="priceByUnit"
+              />
+            </div>
+          </div>
+          } @empty {
+          <p>No se configuraron rangos</p>
+          }
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="p-dialog-footer">
+  <p-button label="Guardar" [disabled]="!formCustomerType"  (onClick)="save()"/>
+</div>
