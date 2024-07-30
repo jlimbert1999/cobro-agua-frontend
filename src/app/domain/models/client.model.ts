@@ -33,13 +33,14 @@ export class Client {
   meterNumber: string;
 
   static fromResponse(form: clientResponse) {
+    console.log(form);
     return new Client({
       id: form.id,
       firstname: form['firstname'] ?? '',
       middlename: form['middlename'] ?? '',
       lastname: form['lastname'] ?? '',
-      dni: form['dni'],
-      phone: form['phone'],
+      dni: form['dni'] ?? '',
+      phone: form['phone'] ?? '',
       status: form.status,
       type: { id: form.type.id, name: form.type.name },
       meterNumber: form.meterNumber,

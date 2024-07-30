@@ -29,7 +29,7 @@ export class UserComponent implements OnInit {
   private fb = inject(FormBuilder);
   private ref = inject(DynamicDialogRef);
   private userService = inject(UserService);
-  readonly roles: string[] = ['officer', 'admin'];
+  readonly roles: string[] = ['officer', 'admin', 'reader'];
   user: userResponse | undefined = inject(DynamicDialogConfig).data;
   selectedRoles: string[] = [];
   FormUser: FormGroup = this.fb.nonNullable.group({

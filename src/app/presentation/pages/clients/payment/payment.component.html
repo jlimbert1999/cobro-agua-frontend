@@ -27,7 +27,7 @@
               <tr>
                 <td>Consumo agua</td>
                 <td>{{ invoice.service.consumption }}</td>
-                <td>{{ invoice.issue_date | date : "d/M/Y" }}</td>
+                <td>{{ invoice.createdAt | date : "d/M/Y" }}</td>
                 <td style="width: 25%">
                   <p-tag
                     [value]="(invoice.amount | currency : 'Bs. ')!"

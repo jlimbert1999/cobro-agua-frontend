@@ -34,11 +34,10 @@ export class ReadingService {
     );
   }
 
-  create(id_client: string, reading: number) {
+  create(customerId: string, valueReading: number) {
     return this.http.post<{ message: string }>(this.url, {
-      client: id_client,
-      reading,
+      customerId,
+      valueReading,
     });
   }
-
 }

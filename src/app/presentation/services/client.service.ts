@@ -49,6 +49,10 @@ export class ClientService {
     return this.http.post(`${this.url}/upload`, data);
   }
 
+  searchByMeterNumber(term: string) {
+    return this.http.get<clientResponse[]>(`${this.url}/meter/${term}`);
+  }
+
   getCustomerTypes() {
     return this.http.get<customerType[]>(`${this.url}/types`);
   }

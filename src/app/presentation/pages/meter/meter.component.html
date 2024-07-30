@@ -1,0 +1,57 @@
+<!-- <div
+  class="flex flex-1 align-content-center justify-content-center flex-wrap border-1 h-full"
+> -->
+<!-- <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+    <div class="mb-5">
+      <div class="text-900 text-2xl font-medium mb-3">Registro Lecturas</div>
+    </div>
+    <div>
+      <label for="input-text" class="block text-900 font-medium mb-2">
+        Medidor
+      </label>
+      <input
+        id="input-text"
+        type="password"
+        placeholder="Ingrese el numero de medidor"
+        pInputText
+        class="w-full mb-3"
+      />
+      <p-button label="Buscar" styleClass="w-full" />
+    </div>
+  </div> -->
+<!-- </div> -->
+
+@if(customer()){
+<div class="mx-6">
+  <div
+    class="shadow-2 p-3 h-full flex flex-column surface-card"
+    style="border-radius: 6px"
+  >
+    <div class="text-900 font-medium text-xl mb-2">{{customer().firstname}}</div>
+    <div class="text-600">Plan description</div>
+    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+    <div class="flex align-items-center">
+      <span class="font-bold text-2xl text-900">$9</span>
+      <span class="ml-2 font-medium text-600">per month</span>
+    </div>
+    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+    <ul class="list-none p-0 m-0 flex-grow-1">
+      <li class="flex align-items-center mb-3">
+        <i class="pi pi-check-circle text-green-500 mr-2"></i>
+        <span class="text-900">Arcu vitae elementum</span>
+      </li>
+      <li class="flex align-items-center mb-3">
+        <i class="pi pi-check-circle text-green-500 mr-2"></i>
+        <span class="text-900">Dui faucibus in ornare</span>
+      </li>
+      <li class="flex align-items-center mb-3">
+        <i class="pi pi-check-circle text-green-500 mr-2"></i>
+        <span class="text-900">Morbi tincidunt augue</span>
+      </li>
+    </ul>
+    <hr class="mb-3 mx-0 border-top-1 border-none surface-border mt-auto" />
+    <button pButton pRipple label="Buy Now" class="p-3 w-full mt-auto"></button>
+  </div>
+</div>
+
+}

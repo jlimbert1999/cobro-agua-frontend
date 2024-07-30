@@ -7,6 +7,7 @@ import { isAuthenticatedGuard } from './presentation/guards/is-authenticated.gua
 import { UsersComponent } from './presentation/pages/administration/users/users.component';
 import { CustomerStatusComponent } from './presentation/pages/reports/customer-status/customer-status.component';
 import { CustomerTypesComponent } from './presentation/pages/administration/customer-types/customer-types.component';
+import { MeterComponent } from './presentation/pages/meter/meter.component';
 
 export const routes: Routes = [
   {
@@ -27,7 +28,11 @@ export const routes: Routes = [
           { path: 'users', component: UsersComponent },
           { path: 'customer-types', component: CustomerTypesComponent },
         ],
-      },  
+      },
+      {
+        path: 'reading',
+        children: [{ path: 'customers', component: MeterComponent }],
+      },
       {
         path: 'reports',
         children: [
