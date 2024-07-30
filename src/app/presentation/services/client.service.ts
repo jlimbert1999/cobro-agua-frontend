@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { clientResponse } from '../../infrastructure/interfaces';
 import { CreateClientDto } from '../../infrastructure/dtos';
 import { Client } from '../../domain/models';
+import { customerType } from '../../infrastructure';
 
 @Injectable({
   providedIn: 'root',
@@ -15,26 +16,12 @@ export class ClientService {
 
   constructor() {}
 
-  findAll(limit: number, offset: number, term?: string) {
-    const params = new HttpParams({
-      fromObject: { limit, offset, ...(term && { term }) },
-    });
-    console.log(params);
-    return this.http
-      .get<{ clients: clientResponse[]; length: number }>(this.url, { params })
-      .pipe(
-        map(({ length, clients }) => ({
-          clients: clients.map((el) => Client.fromResponse(el)),
-          length: length,
-        }))
-      );
-  }
-
-  search(term: string, limit: number, offset: number) {
+  findAll(limit: number, offset: number, filterParams: Object) {
     const params = new HttpParams({ fromObject: { limit, offset } });
     return this.http
-      .get<{ clients: clientResponse[]; length: number }>(
-        `${this.url}/search/${term}`,
+      .post<{ clients: clientResponse[]; length: number }>(
+        `${this.url}/filter`,
+        filterParams,
         { params }
       )
       .pipe(
@@ -60,5 +47,9 @@ export class ClientService {
 
   upload(data: any[]) {
     return this.http.post(`${this.url}/upload`, data);
+  }
+
+  getCustomerTypes() {
+    return this.http.get<customerType[]>(`${this.url}/types`);
   }
 }

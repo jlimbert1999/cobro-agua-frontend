@@ -9,17 +9,22 @@ import {
 } from '@angular/core';
 import { filter } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { PrimengModule } from '../../../primeng.module';
 import { ClientComponent } from './client/client.component';
 import { MeterReadingComponent } from './meter-reading/meter-reading.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PageProps, PaginatorComponent } from '../../components';
 import { ClientService, ReadingService } from '../../services';
-import { Client } from '../../../domain/models';
+import { Client, CustomerStatus } from '../../../domain/models';
 import { MenuItem, MessageService } from 'primeng/api';
 import { DetailReadingComponent } from './detail-reading/detail-reading.component';
 import Swal from 'sweetalert2';
 import { read, utils } from 'xlsx';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { customerType } from '../../../infrastructure';
 
 export interface uploadData {
   NOMBRES: string;
@@ -31,10 +36,22 @@ export interface uploadData {
   OTB: string;
 }
 
+interface selectOption {
+  id: string | number | null;
+  name: string;
+}
+
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [CommonModule, PrimengModule, PaginatorComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    PrimengModule,
+    PaginatorComponent,
+    InputGroupModule,
+    InputGroupAddonModule,
+  ],
   templateUrl: `./clients.component.html`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService],
@@ -51,15 +68,29 @@ export class ClientsComponent implements OnInit {
   limit = signal(10);
   index = signal(0);
   offset = computed(() => this.limit() * this.index());
-  term = signal<string>('');
+
+  customerTypes = signal<selectOption[]>([]);
+  customerStatus = signal<selectOption[]>([
+    { id: null, name: 'Ninguno' },
+    { id: CustomerStatus.ENABLED, name: 'EN CURSO' },
+    { id: CustomerStatus.DISABLED, name: 'CORTE' },
+  ]);
+  formFilter = inject(FormBuilder).group({
+    fullname: [null],
+    meterNumber: [null],
+    dni: [null],
+    type: [null],
+    status: [null],
+  });
 
   ngOnInit(): void {
+    this.getCustomerTypes();
     this.getData();
   }
 
   getData() {
     this.clientService
-      .findAll(this.limit(), this.offset(), this.term())
+      .findAll(this.limit(), this.offset(), this.formFilter.value)
       .subscribe(({ clients, length }) => {
         this.datasource.set(clients);
         this.datasize.set(length);
@@ -128,12 +159,6 @@ export class ClientsComponent implements OnInit {
         '960px': '100vw',
       },
     });
-  }
-
-  onSearch(value: string) {
-    this.term.set(value);
-    this.index.set(0);
-    this.getData();
   }
 
   onPageChange(event: PageProps) {
@@ -210,5 +235,23 @@ export class ClientsComponent implements OnInit {
         });
       };
     }
+  }
+
+  getCustomerTypes() {
+    this.clientService.getCustomerTypes().subscribe((data) => {
+      this.customerTypes.set([
+        { id: null, name: 'Ninguno' },
+        ...data.map(({ id, name }) => ({ id, name })),
+      ]);
+    });
+  }
+
+  resetControl(path: string) {
+    this.formFilter.get(path)?.setValue(null);
+    this.getData();
+  }
+
+  isControlEmpy(path: string) {
+    return !this.formFilter.get(path)?.value;
   }
 }

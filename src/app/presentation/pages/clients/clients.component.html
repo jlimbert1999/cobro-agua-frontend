@@ -8,83 +8,162 @@
       (click)="loadExcelFile()"
     ></button>
   </div>
-  <div class="p-toolbar-group-end">
-    <span class="p-input-icon-left">
-      <i class="pi pi-search"></i>
-      <input
-        #txtSearch
-        pInputText
-        type="text"
-        placeholder="Numero de medidor"
-        (keydown.enter)="onSearch(txtSearch.value)"
-      />
-    </span>
-  </div>
+  <div class="p-toolbar-group-end"></div>
 </p-toolbar>
 
 <div class="fadein">
-  <p-table
-    styleClass="p-datatable-sm"
-    responsiveLayout="stack"
-    [breakpoint]="'960px'"
-    scrollHeight="75vh"
-    [value]="datasource()"
-  >
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Nombre</th>
-        <th>Nro. Medidor</th>
-        <th>Dni</th>
-        <th>Telefono</th>
-        <th>Tipo</th>
-        <th>Estado</th>
-        <th></th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-client>
-      <tr>
-        <td>
-          <span class="p-column-title">Afiliado:</span>
-          {{ client.fullname | titlecase }}
-        </td>
-        <td>{{ client.meterNumber }}</td>
-        <td>{{ client.dni }}</td>
-        <td>{{ client.phone }}</td>
-        <td>{{ client.type }}</td>
-        <td>
-          <p-tag
-            [severity]="client.statusLabel().severity"
-            [value]="client.statusLabel().text"
-          />
-        </td>
-        <td>
-          <p-menu
-            styleClass="w-full md:w-15rem"
-            #menu
-            [popup]="true"
-            [model]="getMenuItems(client)"
-            [tabindex]="undefined"
-            appendTo="body"
-          ></p-menu>
-          <button
-            pButton
-            type="button"
-            icon="pi pi-ellipsis-v"
-            (click)="menu.toggle($event)"
-          ></button>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="5">Sin resultados</td>
-      </tr>
-    </ng-template>
-  </p-table>
-  <paginator
-    [first]="offset()"
-    [rows]="limit()"
-    [length]="datasize()"
-    (onPageChange)="onPageChange($event)"
-  />
+  <form [formGroup]="formFilter">
+    <p-table
+      styleClass="p-datatable-sm text-sm"
+      responsiveLayout="stack"
+      [breakpoint]="'960px'"
+      scrollHeight="75vh"
+      [value]="datasource()"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 25%">Nombre</th>
+          <th style="width: 13%">Nro. Medidor</th>
+          <th style="width: 13%">Dni</th>
+          <th style="width: 17%">Tipo</th>
+          <th style="width: 17%">Estado</th>
+          <th style="width: 13%">Telefono</th>
+          <th style="width: 2%"></th>
+        </tr>
+        <tr>
+          <th class="px-3">
+            <p-inputGroup>
+              <input
+                type="text"
+                pInputText
+                class="w-full"
+                placeholder="Nombre"
+                formControlName="fullname"
+                (keydown.enter)="getData()"
+              />
+              <button
+                type="button"
+                pButton
+                icon="pi pi-times"
+                class="p-button-secondary"
+                (click)="resetControl('fullname')"
+                [disabled]="isControlEmpy('fullname')"
+              ></button>
+            </p-inputGroup>
+          </th>
+          <th>
+            <p-inputGroup>
+              <input
+                type="text"
+                pInputText
+                class="w-full"
+                placeholder="Numero"
+                formControlName="meterNumber"
+                (keydown.enter)="getData()"
+              />
+              <button
+                type="button"
+                pButton
+                icon="pi pi-times"
+                class="p-button-secondary"
+                (click)="resetControl('meterNumber')"
+                [disabled]="isControlEmpy('meterNumber')"
+              ></button>
+            </p-inputGroup>
+          </th>
+          <th>
+            <p-inputGroup>
+              <input
+                type="text"
+                pInputText
+                class="w-full"
+                placeholder="Numero"
+                formControlName="meterNumber"
+                (keydown.enter)="getData()"
+              />
+              <button
+                type="button"
+                pButton
+                icon="pi pi-times"
+                class="p-button-secondary"
+                (click)="resetControl('meterNumber')"
+                [disabled]="isControlEmpy('meterNumber')"
+              ></button>
+            </p-inputGroup>
+          </th>
+
+          <th>
+            <p-dropdown
+              optionLabel="name"
+              placeholder="Tipos"
+              formControlName="type"
+              styleClass="w-full"
+              optionValue="id"
+              [options]="customerTypes()"
+              (onChange)="getData()"
+              appendTo="body"
+            />
+          </th>
+          <th>
+            <p-dropdown
+              optionLabel="name"
+              placeholder="Estado"
+              formControlName="status"
+              styleClass="w-full"
+              optionValue="id"
+              [options]="customerStatus()"
+              (onChange)="getData()"
+              appendTo="body"
+            />
+          </th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-client>
+        <tr>
+          <td>
+            <span class="p-column-title">Afiliado:</span>
+            {{ client.fullname | titlecase }}
+          </td>
+          <td>{{ client.meterNumber }}</td>
+          <td>{{ client.dni }}</td>
+          <td>{{ client.type.name }}</td>
+          <td>
+            <p-tag
+              [severity]="client.statusLabel().severity"
+              [value]="client.statusLabel().text"
+            />
+          </td>
+          <td>{{ client.phone }}</td>
+          <td>
+            <p-menu
+              styleClass="w-full md:w-15rem"
+              #menu
+              [popup]="true"
+              [model]="getMenuItems(client)"
+              [tabindex]="undefined"
+              appendTo="body"
+            ></p-menu>
+            <p-button
+              icon="pi pi-ellipsis-v"
+              [rounded]="true"
+              [text]="true"
+              (click)="menu.toggle($event)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">Sin resultados</td>
+        </tr>
+      </ng-template>
+    </p-table>
+    <paginator
+      [first]="offset()"
+      [rows]="limit()"
+      [length]="datasize()"
+      (onPageChange)="onPageChange($event)"
+    />
+  </form>
 </div>

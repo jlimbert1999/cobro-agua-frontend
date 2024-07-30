@@ -31,9 +31,9 @@ export class CustomerStatusComponent {
 
   searchCustomer(value: string) {
     if (value === '') return;
-    this.clientService.search(value, 5, 0).subscribe(({ clients }) => {
-      this.customers.set(clients);
-    });
+    // this.clientService.search(value, 5, 0).subscribe(({ clients }) => {
+    //   this.customers.set(clients);
+    // });
   }
 
   selectCustomer(client: Client) {

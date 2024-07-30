@@ -2,73 +2,72 @@
   <form [formGroup]="FormClient">
     <div class="formgrid grid">
       <div class="field col-12 md:col-4">
-        <label for="firstname">Nombre</label>
         <input
-          id="firstname"
           type="text"
           class="w-full"
           pInputText
           formControlName="firstname"
+          placeholder="Nombre"
         />
       </div>
       <div class="field col-12 md:col-4">
-        <label for="middlename">Paterno</label>
         <input
-          id="middlename"
           type="text"
           pInputText
           class="w-full"
           formControlName="middlename"
+          placeholder="Apellido paterno"
         />
       </div>
       <div class="field col-12 md:col-4">
-        <label for="lastname">Materno</label>
         <input
           type="text"
           pInputText
-          id="lastname"
           class="w-full"
           formControlName="lastname"
+          placeholder="Apellido materno"
         />
       </div>
       <div class="field col-12 md:col-4">
-        <label for="dni">Nro. Carnet</label>
         <input
           type="text"
           pInputText
           class="w-full"
-          id="dni"
           formControlName="dni"
+          placeholder="Numero de carnet"
         />
       </div>
       <div class="field col-12 md:col-4">
-        <label for="phone">Telefono</label>
         <input
           type="text"
           pInputText
           class="w-full"
-          id="phone"
           formControlName="phone"
+          placeholder="Telefono"
         />
       </div>
       <div class="field col-12 md:col-4">
-        <label for="address">Direccion</label>
         <input
           type="text"
           pInputText
           class="w-full"
-          id="address"
-          formControlName="address"
-        />
-      </div>
-      <div class="field col-12 md:col-4">
-        <label for="address">Nro. Medidor</label>
-        <input
-          type="text"
-          pInputText
-          class="w-full"
-          id="address"
           formControlName="meterNumber"
+          placeholder="Numero de medidor"
+          required
+        />
+      </div>
+      <div class="field col-12 md:col-8">
+        <p-dropdown
+          class="w-full"
+          styleClass="w-full"
+          [options]="customerTypes()"
+          optionLabel="name"
+          [filter]="true"
+          appendTo="body"
+          optionValue="id"
+          emptyFilterMessage="Sin resultados"
+          formControlName="type"
+          placeholder="Buscar tipo"
         />
       </div>
     </div>

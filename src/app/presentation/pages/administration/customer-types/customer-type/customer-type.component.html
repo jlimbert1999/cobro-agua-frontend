@@ -3,17 +3,18 @@
     <div class="grid nested-grid">
       <div class="col-12">
         <div class="formgrid grid">
-          <div class="field col-12 sm:col-8">
+          <div class="field col-12 sm:col-6">
             <label for="name">Nombre</label>
             <input
               id="name"
               type="text"
               class="w-full"
               pInputText
+              placeholder="Nombre del tipo de accionista"
               formControlName="name"
             />
           </div>
-          <div class="field col-12 sm:col-4">
+          <div class="field col-12 sm:col-3">
             <label for="maxDelayMonths">Nro. Meses corte</label>
             <input
               id="maxDelayMonths"
@@ -23,10 +24,26 @@
               formControlName="maxDelayMonths"
             />
           </div>
+          <div class="field col-12 sm:col-3">
+            <label for="minimumPrice">Precio minimo</label>
+            <p-inputNumber
+              id="basePrice"
+              styleClass="w-full"
+              class="w-full"
+              mode="currency"
+              currency="BOB"
+              locale="es-BO"
+              [inputStyle]="{ width: '100%' }"
+              placeholder="Precio"
+              formControlName="minimumPrice"
+            />
+          </div>
         </div>
       </div>
-      <div class="col-12 flex justify-content-between align-items-center border-bottom-1">
-        <span>Rango de Precio</span>
+      <div
+        class="col-12 flex justify-content-between align-items-center border-bottom-1"
+      >
+        <span>Listado de Rangos</span>
         <p-button
           icon="pi pi-plus"
           [rounded]="true"
@@ -34,43 +51,50 @@
           (onClick)="addRange()"
         />
       </div>
-      <div class="col-12 max-h-20rem overflow-y-auto">
+      <div class="col-12 overflow-y-auto max-h-15rem">
         <div formArrayName="preferences">
           @for (alias of preferences.controls; track $index) {
           <div class="grid" [formGroupName]="$index">
-            <div class="field col-4">
-              <label for="minUnits">Minimo</label>
-              <input
-                id="minUnits"
-                type="text"
-                class="w-full"
-                pInputText
+            <div class="field col-3">
+              <p-inputNumber
+                [inputStyle]="{ width: '100%' }"
+                inputId="integeronly"
+                placeholder="Minimo"
                 formControlName="minUnits"
               />
             </div>
-            <div class="field col-4">
-              <label for="maxUnits">Maximo</label>
-              <input
-                id="maxUnits"
-                type="text"
-                class="w-full"
-                pInputText
+            <div class="field col-3">
+              <p-inputNumber
+                [inputStyle]="{ width: '100%' }"
+                inputId="integeronly"
+                placeholder="Maximo"
                 formControlName="maxUnits"
               />
             </div>
             <div class="field col-4">
-              <label for="price">Precio</label>
-              <input
-                id="price"
-                type="text"
+              <p-inputNumber
+                id="basePrice"
+                styleClass="w-full"
                 class="w-full"
-                pInputText
+                mode="currency"
+                currency="BOB"
+                locale="es-BO"
+                [inputStyle]="{ width: '100%' }"
+                placeholder="Precio por cubo"
                 formControlName="priceByUnit"
+              />
+            </div>
+            <div class="field col-2 text-center">
+              <p-button
+                icon="pi pi-trash"
+                [rounded]="true"
+                [text]="true"
+                (onClick)="removeRange($index)"
               />
             </div>
           </div>
           } @empty {
-          <p>No se configuraron rangos</p>
+          <p>Sin rangos registrados</p>
           }
         </div>
       </div>
@@ -78,5 +102,5 @@
   </form>
 </div>
 <div class="p-dialog-footer">
-  <p-button label="Guardar" [disabled]="!formCustomerType"  (onClick)="save()"/>
+  <p-button label="Guardar" [disabled]="!formCustomerType" (onClick)="save()" />
 </div>

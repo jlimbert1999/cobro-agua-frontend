@@ -19,6 +19,7 @@
     <tr>
       <th>Nombre</th>
       <th>Meses Deuda</th>
+      <th>Precio Minimo</th>
       <th></th>
     </tr>
   </ng-template>
@@ -26,6 +27,7 @@
     <tr>
       <td>{{ config.name }}</td>
       <td>{{ config.maxDelayMonths }}</td>
+      <td>{{ config.minimumPrice | currency : "Bs" }}</td>
       <td>
         <p-button
           icon="pi pi-pencil"

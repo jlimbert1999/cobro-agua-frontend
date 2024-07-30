@@ -40,7 +40,7 @@ export class CustomerTypesComponent implements OnInit {
 
   create() {
     const ref = this.dialogService.open(CustomerTypeComponent, {
-      header: 'Crear Tipo Accionista',
+      header: 'Configuracion Accionista',
       width: '50rem',
     });
     ref.onClose.subscribe((result?: customerType) => {
@@ -55,7 +55,7 @@ export class CustomerTypesComponent implements OnInit {
 
   update(customerType: customerType) {
     const ref = this.dialogService.open(CustomerTypeComponent, {
-      header: 'Editar Usuario',
+      header: 'Configuracion Accionista',
       width: '50rem',
       data: customerType,
     });

@@ -6,6 +6,7 @@ interface clientProps {
   phone: string;
   address: string;
   meterNumber: string;
+  type: number;
 }
 export class CreateClientDto {
   firstname: string;
@@ -15,6 +16,7 @@ export class CreateClientDto {
   phone: string;
   address: string;
   meterNumber: string;
+  type: number;
 
   static fromForm(form: any) {
     return new CreateClientDto({
@@ -25,6 +27,7 @@ export class CreateClientDto {
       phone: form['phone'],
       address: form['address'],
       meterNumber: form['meterNumber'],
+      type: +form['type'],
     });
   }
 
@@ -36,6 +39,7 @@ export class CreateClientDto {
     phone,
     address,
     meterNumber,
+    type,
   }: clientProps) {
     this.firstname = firstname;
     this.middlename = middlename;
@@ -44,5 +48,6 @@ export class CreateClientDto {
     this.phone = phone;
     this.address = address;
     this.meterNumber = meterNumber;
+    this.type = type;
   }
 }

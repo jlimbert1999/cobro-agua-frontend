@@ -1,17 +1,18 @@
-import { ClientStatus } from '../../domain/models/client.model';
+import { CustomerStatus } from '../../domain/models/client.model';
 
 export interface clientResponse {
-  _id: string;
+  id: string;
   firstname?: string;
   middlename?: string;
   lastname?: string;
   dni: string;
   phone: string;
   address: string;
-  status: ClientStatus;
+  status: CustomerStatus;
   type: customerType;
   meterNumber: string;
 }
 interface customerType {
+  id: number;
   name: string;
 }

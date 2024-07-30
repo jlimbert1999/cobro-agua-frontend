@@ -13,15 +13,23 @@ import {
   Validators,
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
+
 import { CustomerTypeService } from '../../../../services';
 import { customerType } from '../../../../../infrastructure';
 
 @Component({
   selector: 'app-customer-type',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, ButtonModule, InputTextModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    InputTextModule,
+    InputNumberModule,
+  ],
   templateUrl: './customer-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -34,6 +42,7 @@ export class CustomerTypeComponent implements OnInit {
   formCustomerType: FormGroup = this.formBuilder.nonNullable.group({
     name: ['', Validators.required],
     maxDelayMonths: [0, Validators.required],
+    minimumPrice: [0, Validators.required],
     preferences: this.formBuilder.array([]),
   });
 
@@ -44,11 +53,15 @@ export class CustomerTypeComponent implements OnInit {
   addRange() {
     this.preferences.push(
       this.formBuilder.group({
-        maxUnits: [0, Validators.required],
-        minUnits: [0, Validators.required],
-        priceByUnit: [0, Validators.required],
+        maxUnits: [null, Validators.required],
+        minUnits: [null, Validators.required],
+        priceByUnit: [null, Validators.required],
       })
     );
+  }
+
+  removeRange(pos: number) {
+    this.preferences.removeAt(pos);
   }
 
   save() {

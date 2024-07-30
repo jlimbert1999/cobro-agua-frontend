@@ -7,13 +7,16 @@ interface clientProps {
   lastname: string;
   dni: string;
   phone: string;
-  address: string;
-  status: ClientStatus;
-  type: string;
+  status: CustomerStatus;
+  type: typeCustomer;
   meterNumber: string;
 }
+interface typeCustomer {
+  id: number;
+  name: string;
+}
 
-export enum ClientStatus {
+export enum CustomerStatus {
   ENABLED = 'enabled',
   DISABLED = 'disabled',
 }
@@ -25,22 +28,20 @@ export class Client {
   lastname: string;
   dni: string;
   phone: string;
-  address: string;
-  status: ClientStatus;
-  type: string;
+  status: CustomerStatus;
+  type: typeCustomer;
   meterNumber: string;
 
   static fromResponse(form: clientResponse) {
     return new Client({
-      id: form._id,
+      id: form.id,
       firstname: form['firstname'] ?? '',
       middlename: form['middlename'] ?? '',
       lastname: form['lastname'] ?? '',
       dni: form['dni'],
       phone: form['phone'],
-      address: form['address'],
       status: form.status,
-      type: form.type.name,
+      type: { id: form.type.id, name: form.type.name },
       meterNumber: form.meterNumber,
     });
   }
@@ -52,7 +53,6 @@ export class Client {
     lastname,
     dni,
     phone,
-    address,
     status,
     type,
     meterNumber,
@@ -63,7 +63,6 @@ export class Client {
     this.lastname = lastname;
     this.dni = dni;
     this.phone = phone;
-    this.address = address;
     this.status = status;
     this.type = type;
     this.meterNumber = meterNumber;
@@ -75,10 +74,10 @@ export class Client {
 
   statusLabel() {
     switch (this.status) {
-      case ClientStatus.DISABLED:
+      case CustomerStatus.DISABLED:
         return { text: 'CORTE', severity: 'danger' };
 
-      case ClientStatus.ENABLED:
+      case CustomerStatus.ENABLED:
         return { text: 'EN CURSO', severity: 'success' };
 
       default:
