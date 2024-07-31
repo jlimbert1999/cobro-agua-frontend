@@ -18,7 +18,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 
 import { CustomerTypeService } from '../../../../services';
-import { customerType } from '../../../../../infrastructure';
+import { customerTypeResponse } from '../../../../../infrastructure';
 
 @Component({
   selector: 'app-customer-type',
@@ -38,7 +38,7 @@ export class CustomerTypeComponent implements OnInit {
   private customerTypeService = inject(CustomerTypeService);
   private dialogRef = inject(DynamicDialogRef);
 
-  customerType: customerType = inject(DynamicDialogConfig).data;
+  customerType: customerTypeResponse = inject(DynamicDialogConfig).data;
   formCustomerType: FormGroup = this.formBuilder.nonNullable.group({
     name: ['', Validators.required],
     maxDelayMonths: [0, Validators.required],

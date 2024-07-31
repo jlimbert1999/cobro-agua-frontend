@@ -7,7 +7,7 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { filter } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { DropdownModule } from 'primeng/dropdown';
@@ -24,7 +24,6 @@ import { DetailReadingComponent } from './detail-reading/detail-reading.componen
 import Swal from 'sweetalert2';
 import { read, utils } from 'xlsx';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { customerType } from '../../../infrastructure';
 
 export interface uploadData {
   NOMBRES: string;
@@ -83,6 +82,12 @@ export class ClientsComponent implements OnInit {
     status: [null],
   });
 
+  menuOptions = signal<MenuItem[]>([]);
+
+  public dynamicMenuItems$: BehaviorSubject<MenuItem[]> = new BehaviorSubject(
+    [] as MenuItem[]
+  );
+
   ngOnInit(): void {
     this.getCustomerTypes();
     this.getData();
@@ -135,7 +140,7 @@ export class ClientsComponent implements OnInit {
   addMeterReading(client: Client) {
     this.dialogService.open(MeterReadingComponent, {
       header: 'Registrar Lectura',
-      width: '35rem',
+      width: '30rem',
       data: client,
     });
   }
@@ -167,8 +172,8 @@ export class ClientsComponent implements OnInit {
     this.getData();
   }
 
-  getMenuItems(customer: Client): MenuItem[] {
-    return [
+  showMenu(customer: Client): void {
+    this.menuOptions.set([
       {
         label: 'Editar',
         icon: 'pi pi-pencil',
@@ -189,7 +194,7 @@ export class ClientsComponent implements OnInit {
         icon: 'pi pi-align-justify',
         command: () => this.viewReadings(customer),
       },
-    ];
+    ]);
   }
 
   async loadExcelFile() {
@@ -253,5 +258,24 @@ export class ClientsComponent implements OnInit {
 
   isControlEmpy(path: string) {
     return !this.formFilter.get(path)?.value;
+  }
+
+  get opts() {
+    return [
+      {
+        label: 'New',
+        icon: 'pi pi-plus',
+        command: () => {
+          this.create();
+        },
+      },
+      {
+        label: 'Search',
+        icon: 'pi pi-search',
+        command: () => {
+          // this.update();
+        },
+      },
+    ];
   }
 }

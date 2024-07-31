@@ -13,7 +13,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CustomerTypeComponent } from './customer-type/customer-type.component';
 import { CustomerTypeService } from '../../../services';
-import { customerType } from '../../../../infrastructure';
+import { customerTypeResponse } from '../../../../infrastructure';
 
 @Component({
   selector: 'app-customer-types',
@@ -27,7 +27,7 @@ export class CustomerTypesComponent implements OnInit {
   private dialogService = inject(DialogService);
   private customerTypeService = inject(CustomerTypeService);
 
-  datasource = signal<customerType[]>([]);
+  datasource = signal<customerTypeResponse[]>([]);
   datasize = signal(0);
   limit = signal(10);
   index = signal(0);
@@ -43,7 +43,7 @@ export class CustomerTypesComponent implements OnInit {
       header: 'Configuracion Accionista',
       width: '50rem',
     });
-    ref.onClose.subscribe((result?: customerType) => {
+    ref.onClose.subscribe((result?: customerTypeResponse) => {
       if (!result) return;
       this.datasource.update((values) => {
         if (this.limit() === values.length) values.pop();
@@ -53,13 +53,13 @@ export class CustomerTypesComponent implements OnInit {
     });
   }
 
-  update(customerType: customerType) {
+  update(customerType: customerTypeResponse) {
     const ref = this.dialogService.open(CustomerTypeComponent, {
       header: 'Configuracion Accionista',
       width: '50rem',
       data: customerType,
     });
-    ref.onClose.subscribe((result?: customerType) => {
+    ref.onClose.subscribe((result?: customerTypeResponse) => {
       if (!result) return;
       this.datasource.update((values) => {
         const index = values.findIndex((el) => el.id === result.id);

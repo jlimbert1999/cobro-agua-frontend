@@ -16,7 +16,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../../primeng.module';
 import { ClientService } from '../../../services';
 import { Client } from '../../../../domain/models/client.model';
-import { customerType } from '../../../../infrastructure';
+import { customerTypeResponse } from '../../../../infrastructure';
 
 @Component({
   selector: 'app-client',
@@ -32,7 +32,7 @@ export class ClientComponent implements OnInit {
 
   private client: Client | undefined = inject(DynamicDialogConfig).data;
 
-  customerTypes = signal<customerType[]>([]);
+  customerTypes = signal<customerTypeResponse[]>([]);
   FormClient: FormGroup = this.formBuilder.nonNullable.group({
     firstname: ['', [Validators.required]],
     middlename: ['', Validators.required],

@@ -1,7 +1,8 @@
-export interface customerType {
+export interface customerTypeResponse {
   id: number;
   name: string;
   maxDelayMonths: number;
+  minimumPrice: number;
   preferences: preference[];
 }
 

@@ -62,7 +62,7 @@ export class PdfService {
               ],
               ...payment.invoices.map((el) => [
                 'Servicio de agua',
-                new Date(el.issue_date).toLocaleString(),
+                new Date(el.createdAt).toLocaleString(),
                 `${el.amount} Bs.`,
               ]),
               [

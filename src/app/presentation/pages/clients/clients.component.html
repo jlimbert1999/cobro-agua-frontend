@@ -137,18 +137,17 @@
           <td>{{ client.phone }}</td>
           <td>
             <p-menu
-              styleClass="w-full md:w-15rem"
               #menu
               [popup]="true"
-              [model]="getMenuItems(client)"
-              [tabindex]="undefined"
+              [model]="menuOptions()"
+              (onShow)="showMenu(client)"
               appendTo="body"
             ></p-menu>
             <p-button
               icon="pi pi-ellipsis-v"
               [rounded]="true"
               [text]="true"
-              (click)="menu.toggle($event)"
+              (onClick)="menu.toggle($event)"
             />
           </td>
         </tr>

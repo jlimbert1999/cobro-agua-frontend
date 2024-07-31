@@ -40,20 +40,20 @@ export class PaymentComponent implements OnInit {
 
   addInvoice(invoice: invoiceResponse) {
     this.invoices.update((values) =>
-      values.filter(({ _id }) => _id !== invoice._id)
+      values.filter(({ id }) => id !== invoice.id)
     );
     this.selectedInvoices.update((values) => [...values, invoice]);
   }
 
   removeInvoice(invoice: invoiceResponse) {
     this.selectedInvoices.update((values) =>
-      values.filter(({ _id }) => _id !== invoice._id)
+      values.filter(({ id }) => id !== invoice.id)
     );
     this.invoices.update((values) => [invoice, ...values]);
   }
 
   save() {
-    const id_invoices = this.selectedInvoices().map((el) => el._id);
+    const id_invoices = this.selectedInvoices().map((el) => el.id);
     this.paymentService
       .payInvoices(this.client.id, id_invoices)
       .subscribe((resp) => {

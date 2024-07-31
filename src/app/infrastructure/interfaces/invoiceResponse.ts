@@ -1,10 +1,8 @@
 export interface invoiceResponse {
-  _id: string;
-  client: string;
+  id: string;
   amount: number;
-  status: string;
-  issue_date: Date;
-  services: service;
+  createdAt: string;
+  service: service;
 }
 
 interface service {

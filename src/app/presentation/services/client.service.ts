@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 import { clientResponse } from '../../infrastructure/interfaces';
 import { CreateClientDto } from '../../infrastructure/dtos';
 import { Client } from '../../domain/models';
-import { customerType } from '../../infrastructure';
+import { customerTypeResponse } from '../../infrastructure';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +54,6 @@ export class ClientService {
   }
 
   getCustomerTypes() {
-    return this.http.get<customerType[]>(`${this.url}/types`);
+    return this.http.get<customerTypeResponse[]>(`${this.url}/types`);
   }
 }
