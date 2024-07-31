@@ -7,4 +7,5 @@ export interface invoiceResponse {
 
 interface service {
   consumption: number;
+  createdAt:string
 }

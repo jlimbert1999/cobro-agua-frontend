@@ -46,7 +46,7 @@ export class PdfService {
           style: 'sectionHeader',
         },
         {
-          text: `${payment.customer.firstname} ${payment.customer?.middlename} ${payment.customer?.lastname}\nCI: ${payment.customer.dni}\nDireccion: ${payment.customer.address}`,
+          text: `${payment.customer.firstname??''} ${payment.customer?.middlename??''} ${payment.customer?.lastname??''}\nCI: ${payment.customer.dni}}`,
         },
         {
           text: '\n\n',
@@ -85,7 +85,7 @@ export class PdfService {
         },
         {
           text: `Pagado el: ${new Date(
-            payment.payment_date
+            payment.createdAt
           ).toLocaleString()}\nTotal pagado: ${payment.amount} Bs.\n`,
         },
         {

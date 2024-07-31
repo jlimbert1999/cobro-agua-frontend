@@ -6,15 +6,40 @@
       let-index="index"
     >
       <div class="flex flex-column md:flex-row column-gap-2 h-20rem">
-        <div class="flex-1 border-1">
+        <div class="flex-1 border-1 p-2 overflow-y-scroll">
           @for (invoice of invoices(); track $index) {
-            <div class="surface-card p-4 shadow-2 border-round">
-              <div class="text-md font-medium text-900 mb-3">Consumo de Agua</div>
-              <div class="font-medium text-500 mb-3">s.</div>
+            <div class="surface-card shadow-2 p-3 border-round">
+              <div class="flex justify-content-between mb-2">
+                  <div>
+                    <span class="block font-bold mb-3">Servicio de Agua</span>
+                    <div class="text-sm">CONSUMO: {{invoice.service.consumption}} en Fecha: {{invoice.service.createdAt|date}}</div>
+                  </div>
+                  <div class="flex align-items-center justify-content-center">
+                    <p-button icon="pi pi-plus" severity="secondary" (onClick)="addInvoice(invoice)"/>
+                  </div>
+              </div>
+              <span class="text-sm">TOTAL: </span>
+              <span class="text-green-500 text-sm">{{invoice.amount}} Bs.</span>
           </div>
           }
         </div>
-        <div class="flex-1 border-1"></div>
+        <div class="flex-1 border-1 p-2 overflow-y-scroll">
+          @for (invoice of selectedInvoices(); track $index) {
+            <div class="surface-card shadow-2 p-3 border-round">
+              <div class="flex justify-content-between mb-2">
+                  <div>
+                    <span class="block font-bold mb-3">Servicio de Agua</span>
+                    <div class="text-sm">CONSUMO: {{invoice.service.consumption}} en Fecha: {{invoice.createdAt|date}}</div>
+                  </div>
+                  <div class="flex align-items-center justify-content-center">
+                    <p-button icon="pi pi-trash" severity="secondary" (onClick)="removeInvoice(invoice)"/>
+                  </div>
+              </div>
+              <span class="text-sm">TOTAL: </span>
+              <span class="text-green-500 text-sm">{{invoice.amount}} Bs.</span>
+          </div>
+          }
+        </div>
       </div>
       <div class="flex pt-4 justify-content-end">
         <p-button

@@ -159,9 +159,9 @@ export class ClientsComponent implements OnInit {
       header: 'Lecturas',
       maximizable: true,
       data: client,
+      width: '40rem',
       breakpoints: {
-        '1600px': '50vw',
-        '960px': '100vw',
+        '960px': '90vw',
       },
     });
   }
@@ -222,16 +222,17 @@ export class ClientsComponent implements OnInit {
         const data: uploadData[] = utils.sheet_to_json<any>(
           wb.Sheets[wb.SheetNames[0]]
         );
-        const customers = data.map((el) => ({
-          firstname: el.NOMBRES,
-          middlename: el.PATERNO,
-          lastname: el.MATERNO,
-          dni: el['C.I.'],
-          phone: el.CELULAR,
-          meterNumber: el['Nro. Medidor'],
-          otb: el.OTB ? el.OTB.trim().toUpperCase() : null,
-        }));
-        this.clientService.upload(customers).subscribe(() => {
+        console.log(data);
+        // const customers = data.map((el) => ({
+        //   firstname: el.NOMBRES,
+        //   middlename: el.PATERNO,
+        //   lastname: el.MATERNO,
+        //   dni: el['C.I.'],
+        //   phone: el.CELULAR,
+        //   meterNumber: el['Nro. Medidor'],
+        //   otb: el.OTB ? el.OTB.trim().toUpperCase() : null,
+        // }));
+        this.clientService.upload(data).subscribe(() => {
           this.messageService.add({
             severity: 'success',
             summary: 'Datos subidos correctamente',

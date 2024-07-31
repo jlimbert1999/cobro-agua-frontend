@@ -6,14 +6,24 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { PrimengModule } from '../../../../primeng.module';
 import { ClientService, PdfService, ReportService } from '../../../services';
 import { Client } from '../../../../domain/models';
+import { clientResponse } from '../../../../infrastructure/interfaces';
+import { DropdownModule } from 'primeng/dropdown';
+import { PanelModule } from 'primeng/panel';
+import { ButtonModule } from 'primeng/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-customer-status',
   standalone: true,
-  imports: [CommonModule, PrimengModule],
+  imports: [
+    CommonModule,
+    DropdownModule,
+    PanelModule,
+    ButtonModule,
+    FormsModule,
+  ],
   templateUrl: './customer-status.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -29,17 +39,20 @@ export class CustomerStatusComponent {
   offset = computed(() => this.limit() * this.index());
   payments = signal<any[]>([]);
 
+  customer: any;
+
   searchCustomer(value: string) {
     if (value === '') return;
-    // this.clientService.search(value, 5, 0).subscribe(({ clients }) => {
-    //   this.customers.set(clients);
-    // });
+    this.clientService.searchByMeterNumber(value).subscribe((data) => {
+      this.customers.set([...data]);
+    });
   }
 
   selectCustomer(client: Client) {
     this.reportService
       .getPayments(client.id, this.limit(), this.offset())
       .subscribe((resp) => {
+        console.log(resp);
         this.payments.set(resp);
       });
   }

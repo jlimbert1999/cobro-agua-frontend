@@ -11,43 +11,46 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { ClientService, ReadingService } from '../../services';
 import { clientResponse } from '../../../infrastructure/interfaces';
+import { Client } from '../../../domain/models';
+import { DialogService } from 'primeng/dynamicdialog';
+import { MeterReadingComponent } from '../clients/meter-reading/meter-reading.component';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-meter',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonModule, InputTextModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonModule,
+    InputTextModule,
+    DropdownModule,
+  ],
   templateUrl: './meter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styles:`
-  .flex-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: center; /* Centra verticalmente */
-      align-items: center; /* Centra horizontalmente */
-      height: 100vh; /* Ocupa toda la altura de la ventana */
-      border: 1px solid #000; /* Solo para visualización */
-    }
-    .content {
-      border: 1px solid red; /* Solo para visualización */
-      padding: 20px;
-    }
-  `
+  providers: [DialogService],
 })
 export class MeterComponent {
-  private customerReading = inject(ClientService);
-  private readingService = inject(ReadingService);
-  customers = signal<clientResponse[]>([]);
+  private dialogService = inject(DialogService);
+  private clientService = inject(ClientService);
 
-  customer = signal<any | null>(null);
+  customers = signal<Client[]>([]);
 
-  selectedCity: any;
-
-  searchCustomerByMeterReading(value: string) {
-    if (!value) return;
-    this.customerReading.searchByMeterNumber(value).subscribe((data) => {
+  searchCustomer(value: string) {
+    if (value === '') return;
+    this.clientService.searchByMeterNumber(value).subscribe((data) => {
       this.customers.set([...data]);
-      this.customer.set(data[0])
-      console.log(data);
+    });
+  }
+
+  addMeterReading(client: Client) {
+    this.dialogService.open(MeterReadingComponent, {
+      header: 'Registrar Lectura',
+      width: '30rem',
+      data: client,
+      breakpoints: {
+        '960px': '90vw',
+      },
     });
   }
 }

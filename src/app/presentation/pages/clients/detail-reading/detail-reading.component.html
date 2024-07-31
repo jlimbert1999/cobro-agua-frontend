@@ -2,27 +2,25 @@
   [scrollable]="true"
   scrollHeight="400px"
   [value]="readings()"
-  [tableStyle]="{ 'min-width': '50rem' }"
+  class="w-full"
 >
   <ng-template pTemplate="header">
     <tr>
       <th>Fecha</th>
-      <th>Lectura anterior</th>
-      <th>Lectura actual</th>
+      <th>Lectura</th>
       <th>Consumo</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-product>
+  <ng-template pTemplate="body" let-reading>
     <tr>
-      <td>{{ product.reading_date | date : "d/M/Y" }}</td>
-      <td>{{ product.previous_reading }}</td>
-      <td>{{ product.current_reading }}</td>
-      <td>{{ product.consumption }}</td>
+      <td>{{ reading.createdAt | date : "d/M/Y" }}</td>
+      <td>{{ reading.reading }}</td>
+      <td>{{ reading.consumption }}</td>
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage">
     <tr>
-      <td colspan="4">Sin lecturas</td>
+      <td colspan="3">Sin lecturas</td>
     </tr>
   </ng-template>
 </p-table>

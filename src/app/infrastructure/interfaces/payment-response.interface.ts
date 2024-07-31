@@ -2,10 +2,10 @@ import { clientResponse } from './client-response';
 import { invoiceResponse } from './invoiceResponse';
 
 export interface paymentResponse {
-  _id: string;
+  id: string;
   code: string;
+  amount: number;
   customer: clientResponse;
   invoices: invoiceResponse[];
-  amount: number;
-  payment_date: Date;
+  createdAt: Date;
 }

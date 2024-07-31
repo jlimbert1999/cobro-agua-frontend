@@ -16,9 +16,9 @@ export class PaymentService {
     return this.http.get<any[]>(`${this.url}/unpaid/${id_client}`);
   }
 
-  payInvoices(id_client: string, id_invoices: string[]) {
+  payInvoices(id_client: string, invoiceIds: string[]) {
     return this.http.post<paymentResponse>(`${this.url}/pay/${id_client}`, {
-      id_invoices,
+      invoiceIds,
     });
   }
 }

@@ -2,10 +2,16 @@
   class="flex align-content-center justify-content-center flex-wrap h-screen"
 >
   <div
-    class="surface-card p-4 shadow-2 border-round w-24rem sm:w-30rem fadeinup animation-duration-500"
+    class="p-4 shadow-2 border-round w-11 lg:w-28rem fadeinup animation-duration-500"
   >
     <div class="text-center mb-5">
-      <div class="text-900 text-3xl font-medium mb-4">Cobros de Agua</div>
+      <img
+        src="../../../../assets/images/app-logo.png"
+        alt="Image"
+        class="mb-3 h-4rem"
+      />
+      <div class="text-900 text-3xl font-medium mb-3">Inicio de Sesion</div>
+      <span class="text-600 font-medium line-height-3"> Cobros de Agua </span>
     </div>
     <div>
       <form
@@ -45,9 +51,7 @@
 
       <button
         pButton
-        pRipple
         label="Ingresar"
-        icon="pi pi-user"
         class="w-full"
         [disabled]="LoginForm.invalid"
         (click)="login()"

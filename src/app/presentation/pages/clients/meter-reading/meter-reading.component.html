@@ -44,12 +44,12 @@
   <p-panel header="Detalles Factura" [toggleable]="true">
     <ul class="list-none p-0 m-0">
       <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
-          <div class="text-500 w-4 font-medium">Accionista:</div>
-          <div class="text-900 w-8">{{customer.fullname|titlecase}}</div>
+          <div class="text-500 col-12 sm:w-4 font-medium">Accionista:</div>
+          <div class="text-900 col-12 sm:w-8">{{customer.fullname|titlecase}}</div>
       </li>
       <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
-        <div class="text-500 w-4 font-medium">Nro Medidor:</div>
-        <div class="text-900 w-8">{{customer.meterNumber}}</div>
+        <div class="text-500 col-12 sm:w-4 font-medium">Nro Medidor:</div>
+        <div class="text-900 col-12 sm:w-4">{{customer.meterNumber}}</div>
       </li>
     </ul>
   </p-panel>

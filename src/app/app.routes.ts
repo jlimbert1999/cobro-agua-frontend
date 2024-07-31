@@ -11,11 +11,13 @@ import { MeterComponent } from './presentation/pages/meter/meter.component';
 
 export const routes: Routes = [
   {
+    title: 'Inicio de Sesion',
     path: 'login',
     component: LoginComponent,
   },
   {
     path: 'home',
+    title: 'Inicio',
     canActivate: [isAuthenticatedGuard],
     component: HomeComponent,
     children: [
@@ -23,17 +25,24 @@ export const routes: Routes = [
       { path: 'customers', component: ClientsComponent },
       { path: 'settings', component: SettingsComponent },
       {
+        title: 'Administracion',
         path: 'administration',
         children: [
-          { path: 'users', component: UsersComponent },
-          { path: 'customer-types', component: CustomerTypesComponent },
+          { title: 'Accionitas', path: 'users', component: UsersComponent },
+          {
+            title: 'Tipos',
+            path: 'customer-types',
+            component: CustomerTypesComponent,
+          },
         ],
       },
       {
+        title: 'Lecturas',
         path: 'reading',
         children: [{ path: 'customers', component: MeterComponent }],
       },
       {
+        title: 'Reportes',
         path: 'reports',
         children: [
           { path: 'customer-status', component: CustomerStatusComponent },

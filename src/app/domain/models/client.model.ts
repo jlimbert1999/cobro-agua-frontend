@@ -33,7 +33,6 @@ export class Client {
   meterNumber: string;
 
   static fromResponse(form: clientResponse) {
-    console.log(form);
     return new Client({
       id: form.id,
       firstname: form['firstname'] ?? '',
@@ -70,7 +69,7 @@ export class Client {
   }
 
   get fullname() {
-    return `${this.firstname} ${this.middlename} ${this.lastname}`;
+    return `${this.firstname??''} ${this.middlename??''} ${this.lastname??''}`;
   }
 
   statusLabel() {
