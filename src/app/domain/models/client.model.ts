@@ -69,7 +69,13 @@ export class Client {
   }
 
   get fullname() {
-    return `${this.firstname??''} ${this.middlename??''} ${this.lastname??''}`;
+    return `${this.firstname ?? ''} ${this.middlename ?? ''} ${
+      this.lastname ?? ''
+    }`;
+  }
+
+  get meterDetail() {
+    return `${this.fullname} - Medidor: ${this.meterNumber}`;
   }
 
   statusLabel() {

@@ -4,7 +4,6 @@ import {
   Component,
   OnInit,
   computed,
-  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -50,14 +49,7 @@ export class MeterReadingComponent implements OnInit {
     reading: [null, Validators.required],
   });
 
-  constructor() {
-    effect(() => {
-      this.FormReading.get('reading')?.setValidators([
-        Validators.required,
-        Validators.min(this.lastReading()?.reading ?? 0),
-      ]);
-    });
-  }
+  constructor() {}
 
   invoiceDetail = computed<invoiceDetail>(() => {
     return {
