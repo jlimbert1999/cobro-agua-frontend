@@ -10,12 +10,12 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
+import { SkeletonModule } from 'primeng/skeleton';
+import { readingResponse } from '../../../../infrastructure/interfaces';
+import { customerTypeResponse } from '../../../../infrastructure';
 import { PrimengModule } from '../../../../primeng.module';
 import { ReadingService } from '../../../services';
 import { Client } from '../../../../domain/models';
-import { readingResponse } from '../../../../infrastructure/interfaces';
-import { SkeletonModule } from 'primeng/skeleton';
-import { customerTypeResponse } from '../../../../infrastructure';
 
 interface invoiceDetail {
   customer: {

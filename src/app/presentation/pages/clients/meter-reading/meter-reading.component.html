@@ -1,5 +1,5 @@
 <div class="p-dialog-content">
-  <p-panel header="Ultima Lectura" styleClass="mb-2">
+  <p-panel header="Ultima Lectura" [toggleable]="true" styleClass="mb-2">
     @if(isLoading()){
       <p-skeleton styleClass="mb-3 w-full h-2rem" />
       <p-skeleton styleClass="mb-3 w-full h-2rem" />
@@ -26,7 +26,7 @@
       }
     }
   </p-panel>
-  <p-panel header="Lectura Actual" styleClass="mb-2">
+  <p-panel header="Lectura Actual" [toggleable]="true" styleClass="mb-2">
     <form [formGroup]="FormReading">
       <div class="field grid">
         <label class="col-12 sm:col-4"> Medida </label>

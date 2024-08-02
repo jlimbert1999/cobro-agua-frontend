@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
+
 import { paymentResponse } from '../../infrastructure/interfaces';
-import { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { AuthService } from './auth.service';
+import { convertImageToBase64 } from '../../helpers';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Injectable({
@@ -12,44 +14,60 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export class PdfService {
   constructor(private authService: AuthService) {}
 
-  generateInvoice(payment: paymentResponse) {
+  async generateInvoice(payment: paymentResponse) {
+    console.log(payment);
+    const logo = await convertImageToBase64(
+      '../../../assets/images/institution-logo.jpeg'
+    );
     const total = payment.invoices.reduce((acc, prev) => acc + prev.amount, 0);
     const docDefinition: TDocumentDefinitions = {
       pageSize: 'LETTER',
+      pageMargins: [40, 120, 40, 40],
+      header: {
+        margin: [40, 20, 40, 20],
+        columns: [
+          {
+            image: logo,
+            width: 60,
+            height: 70,
+          },
+          {
+            width: '*',
+            marginLeft: 10,
+            text: [
+              {
+                text: 'ORGANIZACION TERRITORIAL DE BASE\n',
+                fontSize: 10,
+              },
+              { text: 'CARCAJE CENTRAL\n', bold: true, fontSize: 12 },
+              { text: 'Km. 19-22', fontSize: 11 },
+            ],
+          },
+          {
+            width: 150,
+            alignment: 'center',
+            text: [
+              {
+                text: 'RECIBO DE INGRESO\nAGUA POTABLE\n\n',
+              },
+              { text: new Date().toLocaleString(), bold: true },
+            ],
+          },
+        ],
+      },
       content: [
         {
-          columns: [
-            {
-              width: 100,
-              text: '',
-            },
-            [
-              {
-                text: 'Recibo',
-                alignment: 'right',
-                style: 'invoiceTitle',
-              },
-              {
-                text: `Numero: ${payment.code}`,
-                alignment: 'right',
-                style: 'invoiceTitle',
-              },
-              {
-                text: new Date().toLocaleString(),
-                alignment: 'right',
-              },
+          table: {
+            headerRows: 1,
+            widths: [100, '*'],
+            body: [
+              [{ text: 'DETALLE ACCIONISTA', bold: true, colSpan: 2 }, ''],
+              ['Nombre', ''],
+              ['Tipo', 'Sample value 2'],
+              ['Nro. Medidor', 'Sample value 2'],
             ],
-          ],
-        },
-        {
-          text: '\n\n AFILIADO:',
-          style: 'sectionHeader',
-        },
-        {
-          text: `${payment.customer.firstname??''} ${payment.customer?.middlename??''} ${payment.customer?.lastname??''}\nCI: ${payment.customer.dni}}`,
-        },
-        {
-          text: '\n\n',
+          },
+          layout: 'noBorders',
         },
         {
           table: {
@@ -84,9 +102,10 @@ export class PdfService {
           style: 'sectionHeader',
         },
         {
-          text: `Pagado el: ${new Date(
-            payment.createdAt
-          ).toLocaleString()}\nTotal pagado: ${payment.amount} Bs.\n`,
+          text: `Pagado el: ${new Date(payment.createdAt).toLocaleString(
+            'default',
+            { month: 'long' }
+          )}\nTotal pagado: ${payment.amount} Bs.\n`,
         },
         {
           columns: [
@@ -98,28 +117,6 @@ export class PdfService {
           ],
         },
       ],
-      styles: {
-        invoiceTitle: {
-          fontSize: 20,
-          bold: true,
-        },
-        sectionHeader: {
-          bold: true,
-          margin: [0, 10, 0, 5],
-        },
-        tableHeader: {
-          bold: true,
-          fillColor: '#eeeeee',
-        },
-        total: {
-          bold: true,
-          fontSize: 14,
-        },
-        thanks: {
-          fontSize: 14,
-          italics: true,
-        },
-      },
     };
 
     pdfMake.createPdf(docDefinition).print({ autoPrint: true });
