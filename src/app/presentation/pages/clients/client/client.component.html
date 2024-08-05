@@ -1,60 +1,78 @@
 <div class="p-dialog-content">
   <form [formGroup]="FormClient">
-    <div class="formgrid grid">
+    <div class="formgrid grid row-gap-3">
       <div class="field col-12 md:col-4">
-        <input
-          type="text"
-          class="w-full"
-          pInputText
-          formControlName="firstname"
-          placeholder="Nombre"
-        />
+        <p-floatLabel>
+          <input
+            class="w-full"
+            id="name"
+            type="text"
+            pInputText
+            formControlName="firstname"
+          />
+          <label for="name">Nombre</label>
+        </p-floatLabel>
       </div>
       <div class="field col-12 md:col-4">
-        <input
-          type="text"
-          pInputText
-          class="w-full"
-          formControlName="middlename"
-          placeholder="Apellido paterno"
-        />
+        <p-floatLabel>
+          <input
+            class="w-full"
+            id="middlename"
+            type="text"
+            pInputText
+            formControlName="middlename"
+          />
+          <label for="middlename">Apellido Paterno</label>
+        </p-floatLabel>
       </div>
       <div class="field col-12 md:col-4">
-        <input
-          type="text"
-          pInputText
-          class="w-full"
-          formControlName="lastname"
-          placeholder="Apellido materno"
-        />
+        <p-floatLabel>
+          <input
+            class="w-full"
+            id="lastname"
+            type="text"
+            pInputText
+            formControlName="lastname"
+          />
+          <label for="lastname">Apellido Materno</label>
+        </p-floatLabel>
       </div>
       <div class="field col-12 md:col-4">
-        <input
-          type="text"
-          pInputText
-          class="w-full"
-          formControlName="dni"
-          placeholder="Numero de carnet"
-        />
+        <p-floatLabel>
+          <input
+            class="w-full"
+            id="dni"
+            type="text"
+            pInputText
+            formControlName="dni"
+          />
+          <label for="dni">C.I.</label>
+        </p-floatLabel>
       </div>
       <div class="field col-12 md:col-4">
-        <input
-          type="text"
-          pInputText
-          class="w-full"
-          formControlName="phone"
-          placeholder="Telefono"
-        />
+        <p-floatLabel>
+          <input
+            class="w-full"
+            id="phone"
+            type="text"
+            pInputText
+            formControlName="phone"
+          />
+          <label for="phone">Telefono</label>
+        </p-floatLabel>
       </div>
       <div class="field col-12 md:col-4">
-        <input
-          type="text"
-          pInputText
-          class="w-full"
-          formControlName="meterNumber"
-          placeholder="Numero de medidor"
-          required
-        />
+        <p-floatLabel>
+          <input
+            class="w-full"
+            id="phone"
+            type="text"
+            pInputText
+            formControlName="meterNumber"
+          />
+          <label for="meterNumber">Nro. Medidor</label>
+        </p-floatLabel>
+        
       </div>
       <div class="field col-12 md:col-8">
         <p-dropdown
@@ -67,7 +85,7 @@
           optionValue="id"
           emptyFilterMessage="Sin resultados"
           formControlName="type"
-          placeholder="Buscar tipo"
+          placeholder="Seleccione un tipo"
         />
       </div>
     </div>

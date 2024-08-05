@@ -3,71 +3,53 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
-  computed,
   inject,
   signal,
 } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { AccordionModule } from 'primeng/accordion';
+import { InputTextModule } from 'primeng/inputtext';
 
-import { SkeletonModule } from 'primeng/skeleton';
-import { readingResponse } from '../../../../infrastructure/interfaces';
-import { customerTypeResponse } from '../../../../infrastructure';
-import { PrimengModule } from '../../../../primeng.module';
+import { Reading, Client } from '../../../../domain';
 import { ReadingService } from '../../../services';
-import { Client } from '../../../../domain/models';
 
-interface invoiceDetail {
-  customer: {
-    fullname: string;
-    meterNumner: string;
-  };
-  minimumPrice: number;
-  consumption: number;
-  priceByUnit: number;
-  total: number;
-}
 @Component({
-  selector: 'app-meter-reading',
+  selector: 'meter-reading',
   standalone: true,
-  imports: [CommonModule, PrimengModule, ReactiveFormsModule, SkeletonModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    AccordionModule,
+    InputTextModule,
+    ProgressBarModule,
+    InputNumberModule,
+  ],
   templateUrl: './meter-reading.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MeterReadingComponent implements OnInit {
   private ref = inject(DynamicDialogRef);
   private fb = inject(FormBuilder);
-
   private readingService = inject(ReadingService);
+
+  private readonly dateReading = new Date();
+
   customer: Client = inject(DynamicDialogConfig).data;
 
   isLoading = signal<boolean>(false);
-  lastReading = signal<readingResponse | null>(null);
-  customerType = signal<customerTypeResponse | null>(null);
+  lastReading = signal<Reading | null>(null);
 
   FormReading = this.fb.nonNullable.group({
     reading: [null, Validators.required],
   });
 
-  constructor() {}
-
-  invoiceDetail = computed<invoiceDetail>(() => {
-    return {
-      customer: {
-        fullname: this.customer.fullname,
-        meterNumner: this.customer.meterNumber,
-      },
-      minimumPrice: this.customerType()?.minimumPrice ?? 0,
-      consumption: 0,
-      priceByUnit: 0,
-      total: 0,
-    };
-  });
-
   ngOnInit(): void {
     if (!this.customer) return;
     this._getLastReading();
-    // this._getCustomerType();
   }
 
   save() {
@@ -80,23 +62,17 @@ export class MeterReadingComponent implements OnInit {
 
   private _getLastReading(): void {
     this.isLoading.set(true);
-    this.readingService
-      .getPreviusReading(this.customer.id)
-      .subscribe((data) => {
-        this.lastReading.set(data);
-        this.isLoading.set(false);
-      });
+    this.readingService.getLastReading(this.customer.id).subscribe((data) => {
+      this.lastReading.set(data);
+      this.isLoading.set(false);
+    });
   }
 
-  private _getCustomerType() {
-    this.readingService
-      .getCustomerType(this.customer.type.id)
-      .subscribe((data) => {
-        this.customerType.set(data);
-      });
-  }
-
-  get mini() {
-    return this.lastReading()?.reading ?? 0;
+  get dateReadingLabel() {
+    const date = new Date(
+      this.dateReading.getFullYear(),
+      this.dateReading.getMonth() - 1
+    );
+    return date;
   }
 }

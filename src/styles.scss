@@ -1,17 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import "primeicons/primeicons.css";
 
+html {
+  font-size: 12px;
+}
 body {
   margin: 0px;
 }
-th,
-td {
-  text-align: center;
+
+.p-dialog-header {
+  padding-bottom: 0px;  
 }
 .p-dialog-content {
   padding-left: 12px;
-  padding-right:12px;
+  padding-right: 12px;
   margin-bottom: 5px;
+  padding-top: 15px;
 }
 .p-dialog-footer {
   position: absolute;

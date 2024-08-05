@@ -10,11 +10,18 @@ import { PrimengModule } from '../../../primeng.module';
 import { ProfileComponent } from '../../components';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, PrimengModule, ProfileComponent, RouterModule],
+  imports: [
+    CommonModule,
+    PrimengModule,
+    ProfileComponent,
+    RouterModule,
+    LoaderComponent,
+  ],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -28,6 +35,6 @@ export class HomeComponent implements OnInit {
   }
 
   builMenu() {
-    this.items = this.menu
+    this.items = this.menu;
   }
 }

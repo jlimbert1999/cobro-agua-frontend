@@ -1,59 +1,84 @@
 <div class="p-dialog-content">
-  <p-panel header="Ultima Lectura" [toggleable]="true" styleClass="mb-2">
-    @if(isLoading()){
-      <p-skeleton styleClass="mb-3 w-full h-2rem" />
-      <p-skeleton styleClass="mb-3 w-full h-2rem" />
-    }
-    @else {
-      @if(lastReading()){
-        <div class="field grid">
-          <label class="col-12 sm:col-4"> Fecha </label>
-          <div class="col-12 sm:col-8">
-            <input type="text" pInputText [disabled]="true" class="w-full" [value]="lastReading()?.createdAt|date" />
+  <p-accordion [multiple]="true">
+    <p-accordionTab header="Registro Anterior" [selected]="true">
+      <div class="px-3">
+        @if(isLoading()){
+        <p-progressBar mode="indeterminate" [style]="{ height: '6px' }" />
+        } @else { @if(lastReading()){
+        <div class="formgrid grid">
+          <div class="field col-12 sm:col-6">
+            <label for="last-date">Fecha</label>
+            <input
+              id="last-date"
+              type="text"
+              pInputText
+              [disabled]="true"
+              class="w-full"
+              [value]="lastReading()?.datetimeLabel"
+            />
+          </div>
+          <div class="field col-12 sm:col-6">
+            <label for="last-reading">Lectura</label>
+            <input
+              id="last-reading"
+              type="text"
+              pInputText
+              [disabled]="true"
+              class="w-full"
+              [value]="lastReading()?.reading"
+            />
           </div>
         </div>
-        <div class="field grid">
-          <label class="col-12 sm:col-4"> Medida </label>
-          <div class="col-12 sm:col-8">
-            <input type="text" pInputText [disabled]="true" class="w-full" [value]="lastReading()?.reading" />
-          </div>
-        </div>
-      } 
-      @else{
-        <div class="w-full border-round bg-yellow-100 p-3 flex align-items-center justify-content-center">
-          Sin registros
-        </div>
-      }
-    }
-  </p-panel>
-  <p-panel header="Lectura Actual" [toggleable]="true" styleClass="mb-2">
-    <form [formGroup]="FormReading">
-      <div class="field grid">
-        <label class="col-12 sm:col-4"> Medida </label>
-        <div class="col-12 sm:col-8">
-          <p-inputNumber
-            inputId="integeronly"
-            formControlName="reading"
-          
-            inputStyleClass="w-full"
-          />
-        </div>
+        } @else{
+        <p class="text-center">SIN REGISTROS</p>
+        } }
       </div>
-    </form>
-  </p-panel>
-  <p-panel header="Detalles Factura" [toggleable]="true">
-    <ul class="list-none p-0 m-0">
-      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
+    </p-accordionTab>
+    <p-accordionTab header="Registro Actual" [selected]="true">
+      <form [formGroup]="FormReading">
+        <div class="formgrid grid p-3">
+          <div class="field col-12 sm:col-6">
+            <label for="current-date">Fecha</label>
+            <input
+              id="current-date"
+              type="text"
+              pInputText
+              [disabled]="true"
+              class="w-full"
+              [value]="dateReadingLabel | date : 'MMMM y'"
+            />
+          </div>
+          <div class="field col-12 sm:col-6">
+            <label for="current-reading">Lectura</label>
+            <p-inputNumber
+              inputId="integeronly"
+              formControlName="reading"
+              styleClass="w-full"
+              class="w-full"
+            />
+          </div>
+        </div>
+      </form>
+    </p-accordionTab>
+    <p-accordionTab header="Detalles Factura" [selected]="true">
+      <ul class="list-none p-0 m-0">
+        <li class="flex align-items-center surface-border flex-wrap">
           <div class="text-500 col-12 sm:w-4 font-medium">Accionista:</div>
-          <div class="text-900 col-12 sm:w-8">{{customer.fullname|titlecase}}</div>
-      </li>
-      <li class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap">
-        <div class="text-500 col-12 sm:w-4 font-medium">Nro Medidor:</div>
-        <div class="text-900 col-12 sm:w-4">{{customer.meterNumber}}</div>
-      </li>
-    </ul>
-  </p-panel>
-  <div class="p-dialog-footer">
-    <p-button [disabled]="FormReading.invalid" label="Guardar" (onClick)="save()"  />
-  </div>
+          <div class="text-900 col-12 sm:w-8">
+            {{ customer.fullname | titlecase }}
+          </div>
+        </li>
+        <li class="flex align-items-center surface-border flex-wrap">
+          <div class="text-500 col-6 sm:w-4 font-medium">Tipo:</div>
+          <div class="text-900 col-6 sm:w-8">
+            {{ customer.type.name }}
+          </div>
+        </li>
+        <li class="flex align-items-center surface-border flex-wrap">
+          <div class="text-500 col-6 sm:w-4 font-medium">Nro. Medidor:</div>
+          <div class="text-900 col-6 sm:w-4">{{ customer.meterNumber }}</div>
+        </li>
+      </ul>
+    </p-accordionTab>
+  </p-accordion>
 </div>

@@ -1,5 +1,4 @@
-<p-menubar [model]="items">
-  <ng-template pTemplate="start"> </ng-template>
+<p-menubar [model]="items" styleClass="surface-200 border-noround">
   <ng-template pTemplate="item" let-item let-root="root">
     <a
       pRipple
@@ -16,5 +15,6 @@
   </ng-template>
 </p-menubar>
 <div class="p-2">
-  <router-outlet></router-outlet>
+  <router-outlet />
+  <loader />
 </div>

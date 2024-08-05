@@ -1,6 +1,10 @@
 <div class="flex align-items-center">
   <div (click)="menu.toggle($event)">
-    <p-avatar [label]="'J'" styleClass="mr-2" shape="circle" />
+    <p-avatar
+      [label]="'J'"
+      styleClass="mr-2 bg-blue-600 text-white"
+      shape="circle"
+    />
   </div>
 </div>
 <p-menu #menu [popup]="true" [model]="items" styleClass="w-full md:w-18rem">

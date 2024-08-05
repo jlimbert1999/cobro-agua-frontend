@@ -13,15 +13,24 @@ import {
   Validators,
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { PrimengModule } from '../../../../primeng.module';
 import { ClientService } from '../../../services';
 import { Client } from '../../../../domain/models/client.model';
 import { customerTypeResponse } from '../../../../infrastructure';
-
+import { DropdownModule } from 'primeng/dropdown';
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 @Component({
   selector: 'app-client',
   standalone: true,
-  imports: [CommonModule, PrimengModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    FloatLabelModule,
+    ButtonModule,
+    InputTextModule,
+  ],
   templateUrl: './client.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

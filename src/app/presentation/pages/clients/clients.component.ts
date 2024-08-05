@@ -104,8 +104,9 @@ export class ClientsComponent implements OnInit {
 
   create() {
     const ref = this.dialogService.open(ClientComponent, {
-      header: 'Crear Afiliado',
+      header: 'Crear Accionista',
       width: '50rem',
+      focusOnShow: false,
     });
     ref.onClose
       .pipe(filter((result: Client) => !!result))
@@ -122,8 +123,9 @@ export class ClientsComponent implements OnInit {
 
   update(desk: Client) {
     const ref = this.dialogService.open(ClientComponent, {
-      header: 'Editar Afiliado',
+      header: 'Editar Accionista',
       width: '50rem',
+      focusOnShow: false,
       data: desk,
     });
     ref.onClose
@@ -140,8 +142,11 @@ export class ClientsComponent implements OnInit {
   addMeterReading(client: Client) {
     this.dialogService.open(MeterReadingComponent, {
       header: 'Registrar Lectura',
-      width: '30rem',
+      width: '45rem',
       data: client,
+      breakpoints: {
+        '960px': '90vw',
+      },
     });
   }
 

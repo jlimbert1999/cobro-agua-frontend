@@ -3,6 +3,8 @@ import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { readingResponse } from '../../infrastructure/interfaces';
 import { customerTypeResponse } from '../../infrastructure';
+import { map } from 'rxjs';
+import { Reading } from '../../domain';
 
 interface uploadData {
   firstname: string;
@@ -21,10 +23,10 @@ export class ReadingService {
   private readonly url = `${environment.base_url}/readings`;
   constructor() {}
 
-  getPreviusReading(id_customer: string) {
-    return this.http.get<readingResponse | null>(
-      `${this.url}/previus/${id_customer}`
-    );
+  getLastReading(customerId: string) {
+    return this.http
+      .get<readingResponse | null>(`${this.url}/previus/${customerId}`)
+      .pipe(map((resp) => (resp ? Reading.fromResponse(resp) : null)));
   }
 
   getReadingsByCustomer(id_customer: string, limit: number, offset: number) {
@@ -40,11 +42,5 @@ export class ReadingService {
       customerId,
       reading,
     });
-  }
-
-  getCustomerType(typeId: number) {
-    return this.http.get<customerTypeResponse>(
-      `${this.url}/customer-type/${typeId}`
-    );
   }
 }

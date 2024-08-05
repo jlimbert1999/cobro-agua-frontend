@@ -1,6 +1,8 @@
 export interface readingResponse {
-  client: string;
-  createdAt: Date;
+  id: number;
+  clientId: string;
   reading: number;
   consumption: number;
+  year: number;
+  month: number;
 }
