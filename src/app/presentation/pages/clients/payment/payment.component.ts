@@ -7,17 +7,16 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../../primeng.module';
-import { Client } from '../../../../domain/models';
+import { Client, Invoice } from '../../../../domain';
 import { PaymentService, PdfService } from '../../../services';
-import { invoiceResponse } from '../../../../infrastructure/interfaces';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, PrimengModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, PrimengModule],
   templateUrl: './payment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -27,8 +26,8 @@ export class PaymentComponent implements OnInit {
   private ref = inject(DynamicDialogRef);
 
   client: Client = inject(DynamicDialogConfig).data;
-  invoices = signal<invoiceResponse[]>([]);
-  selectedInvoices = signal<invoiceResponse[]>([]);
+  invoices = signal<Invoice[]>([]);
+  selectedInvoices = signal<Invoice[]>([]);
 
   amountToPay = computed(() =>
     this.selectedInvoices().reduce((acc, { amount }) => acc + amount, 0)
@@ -38,35 +37,25 @@ export class PaymentComponent implements OnInit {
     this._getUnpaidInvoicesByCustomer();
   }
 
-  addInvoice(invoice: invoiceResponse) {
-    this.invoices.update((values) =>
-      values.filter(({ id }) => id !== invoice.id)
-    );
-    this.selectedInvoices.update((values) => [...values, invoice]);
-  }
-
-  removeInvoice(invoice: invoiceResponse) {
-    this.selectedInvoices.update((values) =>
-      values.filter(({ id }) => id !== invoice.id)
-    );
-    this.invoices.update((values) => [invoice, ...values]);
-  }
-
   save() {
-    const id_invoices = this.selectedInvoices().map((el) => el.id);
-    this.paymentService
-      .payInvoices(this.client.id, id_invoices)
-      .subscribe((resp) => {
-        this.pdfService.generateInvoice(resp);
-        this.ref.close();
-      });
+    // const id_invoices = this.selectedInvoices().map((el) => el.id);
+    // this.paymentService
+    //   .payInvoices(this.client.id, id_invoices)
+    //   .subscribe((resp) => {
+    //     this.pdfService.generateInvoice(resp);
+    //     this.ref.close();
+    //   });
+  }
+
+  export() {
+    this.pdfService.generateDebtSheet(this.client, this.invoices());
   }
 
   get isValidForm() {
     return this.selectedInvoices().length > 0;
   }
 
-  private _getUnpaidInvoicesByCustomer() {
+  private _getUnpaidInvoicesByCustomer(): void {
     this.paymentService
       .getUnpaidInvoicesByClient(this.client.id)
       .subscribe((data) => {

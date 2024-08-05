@@ -1,6 +1,6 @@
 export interface readingResponse {
   id: number;
-  clientId: string;
+  customerId: string;
   reading: number;
   consumption: number;
   year: number;

@@ -1,5 +1,5 @@
 import { clientResponse } from './client-response';
-import { invoiceResponse } from './invoiceResponse';
+import { invoiceResponse } from './invoice-response.interface';
 
 export interface paymentResponse {
   id: string;

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  ViewChild,
   computed,
   inject,
   signal,
@@ -10,20 +11,24 @@ import {
 import { BehaviorSubject, filter } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { InputGroupModule } from 'primeng/inputgroup';
-import { DropdownModule } from 'primeng/dropdown';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { PrimengModule } from '../../../primeng.module';
 import { ClientComponent } from './client/client.component';
 import { MeterReadingComponent } from './meter-reading/meter-reading.component';
 import { PaymentComponent } from './payment/payment.component';
-import { PageProps, PaginatorComponent } from '../../components';
-import { ClientService, ReadingService } from '../../services';
-import { Client, CustomerStatus } from '../../../domain/models';
+import {
+  PageProps,
+  PaginatorComponent,
+  ToolbarComponent,
+} from '../../components';
+import { ClientService } from '../../services';
 import { MenuItem, MessageService } from 'primeng/api';
-import { DetailReadingComponent } from './detail-reading/detail-reading.component';
+import { MetricRecordsComponent } from './metric-records/metric-records.component';
 import Swal from 'sweetalert2';
 import { read, utils } from 'xlsx';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Client, CustomerStatus } from '../../../domain';
+import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
 
 export interface uploadData {
   NOMBRES: string;
@@ -50,6 +55,8 @@ interface selectOption {
     PaginatorComponent,
     InputGroupModule,
     InputGroupAddonModule,
+    OverlayPanelModule,
+    ToolbarComponent,
   ],
   templateUrl: `./clients.component.html`,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,7 +65,6 @@ interface selectOption {
 export class ClientsComponent implements OnInit {
   private dialogService = inject(DialogService);
   private clientService = inject(ClientService);
-  private readingService = inject(ReadingService);
   private messageService = inject(MessageService);
 
   datasource = signal<Client[]>([]);
@@ -67,6 +73,8 @@ export class ClientsComponent implements OnInit {
   limit = signal(10);
   index = signal(0);
   offset = computed(() => this.limit() * this.index());
+
+  @ViewChild('op') panel!: OverlayPanel;
 
   customerTypes = signal<selectOption[]>([]);
   customerStatus = signal<selectOption[]>([
@@ -83,6 +91,8 @@ export class ClientsComponent implements OnInit {
   });
 
   menuOptions = signal<MenuItem[]>([]);
+
+  actions = [{ icon: '', value: 'Filtro', tooltip: 'Mas' }];
 
   public dynamicMenuItems$: BehaviorSubject<MenuItem[]> = new BehaviorSubject(
     [] as MenuItem[]
@@ -153,14 +163,17 @@ export class ClientsComponent implements OnInit {
   payment(client: Client) {
     this.dialogService.open(PaymentComponent, {
       header: 'Registrar pago',
-      width: '80%',
+      width: '500px',
       maximizable: true,
       data: client,
+      breakpoints: {
+        '960px': '90vw',
+      },
     });
   }
 
   viewReadings(client: Client) {
-    this.dialogService.open(DetailReadingComponent, {
+    this.dialogService.open(MetricRecordsComponent, {
       header: 'Lecturas',
       maximizable: true,
       data: client,
@@ -180,13 +193,13 @@ export class ClientsComponent implements OnInit {
   showMenu(customer: Client): void {
     this.menuOptions.set([
       {
-        label: 'Editar',
+        label: 'Editar accionista',
         icon: 'pi pi-pencil',
         command: () => this.update(customer),
       },
       {
         label: 'Agregar lectura',
-        icon: 'pi pi-book',
+        icon: 'pi pi-clock',
         command: () => this.addMeterReading(customer),
       },
       {
@@ -283,5 +296,9 @@ export class ClientsComponent implements OnInit {
         },
       },
     ];
+  }
+
+  handleActions(action: string) {
+    console.log(this.panel);
   }
 }

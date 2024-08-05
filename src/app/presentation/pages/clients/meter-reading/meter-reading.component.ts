@@ -16,6 +16,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { Reading, Client } from '../../../../domain';
 import { ReadingService } from '../../../services';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'meter-reading',
@@ -27,6 +28,7 @@ import { ReadingService } from '../../../services';
     InputTextModule,
     ProgressBarModule,
     InputNumberModule,
+    ButtonModule,
   ],
   templateUrl: './meter-reading.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

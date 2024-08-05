@@ -1,0 +1,51 @@
+@if (isSearching()) {
+<div class="mb-2 px-2 fadein animation-duration-200">
+  <p-inputGroup>
+    <input
+      type="text"
+      pInputText
+      pAutoFocus
+      [autofocus]="true"
+      [placeholder]="'Buscar ' + title()"
+      [formControl]="term"
+    />
+    <button
+      type="button"
+      pButton
+      icon="pi pi-times"
+      class="p-button-secondary"
+      (click)="toggleSearch(false)"
+    ></button>
+  </p-inputGroup>
+</div>
+} @else{
+<p-toolbar styleClass="mb-2 py-0 h-3rem">
+  <ng-template pTemplate="start">
+    <span class="text-xl">{{ title() }}</span>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <div class="flex gap-2">
+      @if(search()){
+      <p-button
+        severity="secondary"
+        icon="pi pi-search"
+        [rounded]="true"
+        [text]="true"
+        (onClick)="toggleSearch(true)"
+      />
+      } @for (item of actions(); track $index) {
+      <p-button
+        severity="secondary"
+        [icon]="item.icon"
+        [rounded]="true"
+        [text]="true"
+        (onClick)="onAction.emit(item.value)"
+        [pTooltip]="item.tooltip"
+        placeholder="Bottom"
+        showDelay="500"
+      />
+      }
+    </div>
+  </ng-template>
+</p-toolbar>
+}

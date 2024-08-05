@@ -10,11 +10,10 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { ClientService, ReadingService } from '../../services';
-import { clientResponse } from '../../../infrastructure/interfaces';
-import { Client } from '../../../domain/models';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MeterReadingComponent } from '../clients/meter-reading/meter-reading.component';
 import { DropdownModule } from 'primeng/dropdown';
+import { Client } from '../../../domain';
 
 @Component({
   selector: 'app-meter',

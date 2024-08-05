@@ -8,20 +8,20 @@ import {
   signal,
 } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { Client } from '../../../../domain/models';
 import { readingResponse } from '../../../../infrastructure/interfaces';
 import { ReadingService } from '../../../services';
 import { PrimengModule } from '../../../../primeng.module';
 import { PageProps, PaginatorComponent } from '../../../components';
+import { Client } from '../../../../domain';
 
 @Component({
-  selector: 'app-detail-reading',
+  selector: 'app-metric-records',
   standalone: true,
   imports: [CommonModule, PrimengModule, PaginatorComponent],
-  templateUrl: './detail-reading.component.html',
+  templateUrl: './metric-records.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DetailReadingComponent implements OnInit {
+export class MetricRecordsComponent implements OnInit {
   private readingService = inject(ReadingService);
 
   client: Client = inject(DynamicDialogConfig).data;

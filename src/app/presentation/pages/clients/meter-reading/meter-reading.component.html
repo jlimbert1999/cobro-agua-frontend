@@ -60,18 +60,12 @@
         </div>
       </form>
     </p-accordionTab>
-    <p-accordionTab header="Detalles Factura" [selected]="true">
+    <p-accordionTab header="Detalles Propietario" [selected]="true">
       <ul class="list-none p-0 m-0">
         <li class="flex align-items-center surface-border flex-wrap">
           <div class="text-500 col-12 sm:w-4 font-medium">Accionista:</div>
           <div class="text-900 col-12 sm:w-8">
             {{ customer.fullname | titlecase }}
-          </div>
-        </li>
-        <li class="flex align-items-center surface-border flex-wrap">
-          <div class="text-500 col-6 sm:w-4 font-medium">Tipo:</div>
-          <div class="text-900 col-6 sm:w-8">
-            {{ customer.type.name }}
           </div>
         </li>
         <li class="flex align-items-center surface-border flex-wrap">
@@ -81,4 +75,11 @@
       </ul>
     </p-accordionTab>
   </p-accordion>
+</div>
+<div class="p-dialog-footer">
+  <p-button
+    label="Guardar"
+    [disabled]="FormReading.invalid"
+    (onClick)="save()"
+  />
 </div>

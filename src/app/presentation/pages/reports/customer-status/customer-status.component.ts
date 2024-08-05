@@ -7,12 +7,11 @@ import {
   signal,
 } from '@angular/core';
 import { ClientService, PdfService, ReportService } from '../../../services';
-import { Client } from '../../../../domain/models';
-import { clientResponse } from '../../../../infrastructure/interfaces';
 import { DropdownModule } from 'primeng/dropdown';
 import { PanelModule } from 'primeng/panel';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
+import { Client } from '../../../../domain';
 
 @Component({
   selector: 'app-customer-status',

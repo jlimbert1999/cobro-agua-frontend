@@ -7,9 +7,33 @@
       class="mr-2"
       (click)="loadExcelFile()"
     ></button>
+    <p-button
+      (onClick)="op.toggle($event)"
+      icon="pi pi-share-alt"
+      label="Share"
+    />
   </div>
   <div class="p-toolbar-group-end"></div>
 </p-toolbar>
+
+<toolbar
+  title="Opciones"
+  [actions]="actions"
+  (onAction)="handleActions($event)"
+/>
+<p-overlayPanel #op>
+  <div class="flex flex-column gap-3 w-25rem">
+    <div>
+      <span class="font-medium text-900 block mb-2">Share this document</span>
+    </div>
+    <div>
+      <span class="font-medium text-900 block mb-2">Invite Member</span>
+    </div>
+    <div>
+      <span class="font-medium text-900 block mb-2">Team Members</span>
+    </div>
+  </div>
+</p-overlayPanel>
 
 <div class="fadein">
   <form [formGroup]="formFilter">

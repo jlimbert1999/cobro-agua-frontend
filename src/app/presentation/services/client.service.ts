@@ -1,11 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, tap } from 'rxjs';
+import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { clientResponse } from '../../infrastructure/interfaces';
 import { CreateClientDto } from '../../infrastructure/dtos';
-import { Client } from '../../domain/models';
 import { customerTypeResponse } from '../../infrastructure';
+import { Client } from '../../domain';
 
 @Injectable({
   providedIn: 'root',
@@ -53,9 +53,7 @@ export class ClientService {
     return this.http
       .get<clientResponse[]>(`${this.url}/meter/${term}`)
 
-      .pipe(
-        map((resp) => resp.map((el) => Client.fromResponse(el)))
-      );
+      .pipe(map((resp) => resp.map((el) => Client.fromResponse(el))));
   }
 
   getCustomerTypes() {
