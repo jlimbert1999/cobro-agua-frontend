@@ -38,21 +38,17 @@ export class PaymentComponent implements OnInit {
   }
 
   save() {
-    // const id_invoices = this.selectedInvoices().map((el) => el.id);
-    // this.paymentService
-    //   .payInvoices(this.client.id, id_invoices)
-    //   .subscribe((resp) => {
-    //     this.pdfService.generateInvoice(resp);
-    //     this.ref.close();
-    //   });
+    const id_invoices = this.selectedInvoices().map((el) => el.id);
+    this.paymentService
+      .payInvoices(this.client.id, id_invoices)
+      .subscribe((resp) => {
+        this.pdfService.generateInvoice(resp);
+        this.ref.close();
+      });
   }
 
   export() {
     this.pdfService.generateDebtSheet(this.client, this.invoices());
-  }
-
-  get isValidForm() {
-    return this.selectedInvoices().length > 0;
   }
 
   private _getUnpaidInvoicesByCustomer(): void {
@@ -61,5 +57,9 @@ export class PaymentComponent implements OnInit {
       .subscribe((data) => {
         this.invoices.set(data);
       });
+  }
+
+  get isValidForm() {
+    return this.selectedInvoices().length > 0;
   }
 }

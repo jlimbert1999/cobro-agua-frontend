@@ -7,8 +7,7 @@ import {
   invoiceResponse,
   paymentResponse,
 } from '../../infrastructure/interfaces';
-import { Invoice } from '../../domain';
-
+import { Invoice, Payment } from '../../domain';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +24,11 @@ export class PaymentService {
       .pipe(map((res) => res.map((el) => Invoice.fromResponse(el))));
   }
 
-  payInvoices(id_client: string, invoiceIds: string[]) {
-    return this.http.post<paymentResponse>(`${this.url}/pay/${id_client}`, {
-      invoiceIds,
-    });
+  payInvoices(customerId: string, invoiceIds: number[]) {
+    return this.http
+      .post<paymentResponse>(`${this.url}/pay/${customerId}`, {
+        invoiceIds,
+      })
+      .pipe(map((resp) => Payment.fromResponse(resp)));
   }
 }

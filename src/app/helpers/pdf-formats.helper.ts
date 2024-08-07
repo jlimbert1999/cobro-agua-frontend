@@ -1,5 +1,5 @@
 import { Content } from 'pdfmake/interfaces';
-import { Client, Invoice } from '../domain';
+import { Client, Invoice, Payment } from '../domain';
 import { convertImageToBase64 } from './convert-image-base64';
 import { paymentResponse } from '../infrastructure/interfaces';
 
@@ -35,7 +35,7 @@ export class PdfFormats {
     };
   }
 
-  static invoiceSheet(payment: paymentResponse, username: string): Content[] {
+  static invoiceSheet(payment: Payment, username: string): Content[] {
     const total = payment.invoices.reduce((acc, { amount }) => acc + amount, 0);
     return [
       {

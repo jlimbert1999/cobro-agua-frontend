@@ -6,7 +6,7 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 
 import { paymentResponse } from '../../infrastructure/interfaces';
-import { Client, Invoice } from '../../domain';
+import { Client, Invoice, Payment } from '../../domain';
 import { AuthService } from './auth.service';
 import { PdfFormats } from '../../helpers';
 
@@ -16,7 +16,7 @@ import { PdfFormats } from '../../helpers';
 export class PdfService {
   constructor(private authService: AuthService) {}
 
-  async generateInvoice(payment: paymentResponse) {
+  async generateInvoice(payment: Payment) {
     const username = this.authService.user()?.fullname ?? 'SIN USUARIO';
     const docDefinition: TDocumentDefinitions = {
       pageSize: 'LETTER',

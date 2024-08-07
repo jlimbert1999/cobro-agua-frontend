@@ -73,6 +73,6 @@
   <p-button
     label="Guardar"
     (onClick)="save()"
-    [disabled]="selectedInvoices().length === 0"
+    [disabled]="!isValidForm"
   />
 </div>
