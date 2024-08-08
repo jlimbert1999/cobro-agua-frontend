@@ -7,9 +7,11 @@
       Busque accionistas por Nombre / Numero de medidor
     </div>
     <p-dropdown
+      #drop
       class="w-full"
       styleClass="w-full"
       [options]="customers()"
+      [(ngModel)]="customer"
       placeholder="Buscar accionista"
       optionLabel="meterDetail"
       [filter]="true"
@@ -17,7 +19,6 @@
       emptyMessage="Sin resultados"
       emptyFilterMessage="Sin resultados"
       (onFilter)="searchCustomer($event.filter)"
-      (onChange)="addMeterReading($event.value)"
     />
   </div>
 </div>

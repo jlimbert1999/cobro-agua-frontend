@@ -2,8 +2,11 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  effect,
   inject,
   signal,
+  untracked,
+  ViewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -12,7 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ClientService, ReadingService } from '../../services';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MeterReadingComponent } from '../clients/meter-reading/meter-reading.component';
-import { DropdownModule } from 'primeng/dropdown';
+import { Dropdown, DropdownModule } from 'primeng/dropdown';
 import { Client } from '../../../domain';
 
 @Component({
@@ -34,6 +37,19 @@ export class MeterComponent {
   private clientService = inject(ClientService);
 
   customers = signal<Client[]>([]);
+  customer = signal<Client | null>(null);
+
+  @ViewChild('drop') dropDown!: Dropdown;
+
+  constructor() {
+    effect(() => {
+      if (!this.customer()) return;
+      this.addMeterReading(this.customer()!);
+      untracked(() => {
+        this.dropDown.clear();
+      });
+    });
+  }
 
   searchCustomer(value: string) {
     if (value === '') return;
