@@ -92,7 +92,7 @@ export class ClientsComponent implements OnInit {
 
   menuOptions = signal<MenuItem[]>([]);
 
-  actions = [{ icon: '', value: 'Filtro', tooltip: 'Mas' }];
+  actions = [{ icon: 'pi pi-plus', value: 'create', tooltip: 'Crear' }];
 
   public dynamicMenuItems$: BehaviorSubject<MenuItem[]> = new BehaviorSubject(
     [] as MenuItem[]
@@ -110,6 +110,11 @@ export class ClientsComponent implements OnInit {
         this.datasource.set(clients);
         this.datasize.set(length);
       });
+  }
+
+  applyFilter() {
+    this.index.set(0);
+    this.getData();
   }
 
   create() {
@@ -177,7 +182,7 @@ export class ClientsComponent implements OnInit {
       header: 'Lecturas',
       maximizable: true,
       data: client,
-      width: '40rem',
+      width: '50rem',
       breakpoints: {
         '960px': '90vw',
       },
@@ -279,26 +284,15 @@ export class ClientsComponent implements OnInit {
     return !this.formFilter.get(path)?.value;
   }
 
-  get opts() {
-    return [
-      {
-        label: 'New',
-        icon: 'pi pi-plus',
-        command: () => {
-          this.create();
-        },
-      },
-      {
-        label: 'Search',
-        icon: 'pi pi-search',
-        command: () => {
-          // this.update();
-        },
-      },
-    ];
-  }
-
   handleActions(action: string) {
-    console.log(this.panel);
+    switch (action) {
+      case 'create':
+        this.create();
+
+        break;
+
+      default:
+        break;
+    }
   }
 }

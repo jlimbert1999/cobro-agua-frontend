@@ -1,40 +1,9 @@
-<p-toolbar>
-  <div class="p-toolbar-group-start">
-    <button pButton icon="pi pi-plus" class="mr-2" (click)="create()"></button>
-    <button
-      pButton
-      icon="pi pi-arrow-up"
-      class="mr-2"
-      (click)="loadExcelFile()"
-    ></button>
-    <p-button
-      (onClick)="op.toggle($event)"
-      icon="pi pi-share-alt"
-      label="Share"
-    />
-  </div>
-  <div class="p-toolbar-group-end"></div>
-</p-toolbar>
-
 <toolbar
-  title="Opciones"
+  title="Accionistas"
   [actions]="actions"
+  [search]="false"
   (onAction)="handleActions($event)"
 />
-<p-overlayPanel #op>
-  <div class="flex flex-column gap-3 w-25rem">
-    <div>
-      <span class="font-medium text-900 block mb-2">Share this document</span>
-    </div>
-    <div>
-      <span class="font-medium text-900 block mb-2">Invite Member</span>
-    </div>
-    <div>
-      <span class="font-medium text-900 block mb-2">Team Members</span>
-    </div>
-  </div>
-</p-overlayPanel>
-
 <div class="fadein">
   <form [formGroup]="formFilter">
     <p-table
@@ -63,7 +32,7 @@
                 class="w-full"
                 placeholder="Nombre"
                 formControlName="fullname"
-                (keydown.enter)="getData()"
+                (keydown.enter)="applyFilter()"
               />
               <button
                 type="button"
@@ -83,7 +52,7 @@
                 class="w-full"
                 placeholder="Numero"
                 formControlName="meterNumber"
-                (keydown.enter)="getData()"
+                (keydown.enter)="applyFilter()"
               />
               <button
                 type="button"
@@ -103,7 +72,7 @@
                 class="w-full"
                 placeholder="Numero"
                 formControlName="meterNumber"
-                (keydown.enter)="getData()"
+                (keydown.enter)="applyFilter()"
               />
               <button
                 type="button"
@@ -124,7 +93,7 @@
               styleClass="w-full"
               optionValue="id"
               [options]="customerTypes()"
-              (onChange)="getData()"
+              (onChange)="applyFilter()"
               appendTo="body"
             />
           </th>
@@ -136,7 +105,7 @@
               styleClass="w-full"
               optionValue="id"
               [options]="customerStatus()"
-              (onChange)="getData()"
+              (onChange)="applyFilter()"
               appendTo="body"
             />
           </th>

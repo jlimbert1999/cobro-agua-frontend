@@ -8,11 +8,10 @@ import {
   signal,
 } from '@angular/core';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
-import { readingResponse } from '../../../../infrastructure/interfaces';
 import { ReadingService } from '../../../services';
 import { PrimengModule } from '../../../../primeng.module';
 import { PageProps, PaginatorComponent } from '../../../components';
-import { Client } from '../../../../domain';
+import { Client, Reading } from '../../../../domain';
 
 @Component({
   selector: 'app-metric-records',
@@ -25,11 +24,12 @@ export class MetricRecordsComponent implements OnInit {
   private readingService = inject(ReadingService);
 
   client: Client = inject(DynamicDialogConfig).data;
-  readings = signal<readingResponse[]>([]);
+  readings = signal<Reading[]>([]);
   limit = signal(10);
   index = signal(0);
   offset = computed(() => this.limit() * this.index());
   datasize = signal(0);
+
   ngOnInit(): void {
     this._getReadings();
   }
@@ -39,6 +39,7 @@ export class MetricRecordsComponent implements OnInit {
       .getReadingsByCustomer(this.client.id, this.limit(), this.offset())
       .subscribe(({ readings, length }) => {
         this.readings.set(readings);
+        this.datasize.set(length);
       });
   }
 

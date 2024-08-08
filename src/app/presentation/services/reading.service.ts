@@ -2,8 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { readingResponse } from '../../infrastructure/interfaces';
-import { customerTypeResponse } from '../../infrastructure';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { Reading } from '../../domain';
 
 interface uploadData {
@@ -31,10 +30,18 @@ export class ReadingService {
 
   getReadingsByCustomer(id_customer: string, limit: number, offset: number) {
     const params = new HttpParams({ fromObject: { limit, offset } });
-    return this.http.get<{ readings: readingResponse[]; length: number }>(
-      `${this.url}/${id_customer}`,
-      { params }
-    );
+    return this.http
+      .get<{ readings: readingResponse[]; length: number }>(
+        `${this.url}/${id_customer}`,
+        { params }
+      )
+      .pipe(
+        tap((el) => console.log(el)),
+        map((resp) => ({
+          readings: resp.readings.map((el) => Reading.fromResponse(el)),
+          length: resp.length,
+        }))
+      );
   }
 
   create(customerId: string, reading: number) {

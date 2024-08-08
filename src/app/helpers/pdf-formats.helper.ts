@@ -50,35 +50,39 @@ export class PdfFormats {
           widths: [100, '*'],
           body: [
             [{ text: 'DETALLE ACCIONISTA', bold: true, colSpan: 2 }, ''],
-            ['Nombre', ''],
-            ['Tipo', 'Sample value 2'],
-            ['Nro. Medidor', 'Sample value 2'],
+            ['Nombre', payment.customer.fullname],
+            ['Tipo', payment.customer.type.name],
+            ['Nro. Medidor', payment.customer.meterNumber],
           ],
         },
         layout: 'noBorders',
       },
       {
+        marginTop: 50,
         table: {
-          widths: ['*', 'auto', 'auto'],
+          widths: ['*', 'auto', 'auto', 'auto'],
           body: [
             [
               { text: 'Servicio', style: 'tableHeader' },
-              { text: 'Fecha', style: 'tableHeader' },
+              { text: 'Mes', style: 'tableHeader' },
+              { text: 'Consumo', style: 'tableHeader' },
               { text: 'Monto', style: 'tableHeader' },
             ],
             ...payment.invoices.map((el) => [
               'Servicio de agua',
-              new Date(el.createdAt).toLocaleString(),
+              el.service.datetimeLabel,
+              el.service.consumption,
               `${el.amount} Bs.`,
             ]),
             [
               {
                 text: 'Total',
-                colSpan: 2,
+                colSpan: 3,
                 alignment: 'right',
                 style: 'total',
               },
-              {},
+              '',
+              '',
               { text: `${total} Bs. `, alignment: 'right', style: 'total' },
             ],
           ],
@@ -90,17 +94,22 @@ export class PdfFormats {
         style: 'sectionHeader',
       },
       {
-        text: `Pagado el: ${new Date(payment.createdAt).toLocaleString(
-          'default',
-          { month: 'long' }
-        )}\nTotal pagado: ${payment.amount} Bs.\n`,
+        text: `Pagado el: ${payment.createdAt.toLocaleString()}\nTotal pagado: ${
+          payment.amount
+        } Bs.\n`,
       },
       {
+        marginTop: 50,
         columns: [
-          { width: '*', text: '' },
           {
-            text: `Encargado: ${username}`,
-            alignment: 'right',
+            width: '*',
+            text: 'Recibi conforme',
+            alignment: 'center',
+          },
+          {
+            width: '*',
+            text: `Entregue conforme`,
+            alignment: 'center',
           },
         ],
       },
