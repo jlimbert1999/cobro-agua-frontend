@@ -36,7 +36,7 @@ export const routes: Routes = [
         title: 'Administracion',
         path: 'administration',
         children: [
-          { title: 'Accionitas', path: 'users', component: UsersComponent },
+          { title: 'Accionistas', path: 'users', component: UsersComponent },
           {
             title: 'Tipos',
             path: 'customer-types',

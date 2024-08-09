@@ -93,7 +93,9 @@ export class ClientsComponent implements OnInit {
 
   menuOptions = signal<MenuItem[]>([]);
 
-  actions = [{ icon: 'pi pi-plus', value: 'create', tooltip: 'Crear' }];
+  actions = [
+    { icon: 'pi pi-plus', value: 'create', tooltip: 'Crear' },
+  ];
 
   public dynamicMenuItems$: BehaviorSubject<MenuItem[]> = new BehaviorSubject(
     [] as MenuItem[]
@@ -234,7 +236,6 @@ export class ClientsComponent implements OnInit {
       {
         label: 'Historicos',
         items: [
-         
           {
             label: 'Ver lecturas',
             icon: 'pi pi-align-justify',
@@ -318,6 +319,9 @@ export class ClientsComponent implements OnInit {
     switch (action) {
       case 'create':
         this.create();
+        break;
+      case 'upload':
+        this.loadExcelFile();
 
         break;
 
