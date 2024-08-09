@@ -14,9 +14,11 @@ export class AuthService {
 
   private _user = signal<JwtPayload | null>(null);
   private _menu = signal<menu[]>([]);
+  private _roles = signal<string[]>([]);
 
   user = computed(() => this._user());
   menu = computed(() => this._menu());
+  roles = computed(() => this._roles());
 
   constructor() {}
 
@@ -49,10 +51,12 @@ export class AuthService {
       .get<{
         token: string;
         menu: menu[];
+        roles: string[];
       }>(this.url)
       .pipe(
-        map(({ token, menu }) => {
+        map(({ token, menu, roles }) => {
           this._menu.set(menu);
+          this._roles.set(roles);
           return this._setAuthentication(token);
         }),
         catchError(() => {

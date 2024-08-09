@@ -38,13 +38,15 @@ export class PdfFormats {
   static invoiceSheet(payment: Payment, username: string): Content[] {
     const total = payment.invoices.reduce((acc, { amount }) => acc + amount, 0);
     return [
+      { text: `Nro. Recibo: ${payment.code}`, bold: true, alignment: 'right' },
       {
-        text: 'RECIBO DE INGRESO DE AGUA POTABLE\n\n',
+        text: 'RECIBO DE INGRESO DE AGUA POTABLE\n',
         bold: true,
-        fontSize: 16,
+        fontSize: 12,
         alignment: 'center',
       },
       {
+        fontSize: 10,
         table: {
           headerRows: 1,
           widths: [100, '*'],
@@ -58,15 +60,16 @@ export class PdfFormats {
         layout: 'noBorders',
       },
       {
-        marginTop: 50,
+        marginTop: 10,
+        fontSize: 10,
         table: {
           widths: ['*', 'auto', 'auto', 'auto'],
           body: [
             [
-              { text: 'Servicio', style: 'tableHeader' },
-              { text: 'Mes', style: 'tableHeader' },
-              { text: 'Consumo', style: 'tableHeader' },
-              { text: 'Monto', style: 'tableHeader' },
+              { text: 'Servicio', bold: true },
+              { text: 'Mes', bold: true },
+              { text: 'Consumo', bold: true },
+              { text: 'Monto', bold: true },
             ],
             ...payment.invoices.map((el) => [
               'Servicio de agua',
@@ -90,16 +93,17 @@ export class PdfFormats {
         layout: 'lightHorizontalLines',
       },
       {
-        text: '\n\nINFORMACION DEL PAGO',
-        style: 'sectionHeader',
+        text: 'INFORMACION DEL PAGO',
+        fontSize: 10,
       },
       {
+        fontSize: 9,
         text: `Pagado el: ${payment.createdAt.toLocaleString()}\nTotal pagado: ${
           payment.amount
         } Bs.\n`,
       },
       {
-        marginTop: 50,
+        marginTop: 20,
         columns: [
           {
             width: '*',
@@ -118,9 +122,7 @@ export class PdfFormats {
 
   static debtSheet(customer: Client, invoices: Invoice[]): Content[] {
     const total = invoices.reduce((acc, { amount }) => acc + amount, 0);
-    invoices
-      .sort((a, b) => a.service.year - b.service.year)
-      .sort((a, b) => a.service.month - b.service.month);
+
     return [
       {
         text: 'LISTADO DE PAGOS PENDIENTES\n\n',

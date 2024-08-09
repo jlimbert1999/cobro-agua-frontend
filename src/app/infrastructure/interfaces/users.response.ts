@@ -1,5 +1,5 @@
 export interface userResponse {
-  _id: string;
+  id: number;
   fullname: string;
   login: string;
   roles: string[];

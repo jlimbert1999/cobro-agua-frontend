@@ -17,7 +17,7 @@ export class UserService {
     return this.http.post(this.url, user);
   }
 
-  update(id: string, user: Partial<CreateUserDto>) {
+  update(id: number, user: Partial<CreateUserDto>) {
     return this.http.patch(`${this.url}/${id}`, user);
   }
 

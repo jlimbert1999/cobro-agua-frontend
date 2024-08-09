@@ -53,7 +53,7 @@ export class UserComponent implements OnInit {
 
   save() {
     const subscription = this.user
-      ? this.userService.update(this.user._id, {
+      ? this.userService.update(this.user.id, {
           ...this.FormUser.value,
           roles: this.selectedRoles,
         })

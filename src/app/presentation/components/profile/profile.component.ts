@@ -16,6 +16,8 @@ export class ProfileComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
+  avatarLabel = this.authService.user()?.fullname[0];
+
   username = this.authService.user()?.fullname ?? 'Sin nombre';
   items: MenuItem[] = [
     { separator: true },

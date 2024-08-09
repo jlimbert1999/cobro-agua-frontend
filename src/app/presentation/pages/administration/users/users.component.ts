@@ -87,7 +87,7 @@ export class UsersComponent implements OnInit {
       .pipe(filter((result?: userResponse) => !!result))
       .subscribe((result) => {
         this.datasource.update((values) => {
-          const index = values.findIndex((el) => el._id === user._id);
+          const index = values.findIndex((el) => el.id === user.id);
           values[index] = result!;
           return [...values];
         });

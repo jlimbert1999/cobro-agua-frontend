@@ -29,6 +29,7 @@ import { read, utils } from 'xlsx';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Client, CustomerStatus } from '../../../domain';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
+import { PaymentRecordsComponent } from './payment-records/payment-records.component';
 
 export interface uploadData {
   NOMBRES: string;
@@ -189,6 +190,18 @@ export class ClientsComponent implements OnInit {
     });
   }
 
+  viewPayments(client: Client) {
+    this.dialogService.open(PaymentRecordsComponent, {
+      header: 'Pagos',
+      maximizable: true,
+      data: client,
+      width: '50rem',
+      breakpoints: {
+        '960px': '90vw',
+      },
+    });
+  }
+
   onPageChange(event: PageProps) {
     this.limit.set(event.pageSize);
     this.index.set(event.pageIndex);
@@ -198,24 +211,41 @@ export class ClientsComponent implements OnInit {
   showMenu(customer: Client): void {
     this.menuOptions.set([
       {
-        label: 'Editar accionista',
-        icon: 'pi pi-pencil',
-        command: () => this.update(customer),
+        label: 'Acciones',
+        items: [
+          {
+            label: 'Editar accionista',
+            icon: 'pi pi-pencil',
+            command: () => this.update(customer),
+          },
+          {
+            label: 'Agregar lectura',
+            icon: 'pi pi-clock',
+            command: () => this.addMeterReading(customer),
+          },
+          {
+            label: 'Agregar pago',
+            icon: 'pi pi-credit-card',
+            command: () => this.payment(customer),
+          },
+        ],
       },
+
       {
-        label: 'Agregar lectura',
-        icon: 'pi pi-clock',
-        command: () => this.addMeterReading(customer),
-      },
-      {
-        label: 'Agregar pago',
-        icon: 'pi pi-credit-card',
-        command: () => this.payment(customer),
-      },
-      {
-        label: 'Ver lecturas',
-        icon: 'pi pi-align-justify',
-        command: () => this.viewReadings(customer),
+        label: 'Historicos',
+        items: [
+         
+          {
+            label: 'Ver lecturas',
+            icon: 'pi pi-align-justify',
+            command: () => this.viewReadings(customer),
+          },
+          {
+            label: 'Ver pagos',
+            icon: 'pi pi-history',
+            command: () => this.viewPayments(customer),
+          },
+        ],
       },
     ]);
   }

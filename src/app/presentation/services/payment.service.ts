@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map } from 'rxjs';
 
@@ -30,5 +30,12 @@ export class PaymentService {
         invoiceIds,
       })
       .pipe(map((resp) => Payment.fromResponse(resp)));
+  }
+
+  getHistoryByCustomer(customerId: string, limit: number, offset: number) {
+    const params = new HttpParams({ fromObject: { limit, offset } });
+    return this.http
+      .get<paymentResponse[]>(`${this.url}/history/${customerId}`, { params })
+      .pipe(map((resp) => resp.map((el) => Payment.fromResponse(el))));
   }
 }

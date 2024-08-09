@@ -1,13 +1,14 @@
 import { Routes } from '@angular/router';
 import { ClientsComponent } from './presentation/pages/clients/clients.component';
 import { HomeComponent } from './presentation/layouts/home/home.component';
-import { SettingsComponent } from './presentation/pages/settings/settings.component';
 import { LoginComponent } from './presentation/pages/login/login.component';
 import { isAuthenticatedGuard } from './presentation/guards/is-authenticated.guard';
 import { UsersComponent } from './presentation/pages/administration/users/users.component';
 import { CustomerStatusComponent } from './presentation/pages/reports/customer-status/customer-status.component';
 import { CustomerTypesComponent } from './presentation/pages/administration/customer-types/customer-types.component';
 import { MeterComponent } from './presentation/pages/meter/meter.component';
+import { BackgroudComponent } from './presentation/pages/backgroud/backgroud.component';
+import { roleGuard } from './presentation/guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -21,10 +22,17 @@ export const routes: Routes = [
     canActivate: [isAuthenticatedGuard],
     component: HomeComponent,
     children: [
-      { path: '', redirectTo: 'customers', pathMatch: 'full' },
-      { path: 'customers', component: ClientsComponent },
-      { path: 'settings', component: SettingsComponent },
+      { path: '', component: BackgroudComponent },
       {
+        data: { role: 'officer' },
+        canActivate: [roleGuard],
+        title: 'Panel',
+        path: 'customers',
+        component: ClientsComponent,
+      },
+      {
+        data: { role: 'admin' },
+        canActivate: [roleGuard],
         title: 'Administracion',
         path: 'administration',
         children: [
@@ -37,9 +45,11 @@ export const routes: Routes = [
         ],
       },
       {
+        data: { role: 'reader' },
+        canActivate: [roleGuard],
         title: 'Lecturas',
         path: 'reading',
-        children: [{ path: 'customers', component: MeterComponent }],
+        component: MeterComponent,
       },
       {
         title: 'Reportes',
@@ -51,4 +61,5 @@ export const routes: Routes = [
     ],
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/home' },
 ];

@@ -1,0 +1,63 @@
+<div class="surface-section mb-3 px-3">
+  <ul class="list-none p-0 m-0">
+    <li
+      class="flex align-items-center py-2 px-2 border-top-1 surface-border flex-wrap"
+    >
+      <div class="text-500 w-6 md:w-3 font-medium">Accionista</div>
+      <div class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1">
+        {{ client.fullname }}
+      </div>
+    </li>
+    <li
+      class="flex align-items-center py-2 px-2 border-top-1 surface-border flex-wrap"
+    >
+      <div class="text-500 w-6 md:w-3 font-medium">Medidor</div>
+      <div class="text-900 w-full md:w-9 md:flex-order-0 flex-order-1">
+        {{ client.meterNumber }}
+      </div>
+    </li>
+  </ul>
+</div>
+<p-table
+  [scrollable]="true"
+  [value]="payments()"
+  class="w-full"
+  scrollHeight="20rem"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Codigo</th>
+      <th>Fecha</th>
+      <th>Monto</th>
+      <th>Facturas</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-reading>
+    <tr>
+      <td>{{ reading.code }}</td>
+      <td>{{ reading.createdAt | date : "short" }}</td>
+      <td>{{ reading.amount }} Bs.</td>
+      <td>{{ reading.invoices.length }}</td>
+      <td>
+        <p-button
+          icon="pi pi-print"
+          rounded="true"
+          text="true"
+          (onClick)="generateInvoice(reading)"
+        />
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">Sin registros</td>
+    </tr>
+  </ng-template>
+</p-table>
+<paginator
+  [first]="offset()"
+  [rows]="limit()"
+  [length]="datasize()"
+  (onPageChange)="onPageChange($event)"
+/>
