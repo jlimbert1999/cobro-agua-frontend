@@ -18,13 +18,13 @@ export class PaymentService {
 
   constructor() {}
 
-  getUnpaidInvoicesByClient(id_client: string) {
+  getUnpaidInvoicesByClient(id_client: number) {
     return this.http
       .get<invoiceResponse[]>(`${this.url}/unpaid/${id_client}`)
       .pipe(map((res) => res.map((el) => Invoice.fromResponse(el))));
   }
 
-  payInvoices(customerId: string, invoiceIds: number[]) {
+  payInvoices(customerId: number, invoiceIds: number[]) {
     return this.http
       .post<paymentResponse>(`${this.url}/pay/${customerId}`, {
         invoiceIds,
@@ -32,7 +32,7 @@ export class PaymentService {
       .pipe(map((resp) => Payment.fromResponse(resp)));
   }
 
-  getHistoryByCustomer(customerId: string, limit: number, offset: number) {
+  getHistoryByCustomer(customerId: number, limit: number, offset: number) {
     const params = new HttpParams({ fromObject: { limit, offset } });
     return this.http
       .get<paymentResponse[]>(`${this.url}/history/${customerId}`, { params })

@@ -1,7 +1,7 @@
 import { clientResponse } from '../../infrastructure/interfaces';
 
 interface clientProps {
-  id: string;
+  id: number;
   firstname: string;
   middlename: string;
   lastname: string;
@@ -22,7 +22,7 @@ export enum CustomerStatus {
 }
 
 export class Client {
-  id: string;
+  id: number;
   firstname: string;
   middlename: string;
   lastname: string;

@@ -1,7 +1,7 @@
 import { CustomerStatus } from '../../domain/models/client.model';
 
 export interface clientResponse {
-  id: string;
+  id: number;
   firstname?: string;
   middlename?: string;
   lastname?: string;

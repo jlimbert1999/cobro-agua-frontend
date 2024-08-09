@@ -10,7 +10,7 @@ export class ReportService {
   private readonly url = `${environment.base_url}/invoices`;
   constructor() {}
 
-  getPayments(id_customer: string, limit: number, offset: number) {
+  getPayments(id_customer: number, limit: number, offset: number) {
     const params = new HttpParams({ fromObject: { limit, offset } });
     return this.http.get<any[]>(`${this.url}/history/${id_customer}`, {
       params,

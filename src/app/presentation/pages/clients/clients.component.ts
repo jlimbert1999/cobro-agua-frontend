@@ -95,6 +95,7 @@ export class ClientsComponent implements OnInit {
 
   actions = [
     { icon: 'pi pi-plus', value: 'create', tooltip: 'Crear' },
+    // { icon: 'pi pi-upload', value: 'upload', tooltip: 'Cargar' },
   ];
 
   public dynamicMenuItems$: BehaviorSubject<MenuItem[]> = new BehaviorSubject(

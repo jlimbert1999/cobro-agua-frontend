@@ -22,13 +22,13 @@ export class ReadingService {
   private readonly url = `${environment.base_url}/readings`;
   constructor() {}
 
-  getLastReading(customerId: string) {
+  getLastReading(customerId: number) {
     return this.http
       .get<readingResponse | null>(`${this.url}/previus/${customerId}`)
       .pipe(map((resp) => (resp ? Reading.fromResponse(resp) : null)));
   }
 
-  getReadingsByCustomer(id_customer: string, limit: number, offset: number) {
+  getReadingsByCustomer(id_customer: number, limit: number, offset: number) {
     const params = new HttpParams({ fromObject: { limit, offset } });
     return this.http
       .get<{ readings: readingResponse[]; length: number }>(
@@ -44,7 +44,7 @@ export class ReadingService {
       );
   }
 
-  create(customerId: string, reading: number) {
+  create(customerId: number, reading: number) {
     return this.http.post<{ message: string }>(this.url, {
       customerId,
       reading,

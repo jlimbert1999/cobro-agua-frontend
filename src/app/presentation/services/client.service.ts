@@ -39,7 +39,7 @@ export class ClientService {
       .pipe(map((resp) => Client.fromResponse(resp)));
   }
 
-  update(id: string, form: Partial<CreateClientDto>) {
+  update(id: number, form: Partial<CreateClientDto>) {
     return this.http
       .patch<clientResponse>(`${this.url}/${id}`, form)
       .pipe(map((resp) => Client.fromResponse(resp)));
