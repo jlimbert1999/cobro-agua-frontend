@@ -61,7 +61,6 @@ interface selectOption {
   ],
   templateUrl: `./clients.component.html`,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService],
 })
 export class ClientsComponent implements OnInit {
   private dialogService = inject(DialogService);
@@ -95,7 +94,7 @@ export class ClientsComponent implements OnInit {
 
   actions = [
     { icon: 'pi pi-plus', value: 'create', tooltip: 'Crear' },
-    // { icon: 'pi pi-upload', value: 'upload', tooltip: 'Cargar' },
+    { icon: 'pi pi-upload', value: 'upload', tooltip: 'Cargar' },
   ];
 
   public dynamicMenuItems$: BehaviorSubject<MenuItem[]> = new BehaviorSubject(

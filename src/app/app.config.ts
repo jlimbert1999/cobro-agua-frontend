@@ -9,6 +9,7 @@ import { routes } from './app.routes';
 import { PrimengModule } from './primeng.module';
 import { loggingInterceptor } from './core/interceptor';
 import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 registerLocaleData(localeEs, 'es');
 
 export const appConfig: ApplicationConfig = {
@@ -18,6 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     PrimengModule,
     MessageService,
+    DialogService,
     { provide: LOCALE_ID, useValue: 'es' },
   ],
 };

@@ -35,18 +35,56 @@ export class PdfFormats {
     };
   }
 
+  static async headerInvoice(): Promise<Content> {
+    const logo = await convertImageToBase64('../../../assets/images/logo.jpeg');
+    return {
+      margin: [10, 10, 10, 0],
+      columns: [
+        {
+          image: logo,
+          width: 40,
+          height: 50,
+        },
+        {
+          width: '*',
+          marginLeft: 10,
+          text: [
+            {
+              text: 'ORGANIZACION TERRITORIAL DE BASE\n\n',
+              fontSize: 8,
+            },
+            { text: 'CARCAJE CENTRAL\n', bold: true, fontSize: 9 },
+            { text: 'Km. 19-22', fontSize: 8 },
+          ],
+        },
+        {
+          width: 150,
+          alignment: 'right',
+          text: [
+            { text: new Date().toLocaleString(), bold: true, fontSize: 9 },
+          ],
+        },
+      ],
+    };
+  }
+
   static invoiceSheet(payment: Payment, username: string): Content[] {
     const total = payment.invoices.reduce((acc, { amount }) => acc + amount, 0);
     return [
-      { text: `Nro. Recibo: ${payment.code}`, bold: true, alignment: 'right' },
+      {
+        text: `Nro. Recibo: ${payment.code}`,
+        bold: true,
+        alignment: 'right',
+        fontSize: 8,
+      },
       {
         text: 'RECIBO DE INGRESO DE AGUA POTABLE\n',
         bold: true,
-        fontSize: 12,
+        fontSize: 10,
         alignment: 'center',
       },
       {
-        fontSize: 10,
+        fontSize: 7,
         table: {
           headerRows: 1,
           widths: [100, '*'],
@@ -61,7 +99,7 @@ export class PdfFormats {
       },
       {
         marginTop: 10,
-        fontSize: 10,
+        fontSize: 8,
         table: {
           widths: ['*', 'auto', 'auto', 'auto'],
           body: [
@@ -94,16 +132,17 @@ export class PdfFormats {
       },
       {
         text: 'INFORMACION DEL PAGO',
-        fontSize: 10,
+        fontSize: 8,
       },
       {
-        fontSize: 9,
+        fontSize: 7,
         text: `Pagado el: ${payment.createdAt.toLocaleString()}\nTotal pagado: ${
           payment.amount
         } Bs.\n`,
       },
       {
         marginTop: 20,
+        fontSize: 8,
         columns: [
           {
             width: '*',

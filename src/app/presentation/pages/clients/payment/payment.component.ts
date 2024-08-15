@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { PrimengModule } from '../../../../primeng.module';
 import { Client, Invoice } from '../../../../domain';
-import { PaymentService, PdfService } from '../../../services';
+import { AlertService, PaymentService, PdfService } from '../../../services';
 
 @Component({
   selector: 'app-payment',
@@ -22,8 +22,9 @@ import { PaymentService, PdfService } from '../../../services';
 })
 export class PaymentComponent implements OnInit {
   private paymentService = inject(PaymentService);
+  private alertService = inject(AlertService);
   private pdfService = inject(PdfService);
-  private ref = inject(DynamicDialogRef);
+  private dialigRef = inject(DynamicDialogRef);
 
   client: Client = inject(DynamicDialogConfig).data;
   invoices = signal<Invoice[]>([]);
@@ -38,12 +39,21 @@ export class PaymentComponent implements OnInit {
   }
 
   save() {
-    const id_invoices = this.selectedInvoices().map((el) => el.id);
-    this.paymentService
-      .payInvoices(this.client.id, id_invoices)
-      .subscribe((resp) => {
-        this.pdfService.generateInvoice(resp);
-        this.ref.close();
+    this.alertService
+      .question(
+        'Confirmar Pago',
+        `Total de facturas a cancelar: ${this.selectedInvoices().length}`
+      )
+      .subscribe((confirm) => {
+        if (!confirm) return;
+
+        const id_invoices = this.selectedInvoices().map((el) => el.id);
+        this.paymentService
+          .payInvoices(this.client.id, id_invoices)
+          .subscribe((resp) => {
+            this.pdfService.generateInvoice(resp);
+            this.dialigRef.close();
+          });
       });
   }
 

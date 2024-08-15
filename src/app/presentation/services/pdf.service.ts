@@ -18,9 +18,9 @@ export class PdfService {
   async generateInvoice(payment: Payment) {
     const username = this.authService.user()?.fullname ?? 'SIN USUARIO';
     const docDefinition: TDocumentDefinitions = {
-      pageSize: { width: 612, height: 396 },
-      pageMargins: [40, 80, 40, 20],
-      header: await PdfFormats.header(),
+      pageSize: { width: 397, height: 297  },
+      pageMargins: [20, 60, 20, 20],
+      header: await PdfFormats.headerInvoice(),
       content: PdfFormats.invoiceSheet(payment, username),
       footer: function (currentPage, pageCount) {
         return {

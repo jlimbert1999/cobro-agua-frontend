@@ -21,7 +21,6 @@ import { customerTypeResponse } from '../../../../infrastructure';
   imports: [CommonModule, ToolbarModule, TableModule, ButtonModule],
   templateUrl: './customer-types.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService],
 })
 export class CustomerTypesComponent implements OnInit {
   private dialogService = inject(DialogService);

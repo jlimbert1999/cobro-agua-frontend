@@ -30,7 +30,6 @@ import { Client } from '../../../domain';
   ],
   templateUrl: './meter.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DialogService],
 })
 export class MeterComponent {
   private dialogService = inject(DialogService);
