@@ -60,7 +60,7 @@ export class MeterComponent {
   addMeterReading(client: Client) {
     this.dialogService.open(MeterReadingComponent, {
       header: 'Registrar Lectura',
-      width: '30rem',
+      width: '45rem',
       data: client,
       breakpoints: {
         '960px': '90vw',
