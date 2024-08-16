@@ -29,7 +29,6 @@ export function loggingInterceptor(
   alertService.appLoadingOn();
   return next(reqWithHeader).pipe(
     catchError((error) => {
-      console.log(error);
       if (error instanceof HttpErrorResponse) {
         handleHttpErrorMessage({
           error,

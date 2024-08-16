@@ -94,7 +94,7 @@ export class ClientsComponent implements OnInit {
 
   actions = [
     { icon: 'pi pi-plus', value: 'create', tooltip: 'Crear' },
-    { icon: 'pi pi-upload', value: 'upload', tooltip: 'Cargar' },
+    // { icon: 'pi pi-upload', value: 'upload', tooltip: 'Cargar' },
   ];
 
   public dynamicMenuItems$: BehaviorSubject<MenuItem[]> = new BehaviorSubject(
@@ -276,7 +276,6 @@ export class ClientsComponent implements OnInit {
         const data: uploadData[] = utils.sheet_to_json<any>(
           wb.Sheets[wb.SheetNames[0]]
         );
-        console.log(data);
         // const customers = data.map((el) => ({
         //   firstname: el.NOMBRES,
         //   middlename: el.PATERNO,

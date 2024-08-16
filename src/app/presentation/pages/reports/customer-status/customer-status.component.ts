@@ -51,7 +51,6 @@ export class CustomerStatusComponent {
     this.reportService
       .getPayments(client.id, this.limit(), this.offset())
       .subscribe((resp) => {
-        console.log(resp);
         this.payments.set(resp);
       });
   }

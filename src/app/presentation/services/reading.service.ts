@@ -36,7 +36,6 @@ export class ReadingService {
         { params }
       )
       .pipe(
-        tap((el) => console.log(el)),
         map((resp) => ({
           readings: resp.readings.map((el) => Reading.fromResponse(el)),
           length: resp.length,

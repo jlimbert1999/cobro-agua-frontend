@@ -29,6 +29,7 @@ export class PaymentComponent implements OnInit {
   client: Client = inject(DynamicDialogConfig).data;
   invoices = signal<Invoice[]>([]);
   selectedInvoices = signal<Invoice[]>([]);
+  isLoading = signal<boolean>(false);
 
   amountToPay = computed(() =>
     this.selectedInvoices().reduce((acc, { amount }) => acc + amount, 0)
@@ -46,12 +47,13 @@ export class PaymentComponent implements OnInit {
       )
       .subscribe((confirm) => {
         if (!confirm) return;
-
+        this.isLoading.set(true);
         const id_invoices = this.selectedInvoices().map((el) => el.id);
         this.paymentService
           .payInvoices(this.client.id, id_invoices)
           .subscribe((resp) => {
             this.pdfService.generateInvoice(resp);
+            this.isLoading.set(false);
             this.dialigRef.close();
           });
       });

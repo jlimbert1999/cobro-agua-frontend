@@ -73,6 +73,7 @@
   <p-button
     label="Guardar"
     (onClick)="save()"
+    [loading]="isLoading()"
     [disabled]="!isValidForm"
   />
 </div>

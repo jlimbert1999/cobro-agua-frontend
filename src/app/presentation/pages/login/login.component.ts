@@ -1,5 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -17,6 +22,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
+  isLoading = signal<boolean>(false);
 
   LoginForm = this.fb.nonNullable.group({
     login: ['', Validators.required],
@@ -24,9 +30,12 @@ export class LoginComponent {
   });
 
   login() {
+    if (this.LoginForm.invalid) return;
+    this.isLoading.set(true);
     const { login, password } = this.LoginForm.value;
     this.authService.login(login!, password!).subscribe((url) => {
       this.router.navigate([url]);
+      this.isLoading.set(false);
     });
   }
 }

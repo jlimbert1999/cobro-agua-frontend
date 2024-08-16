@@ -60,7 +60,6 @@ export class ClientComponent implements OnInit {
   }
 
   save() {
-    console.log(this.client?.id);
     const subscription = this.client
       ? this.clientService.update(this.client.id, this.FormClient.value)
       : this.clientService.create(this.FormClient.value);
@@ -77,7 +76,6 @@ export class ClientComponent implements OnInit {
 
   private _loadFormData() {
     if (!this.client) return;
-    console.log(this.client);
     const { type, ...props } = this.client;
     this.FormClient.patchValue({ ...props, type: type.id });
   }
