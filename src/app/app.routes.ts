@@ -9,6 +9,7 @@ import { CustomerTypesComponent } from './presentation/pages/administration/cust
 import { MeterComponent } from './presentation/pages/meter/meter.component';
 import { BackgroudComponent } from './presentation/pages/backgroud/backgroud.component';
 import { roleGuard } from './presentation/guards/role.guard';
+import { ReportPaymentRangeComponent } from './presentation/pages/reports/report-payment-range/report-payment-range.component';
 
 export const routes: Routes = [
   {
@@ -56,6 +57,7 @@ export const routes: Routes = [
         path: 'reports',
         children: [
           { path: 'customer-status', component: CustomerStatusComponent },
+          { path: 'payments-rage', component: ReportPaymentRangeComponent },
         ],
       },
     ],

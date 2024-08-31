@@ -22,9 +22,14 @@ export class ReadingService {
   private readonly url = `${environment.base_url}/readings`;
   constructor() {}
 
-  getLastReading(customerId: number) {
+  getLPreviusReading(customerId: number) {
     return this.http
       .get<readingResponse | null>(`${this.url}/previus/${customerId}`)
+      .pipe(map((resp) => (resp ? Reading.fromResponse(resp) : null)));
+  }
+  getCurrentReading(customerId: number) {
+    return this.http
+      .get<readingResponse | null>(`${this.url}/current/${customerId}`)
       .pipe(map((resp) => (resp ? Reading.fromResponse(resp) : null)));
   }
 
@@ -43,10 +48,10 @@ export class ReadingService {
       );
   }
 
-  create(customerId: number, reading: number) {
+  create(customerId: number, form: Object) {
     return this.http.post<{ message: string }>(this.url, {
       customerId,
-      reading,
+      ...form,
     });
   }
 }

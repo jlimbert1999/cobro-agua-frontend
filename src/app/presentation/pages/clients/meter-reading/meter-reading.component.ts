@@ -6,17 +6,24 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AccordionModule } from 'primeng/accordion';
 import { InputTextModule } from 'primeng/inputtext';
+import { CheckboxModule } from 'primeng/checkbox';
 
 import { Reading, Client } from '../../../../domain';
 import { ReadingService } from '../../../services';
 import { ButtonModule } from 'primeng/button';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'meter-reading',
@@ -29,6 +36,7 @@ import { ButtonModule } from 'primeng/button';
     ProgressBarModule,
     InputNumberModule,
     ButtonModule,
+    CheckboxModule,
   ],
   templateUrl: './meter-reading.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,43 +46,46 @@ export class MeterReadingComponent implements OnInit {
   private fb = inject(FormBuilder);
   private readingService = inject(ReadingService);
 
-  private readonly dateReading = new Date();
+  private readonly currentDate = new Date();
 
   customer: Client = inject(DynamicDialogConfig).data;
 
   isLoading = signal<boolean>(false);
-  lastReading = signal<Reading | null>(null);
+  previusReading = signal<Reading | null>(null);
+  readingDate = signal(
+    new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1)
+  );
 
-  FormReading = this.fb.nonNullable.group({
+  FormReading: FormGroup = this.fb.nonNullable.group({
     reading: [null, Validators.required],
+    isNew: [false],
   });
 
   ngOnInit(): void {
     if (!this.customer) return;
-    this._getLastReading();
+    this._getReadingDetails();
   }
 
   save() {
     this.readingService
-      .create(this.customer.id, this.FormReading.value.reading!)
-      .subscribe((data) => {
+      .create(this.customer.id, this.FormReading.value!)
+      .subscribe(() => {
         this.ref.close();
       });
   }
 
-  private _getLastReading(): void {
+  private _getReadingDetails(): void {
     this.isLoading.set(true);
-    this.readingService.getLastReading(this.customer.id).subscribe((data) => {
-      this.lastReading.set(data);
+    forkJoin([
+      this.readingService.getLPreviusReading(this.customer.id),
+      this.readingService.getCurrentReading(this.customer.id),
+    ]).subscribe(([previus, current]) => {
+      this.previusReading.set(previus);
+      this.FormReading.get('reading')?.setValue(current?.reading);
+      if (current) {
+        this.readingDate.set(new Date(current.year, current.month));
+      }
       this.isLoading.set(false);
     });
-  }
-
-  get dateReadingLabel() {
-    const date = new Date(
-      this.dateReading.getFullYear(),
-      this.dateReading.getMonth() - 1
-    );
-    return date;
   }
 }

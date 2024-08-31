@@ -1,0 +1,62 @@
+<div class="flex justify-content-center my-3">
+  <div class="grid max-w-30rem">
+    <div class="col-12 sm:col-5">
+      <p-calendar
+        [(ngModel)]="startDate"
+        placeholder="Fecha inicial"
+        showIcon
+        dateFormat="yy-mm-dd"
+        required
+      ></p-calendar>
+    </div>
+    <div class="col-12 sm:col-5">
+      <p-calendar
+        [(ngModel)]="endDate"
+        placeholder="Fecha final"
+        showIcon
+        dateFormat="yy-mm-dd"
+      ></p-calendar>
+    </div>
+    <div class="col-12 sm:col-2">
+      <button
+        pButton
+        type="button"
+        label="Buscar"
+        icon="pi pi-search"
+        (click)="onSearch()"
+      ></button>
+    </div>
+  </div>
+</div>
+
+@if((payments().length)){
+<p-table [value]="payments()" [scrollable]="true" scrollHeight="400px">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Codigo</th>
+      <th>Fecha</th>
+      <th>Accionista</th>
+      <th>Monto</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-payment>
+    <tr>
+      <td>{{ payment.code }}</td>
+      <td>{{ payment.createdAt | date : "dd/MM/yyyy" }}</td>
+      <td>
+        {{ payment.customer.name }} {{ payment.customer?.middlename }}
+        {{ payment.customer?.lastname }}
+      </td>
+      <td>{{ payment.amount | currency : "Bs. " }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <tr>
+      <td colspan="3" class="text-right">TOTAL</td>
+      <td>{{ total() | currency : "Bs. " }}</td>
+    </tr>
+  </ng-template>
+</p-table>
+} @else {
+<p class="text-xl text-center">SIN RESUTLADOS</p>
+}

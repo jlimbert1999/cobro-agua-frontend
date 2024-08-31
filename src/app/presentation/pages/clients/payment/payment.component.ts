@@ -31,6 +31,8 @@ export class PaymentComponent implements OnInit {
   selectedInvoices = signal<Invoice[]>([]);
   isLoading = signal<boolean>(false);
 
+  loadingData = signal<boolean>(false);
+
   amountToPay = computed(() =>
     this.selectedInvoices().reduce((acc, { amount }) => acc + amount, 0)
   );
@@ -64,10 +66,12 @@ export class PaymentComponent implements OnInit {
   }
 
   private _getUnpaidInvoicesByCustomer(): void {
+    this.loadingData.set(true);
     this.paymentService
       .getUnpaidInvoicesByClient(this.client.id)
       .subscribe((data) => {
         this.invoices.set(data);
+        this.loadingData.set(false);
       });
   }
 

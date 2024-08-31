@@ -22,7 +22,6 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
-  isLoading = signal<boolean>(false);
 
   LoginForm = this.fb.nonNullable.group({
     login: ['', Validators.required],
@@ -31,11 +30,9 @@ export class LoginComponent {
 
   login() {
     if (this.LoginForm.invalid) return;
-    this.isLoading.set(true);
     const { login, password } = this.LoginForm.value;
     this.authService.login(login!, password!).subscribe((url) => {
       this.router.navigate([url]);
-      this.isLoading.set(false);
     });
   }
 }

@@ -1,10 +1,11 @@
 <div class="p-dialog-content">
   <p-accordion [multiple]="true">
+    @if(isLoading()){
+    <p-progressBar mode="indeterminate" [style]="{ height: '8px' }" />
+    } @else {
     <p-accordionTab header="Registro Anterior" [selected]="true">
       <div class="px-3">
-        @if(isLoading()){
-        <p-progressBar mode="indeterminate" [style]="{ height: '6px' }" />
-        } @else { @if(lastReading()){
+        @if(previusReading()){
         <div class="formgrid grid">
           <div class="field col-12 sm:col-6">
             <label for="last-date">Fecha</label>
@@ -14,7 +15,7 @@
               pInputText
               [disabled]="true"
               class="w-full"
-              [value]="lastReading()?.datetimeLabel"
+              [value]="previusReading()?.datetimeLabel"
             />
           </div>
           <div class="field col-12 sm:col-6">
@@ -25,18 +26,18 @@
               pInputText
               [disabled]="true"
               class="w-full"
-              [value]="lastReading()?.reading"
+              [value]="previusReading()?.reading"
             />
           </div>
         </div>
         } @else{
         <p class="text-center">SIN REGISTROS</p>
-        } }
+        }
       </div>
     </p-accordionTab>
     <p-accordionTab header="Registro Actual" [selected]="true">
       <form [formGroup]="FormReading">
-        <div class="formgrid grid p-3">
+        <div class="formgrid grid p-3 row-gap-2">
           <div class="field col-12 sm:col-6">
             <label for="current-date">Fecha</label>
             <input
@@ -45,7 +46,7 @@
               pInputText
               [disabled]="true"
               class="w-full"
-              [value]="dateReadingLabel | date : 'MMMM y'"
+              [value]="readingDate() | date : 'MMMM y'"
             />
           </div>
           <div class="field col-12 sm:col-6">
@@ -58,9 +59,19 @@
               inputStyleClass="w-full"
             />
           </div>
+          <div class="col-12">
+            <div class="flex align-items-center column-gap-4">
+              <p-checkbox formControlName="isNew" [binary]="true" />
+              <label for="new">Nueva Lectura</label>
+            </div>
+          </div>
+          @if(FormReading.get('isNew')?.value){
+          <span class="text-orange-600 text-bold">AVISO: El consumo generado sera de cero</span>
+          }
         </div>
       </form>
     </p-accordionTab>
+    }
     <p-accordionTab header="Detalles Propietario" [selected]="true">
       <ul class="list-none p-0 m-0">
         <li class="flex align-items-center surface-border flex-wrap">
