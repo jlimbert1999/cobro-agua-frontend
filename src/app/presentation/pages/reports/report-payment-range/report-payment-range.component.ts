@@ -33,7 +33,6 @@ export class ReportPaymentRangeComponent {
     this.reportService
       .getPaymentsByRange(this.startDate, this.endDate)
       .subscribe((data) => {
-        console.log(data);
         this.payments.set(data);
       });
   }
