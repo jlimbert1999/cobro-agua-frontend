@@ -11,8 +11,15 @@ export interface clientResponse {
   status: CustomerStatus;
   type: customerType;
   meterNumber: string;
+  discount?: discount;
 }
 interface customerType {
   id: number;
   name: string;
+}
+
+interface discount {
+  id: number;
+  name: string;
+  percentage: number;
 }

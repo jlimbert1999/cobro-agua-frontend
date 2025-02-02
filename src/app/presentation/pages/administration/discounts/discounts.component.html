@@ -8,16 +8,14 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Nombre</th>
-      <th>Meses Deuda</th>
-      <th>Precio Minimo</th>
+      <th>Porcentaje</th>
       <th></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-config>
     <tr>
       <td>{{ config.name }}</td>
-      <td>{{ config.maxDelayMonths }}</td>
-      <td>{{ config.minimumPrice | currency : "Bs" }}</td>
+      <td>{{ config.percentage }} %</td>
       <td>
         <p-button
           icon="pi pi-pencil"

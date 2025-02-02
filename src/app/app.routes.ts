@@ -10,6 +10,7 @@ import { MeterComponent } from './presentation/pages/meter/meter.component';
 import { BackgroudComponent } from './presentation/pages/backgroud/backgroud.component';
 import { roleGuard } from './presentation/guards/role.guard';
 import { ReportPaymentRangeComponent } from './presentation/pages/reports/report-payment-range/report-payment-range.component';
+import { DiscountsComponent } from './presentation/pages/administration/discounts/discounts.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,11 @@ export const routes: Routes = [
             title: 'Tipos',
             path: 'customer-types',
             component: CustomerTypesComponent,
+          },
+          {
+            title: 'Descuentos',
+            path: 'discounts',
+            component: DiscountsComponent,
           },
         ],
       },

@@ -26,9 +26,13 @@ export class PaymentService {
 
   payInvoices(customerId: number, invoiceIds: number[]) {
     return this.http
-      .post<paymentResponse>(`${this.url}/pay/${customerId}`, {
-        invoiceIds,
-      })
+      .post<paymentResponse>(
+        `${this.url}/pay/${customerId}`,
+        {
+          invoiceIds,
+        },
+        { headers: { loader: 'true' } }
+      )
       .pipe(map((resp) => Payment.fromResponse(resp)));
   }
 

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { DialogService } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AlertComponent } from '../components';
+import { AlertComponent, AppLoaderComponent } from '../components';
 
 interface alertConfig {
   header: string;
@@ -20,6 +20,7 @@ export class AlertService {
 
   private loader = new BehaviorSubject<boolean>(false);
   loading$ = this.loader.asObservable();
+  private loadingDialogRef?: DynamicDialogRef<AppLoaderComponent>;
 
   constructor() {}
 
@@ -56,10 +57,27 @@ export class AlertService {
   }
 
   appLoadingOn(): void {
-    this.loader.next(true);
+    this.loadingDialogRef = this.dialogService.open(AppLoaderComponent, {
+      header: 'Guardando',
+      width: `300px`,
+      closable: false,
+      closeOnEscape: false,
+      focusOnShow: false,
+      breakpoints: {
+        '960px': '90vw',
+      },
+    });
   }
 
   appLoadingOff() {
+    this.loadingDialogRef?.close();
+  }
+
+  showGetLoading() {
+    this.loader.next(true);
+  }
+
+  closeGetLoading() {
     this.loader.next(false);
   }
 }

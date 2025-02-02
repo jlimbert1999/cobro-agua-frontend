@@ -171,7 +171,7 @@ export class ClientsComponent implements OnInit {
   payment(client: Client) {
     this.dialogService.open(PaymentComponent, {
       header: 'Registrar pago',
-      width: '500px',
+      width: '800px',
       maximizable: true,
       data: client,
       breakpoints: {

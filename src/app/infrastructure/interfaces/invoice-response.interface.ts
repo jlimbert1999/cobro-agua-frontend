@@ -8,4 +8,13 @@ export interface invoiceResponse {
   customerId: string;
   paymentId: string | null;
   service: readingResponse;
+  discountDetails: dicountDetails | null;
+}
+
+interface dicountDetails {
+  id: number;
+  name: string;
+  percentage: string;
+  amount: string;
+  originalAmount: string;
 }

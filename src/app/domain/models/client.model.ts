@@ -10,10 +10,17 @@ interface clientProps {
   status: CustomerStatus;
   type: typeCustomer;
   meterNumber: string;
+  discount?: discountProps;
 }
 interface typeCustomer {
   id: number;
   name: string;
+}
+
+interface discountProps {
+  id: number;
+  name: string;
+  percentage: number;
 }
 
 export enum CustomerStatus {
@@ -31,6 +38,7 @@ export class Client {
   status: CustomerStatus;
   type: typeCustomer;
   meterNumber: string;
+  discount?: discountProps;
 
   static fromResponse(form: clientResponse) {
     return new Client({
@@ -43,6 +51,7 @@ export class Client {
       status: form.status,
       type: { id: form.type.id, name: form.type.name },
       meterNumber: form.meterNumber,
+      discount: form.discount,
     });
   }
 
@@ -56,6 +65,7 @@ export class Client {
     status,
     type,
     meterNumber,
+    discount,
   }: clientProps) {
     this.id = id;
     this.firstname = firstname;
@@ -66,6 +76,7 @@ export class Client {
     this.status = status;
     this.type = type;
     this.meterNumber = meterNumber;
+    this.discount = discount;
   }
 
   get fullname() {

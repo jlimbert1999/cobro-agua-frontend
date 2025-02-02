@@ -72,9 +72,8 @@
           />
           <label for="meterNumber">Nro. Medidor</label>
         </p-floatLabel>
-        
       </div>
-      <div class="field col-12 md:col-8">
+      <div class="field col-12 md:col-4">
         <p-dropdown
           class="w-full"
           styleClass="w-full"
@@ -86,6 +85,20 @@
           emptyFilterMessage="Sin resultados"
           formControlName="type"
           placeholder="Seleccione un tipo"
+        />
+      </div>
+      <div class="field col-12 md:col-8">
+        <p-dropdown
+          class="w-full"
+          styleClass="w-full"
+          [options]="discounts()"
+          optionLabel="name"
+          [filter]="true"
+          appendTo="body"
+          optionValue="id"
+          emptyFilterMessage="Sin resultados"
+          formControlName="discountId"
+          placeholder="Tipo de descuento"
         />
       </div>
     </div>

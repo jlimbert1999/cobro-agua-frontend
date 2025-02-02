@@ -4,7 +4,7 @@ import { map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { clientResponse } from '../../infrastructure/interfaces';
 import { CreateClientDto } from '../../infrastructure/dtos';
-import { customerTypeResponse } from '../../infrastructure';
+import { customerTypeResponse, discount } from '../../infrastructure';
 import { Client } from '../../domain';
 
 @Injectable({
@@ -33,15 +33,18 @@ export class ClientService {
   }
 
   create(form: Object) {
-    const branchDto = CreateClientDto.fromForm(form);
     return this.http
-      .post<clientResponse>(`${this.url}`, branchDto)
+      .post<clientResponse>(`${this.url}`, form, {
+        headers: { loader: 'true' },
+      })
       .pipe(map((resp) => Client.fromResponse(resp)));
   }
 
   update(id: number, form: Partial<CreateClientDto>) {
     return this.http
-      .patch<clientResponse>(`${this.url}/${id}`, form)
+      .patch<clientResponse>(`${this.url}/${id}`, form, {
+        headers: { loader: 'true' },
+      })
       .pipe(map((resp) => Client.fromResponse(resp)));
   }
 
@@ -58,5 +61,9 @@ export class ClientService {
 
   getCustomerTypes() {
     return this.http.get<customerTypeResponse[]>(`${this.url}/types`);
+  }
+
+  getDiscounts() {
+    return this.http.get<discount[]>(`${this.url}/discounts`);
   }
 }

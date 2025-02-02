@@ -26,7 +26,12 @@ export function loggingInterceptor(
       `Bearer ${localStorage.getItem('token') || ''}`
     ),
   });
-  alertService.appLoadingOn();
+  if (req.headers.has('loader')) {
+    alertService.appLoadingOn();
+  }
+  if (req.method === 'GET') {
+    alertService.showGetLoading();
+  }
   return next(reqWithHeader).pipe(
     catchError((error) => {
       if (error instanceof HttpErrorResponse) {
@@ -40,7 +45,8 @@ export function loggingInterceptor(
       return throwError(() => Error);
     }),
     finalize(() => {
-      alertService.appLoadingOff()
+      alertService.appLoadingOff();
+      alertService.closeGetLoading();
     })
   );
 }

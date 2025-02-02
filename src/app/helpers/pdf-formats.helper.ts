@@ -99,29 +99,35 @@ export class PdfFormats {
       },
       {
         marginTop: 10,
-        fontSize: 8,
+        fontSize: 7,
         table: {
-          widths: ['*', 'auto', 'auto', 'auto'],
+          widths: ['*', 'auto', 'auto', 'auto', 80, 'auto'],
           body: [
             [
               { text: 'Servicio', bold: true },
               { text: 'Mes', bold: true },
               { text: 'Consumo', bold: true },
-              { text: 'Monto', bold: true },
+              { text: 'Subtotal', bold: true },
+              { text: 'Descuento (%)', bold: true },
+              { text: 'Total', bold: true },
             ],
             ...payment.invoices.map((el) => [
               'Servicio de agua',
               el.service.datetimeLabel,
               el.service.consumption,
+              `${el.subtotal} Bs.`,
+              `${el.discountTitle}`,
               `${el.amount} Bs.`,
             ]),
             [
               {
-                text: 'Total',
-                colSpan: 3,
-                alignment: 'right',
+                text: 'TOTAL A PAGAR',
+                colSpan: 5,
+                alignment: 'left',
                 style: 'total',
               },
+              '',
+              '',
               '',
               '',
               { text: `${total} Bs. `, alignment: 'right', style: 'total' },
@@ -133,6 +139,7 @@ export class PdfFormats {
       {
         text: 'INFORMACION DEL PAGO',
         fontSize: 8,
+        marginTop: 5,
       },
       {
         fontSize: 7,
@@ -141,7 +148,7 @@ export class PdfFormats {
         } Bs.\n`,
       },
       {
-        marginTop: 20,
+        marginTop: 30,
         fontSize: 8,
         columns: [
           {
@@ -189,31 +196,38 @@ export class PdfFormats {
         alignment: 'center',
       },
       {
+        fontSize: 9,
         table: {
-          widths: ['*', 'auto', 'auto', '*', 'auto'],
+          widths: ['*', 'auto', 'auto', '*', 'auto', 120, 'auto'],
           body: [
             [
               { text: 'Servicio', style: 'tableHeader' },
               { text: 'Lectura', style: 'tableHeader' },
               { text: 'Consumo', style: 'tableHeader' },
               { text: 'Fecha', style: 'tableHeader' },
-              { text: 'Monto', style: 'tableHeader' },
+              { text: 'Subtotal', style: 'tableHeader' },
+              { text: 'Descuento (%)', style: 'tableHeader' },
+              { text: 'Total', style: 'tableHeader' },
             ],
             ...invoices.map((el) => [
               'Consumo de agua',
               el.service.reading,
               el.service.consumption,
               el.service.datetimeLabel,
+              `${el.subtotal} Bs.`,
+              el.discountTitle,
               `${el.amount} Bs.`,
             ]),
             [
               {
-                text: 'TOTAL',
-                colSpan: 4,
+                text: 'TOTAL DEUDA:',
+                colSpan: 6,
                 alignment: 'left',
                 style: 'total',
                 bold: true,
               },
+              '',
+              '',
               '',
               '',
               '',

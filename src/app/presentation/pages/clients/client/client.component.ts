@@ -20,6 +20,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 @Component({
   selector: 'app-client',
   standalone: true,
@@ -42,6 +44,12 @@ export class ClientComponent implements OnInit {
   private client: Client | undefined = inject(DynamicDialogConfig).data;
 
   customerTypes = signal<customerTypeResponse[]>([]);
+  discounts = toSignal(
+    this.clientService
+      .getDiscounts()
+      .pipe(map((items) => [{ id: null, name: 'NINGUNO' }, ...items]))
+  );
+
   FormClient: FormGroup = this.formBuilder.nonNullable.group({
     firstname: ['', [Validators.required]],
     middlename: ['', Validators.required],
@@ -50,6 +58,7 @@ export class ClientComponent implements OnInit {
     phone: ['', [Validators.required]],
     meterNumber: ['', Validators.required],
     type: ['', Validators.required],
+    discountId: [''],
   });
 
   constructor() {}
@@ -76,7 +85,11 @@ export class ClientComponent implements OnInit {
 
   private _loadFormData() {
     if (!this.client) return;
-    const { type, ...props } = this.client;
-    this.FormClient.patchValue({ ...props, type: type.id });
+    const { type, discount, ...props } = this.client;
+    this.FormClient.patchValue({
+      ...props,
+      type: type.id,
+      discountId: discount?.id,
+    });
   }
 }

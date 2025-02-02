@@ -49,9 +49,13 @@ export class ReadingService {
   }
 
   create(customerId: number, form: Object) {
-    return this.http.post<{ message: string }>(this.url, {
-      customerId,
-      ...form,
-    });
+    return this.http.post<{ message: string }>(
+      this.url,
+      {
+        customerId,
+        ...form,
+      },
+      { headers: { loader: 'true' } }
+    );
   }
 }
